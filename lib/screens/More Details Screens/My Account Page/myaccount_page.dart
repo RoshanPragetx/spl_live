@@ -25,13 +25,14 @@ class MyAccountPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: InkWell(
-                onTap: () {
-                  Get.snackbar("MESSAGE_TEXT".tr, "SNACKMSG_TEXT".tr,
-                      backgroundColor: AppColors.black,
-                      colorText: AppColors.white,
-                      snackPosition: SnackPosition.BOTTOM);
-                },
-                child: Icon(Icons.note_alt_rounded, color: AppColors.white)),
+              onTap: () {
+                AppUtils.showErrorSnackBar(bodyText: "SNACKMSG_TEXT".tr);
+              },
+              child: Icon(
+                Icons.note_alt_rounded,
+                color: AppColors.white,
+              ),
+            ),
           ),
         ],
       ),

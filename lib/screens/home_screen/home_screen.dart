@@ -19,38 +19,50 @@ class DashBoardPage extends StatelessWidget {
 
     return Scaffold(
       // appBar: Obx(() => ),
-      bottomNavigationBar: Obx(() => MyNavigationBar(
+      bottomNavigationBar: Obx(
+        () => MyNavigationBar(
           currentIndex: controller.currentIndex.value,
-          onTapBidHistory: () {
-            controller.pageWidget.value = 1;
-            controller.currentIndex.value = 1;
-            //  appPosition = controller.pageWidget.value;
-          },
           onTapHome: () {
             controller.pageWidget.value = 0;
             //   appPosition = controller.pageWidget.value;
             controller.currentIndex.value = 0;
           },
-          onTapMore: () {
-            controller.pageWidget.value = 3;
-            //    appPosition = controller.pageWidget.value;
-            controller.currentIndex.value = 3;
+          onTapBidHistory: () {
+            controller.pageWidget.value = 1;
+            controller.currentIndex.value = 1;
+            //  appPosition = controller.pageWidget.value;
           },
           onTapWallet: () {
             controller.pageWidget.value = 2;
             controller.currentIndex.value = 2;
             //   appPosition = controller.pageWidget.value;
-          })),
+          },
+          onTapPassbook: () {
+            controller.pageWidget.value = 3;
+            controller.currentIndex.value = 3;
+            //   appPosition = controller.pageWidget.value;
+          },
+          onTapMore: () {
+            controller.pageWidget.value = 4;
+            //    appPosition = controller.pageWidget.value;
+            controller.currentIndex.value = 4;
+          },
+        ),
+      ),
       backgroundColor: AppColors.white,
       body: Obx(() => controller.getDashBoardPages(controller.pageWidget.value,
-          size, context, walletController.walletBalance.value ?? "")),
-      floatingActionButton: AppUtils().flottingActionButton(
-        onTap: () {
-          launchUrl(
-            Uri.parse("https://wa.me/+917769826748/?text=hi"),
-          );
-        },
-      ),
+          size, context, walletController.walletBalance.value.toString())),
+      // floatingActionButton: Obx(
+      //   () => controller.pageWidget.value == 0
+      //       ? AppUtils().flottingActionButton(
+      //           onTap: () {
+      //             launch(
+      //               "https://wa.me/+917769826748/?text=hi",
+      //             );
+      //           },
+      //         )
+      //       : Container(),
+      // ),
     );
   }
 }

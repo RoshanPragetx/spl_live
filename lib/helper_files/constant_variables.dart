@@ -23,4 +23,8 @@ class ConstantsVariables {
 
   // change Screens
   static const String boolData = "bool_data";
+
+  // change Screens
+  static const String playMore = "play_data";
+  static const String withDrawal = "withdrawal";
 }

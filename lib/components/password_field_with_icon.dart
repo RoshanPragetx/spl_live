@@ -17,17 +17,21 @@ class PasswordFieldWithIcon extends StatelessWidget {
     required this.suffixIcon,
     required this.hidePassword,
     required this.height,
+    this.focusNode,
+    this.onChanged,
   }) : super(key: key);
 
   final TextEditingController controller;
 
   String hintText;
+  FocusNode? focusNode;
   String imagePath;
   TextInputType? keyBoardType;
   Widget suffixIcon;
   Color suffixIconColor;
   bool hidePassword;
   double height;
+  Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,7 @@ class PasswordFieldWithIcon extends StatelessWidget {
       child: SizedBox(
         height: height,
         child: TextFormField(
+          focusNode: focusNode,
           keyboardType: keyBoardType,
           autofocus: false,
           controller: controller,
@@ -46,6 +51,7 @@ class PasswordFieldWithIcon extends StatelessWidget {
             fontWeight: FontWeight.normal,
             fontSize: Dimensions.h16,
           ),
+          onChanged: onChanged,
           decoration: InputDecoration(
             prefixIcon: Padding(
               padding: EdgeInsets.all(Dimensions.w12),

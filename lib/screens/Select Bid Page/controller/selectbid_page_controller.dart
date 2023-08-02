@@ -4,9 +4,13 @@ import 'package:spllive/helper_files/ui_utils.dart';
 
 import '../../../Custom Controllers/wallet_controller.dart';
 import '../../../api_services/api_service.dart';
+import '../../../helper_files/app_colors.dart';
 import '../../../helper_files/constant_variables.dart';
+import '../../../helper_files/custom_text_style.dart';
+import '../../../helper_files/dimentions.dart';
 import '../../../models/commun_models/bid_request_model.dart';
 import '../../../models/commun_models/user_details_model.dart';
+import '../../../routes/app_routes_name.dart';
 import '../../Local Storage.dart';
 
 class SelectBidPageController extends GetxController {
@@ -43,8 +47,12 @@ class SelectBidPageController extends GetxController {
     requestModel.value.userId = userData.id;
     requestModel.value.bidType = arguments["biddingType"];
     requestModel.value.dailyMarketId = arguments["marketId"];
+    print("remodelDailyMarketId: ${requestModel.value.toJson()}");
     requestModel.refresh();
     gameName.value = arguments["gameName"];
+    // await LocalStorage.write(ConstantsVariables.playMore, true);
+    // var hh = await LocalStorage.read(ConstantsVariables.playMore);
+    // print("playMore $hh");
   }
 
   void onDeleteBids(int index) {
@@ -93,6 +101,55 @@ class SelectBidPageController extends GetxController {
           );
         }
         walletController.getUserBalance();
+      },
+    );
+  }
+
+  void playMore() async {
+    Get.toNamed(AppRoutName.gameModePage);
+  }
+
+  void showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm!'),
+          content: Text(
+            'Do you really wish to submit?',
+            style: CustomTextStyle.textRobotoSansLight.copyWith(
+              color: AppColors.grey,
+              fontSize: Dimensions.h14,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Handle cancel button press
+                Get.back();
+              },
+              child: Text(
+                'CANCLE',
+                style: CustomTextStyle.textPTsansBold.copyWith(
+                  color: AppColors.appbarColor,
+                  fontSize: Dimensions.h13,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                createMarketBidApi();
+              },
+              child: Text(
+                'OKAY',
+                style: CustomTextStyle.textPTsansBold.copyWith(
+                  color: AppColors.appbarColor,
+                  fontSize: Dimensions.h13,
+                ),
+              ),
+            ),
+          ],
+        );
       },
     );
   }

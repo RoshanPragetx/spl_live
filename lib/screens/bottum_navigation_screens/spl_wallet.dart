@@ -3,16 +3,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/app_colors.dart';
+import 'package:spllive/helper_files/constant_variables.dart';
+import 'package:spllive/helper_files/custom_text_style.dart';
+import 'package:spllive/routes/app_routes_name.dart';
+import 'package:spllive/screens/Local%20Storage.dart';
 
 import '../../components/button_widget.dart';
 import '../../helper_files/constant_image.dart';
 import '../../helper_files/dimentions.dart';
 import '../../helper_files/ui_utils.dart';
+import '../home_screen/controller/homepage_controller.dart';
 import 'controller/bottum_navigation_controller.dart';
 
 class SPLWallet extends StatelessWidget {
   SPLWallet({super.key});
   var controller = Get.put(MoreListController());
+  var homeController = Get.put(HomePageController());
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,15 +26,22 @@ class SPLWallet extends StatelessWidget {
       //  color: Colors.green,
       height: size.height,
       width: double.infinity,
-      child: Column(children: [
-        AppUtils().simpleAppbar(appBarTitle: "SPL_WALLET".tr),
-        SafeArea(
-          child: SizedBox(
+      child: Column(
+        children: [
+          AppUtils().simpleAppbar(appBarTitle: "SPL_WALLET".tr),
+          SizedBox(
             child: Column(
               children: [
+                SizedBox(
+                  height: Dimensions.h10,
+                ),
                 Text(
                   "WALLETBALANCE".tr,
-                  style: TextStyle(fontSize: Dimensions.w30),
+                  style: CustomTextStyle.textRobotoSansMedium
+                      .copyWith(fontSize: Dimensions.h25),
+                ),
+                SizedBox(
+                  height: Dimensions.h10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -42,10 +55,10 @@ class SPLWallet extends StatelessWidget {
                     Obx(
                       () => Text(
                         controller.walletBalance.value,
-                        style: TextStyle(
-                            fontSize: Dimensions.h45,
-                            color: AppColors.buttonColorDarkGreen,
-                            fontWeight: FontWeight.bold),
+                        style: CustomTextStyle.textRobotoSansMedium.copyWith(
+                          fontSize: Dimensions.h35,
+                          color: AppColors.buttonColorDarkGreen,
+                        ),
                       ),
                     )
                   ],
@@ -56,13 +69,15 @@ class SPLWallet extends StatelessWidget {
                 Text(
                   "WALLET_TEXT".tr,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 22),
+                  style: CustomTextStyle.textRobotoSansMedium.copyWith(
+                    fontSize: Dimensions.h22,
+                  ),
                 ),
                 SizedBox(
                   height: Dimensions.h20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(Dimensions.h10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -81,22 +96,26 @@ class SPLWallet extends StatelessWidget {
                       ),
                       Expanded(
                         child: ButtonWidget(
-                          onTap: () {},
+                          onTap: () {
+                            homeController.pageWidget.value = 4;
+                            homeController.currentIndex.value = 4;
+                            Get.toNamed(AppRoutName.withdrawalpage);
+                          },
                           text: "WITHDRAWAL_TXT".tr,
                           buttonColor: AppColors.buttonColorOrange,
                           height: Dimensions.h30,
                           width: size.width / 2,
                           radius: Dimensions.h25,
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

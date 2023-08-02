@@ -16,26 +16,61 @@ import '../../../Local Storage.dart';
 class ChangepasswordPageController extends GetxController {
   // final password = TextEditingController().obs;
   // final confirmpassword = TextEditingController().obs;
-  // TextEditingController oldPassword = TextEditingController();
+  TextEditingController oldPassword = TextEditingController();
   TextEditingController newPassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   UserDetailsModel userDetailsModel = UserDetailsModel();
   RxBool value = true.obs;
 
   RxBool loading = false.obs;
-
+  RxBool isObscureOldPassword = true.obs;
   RxBool isObscureNewPassword = true.obs;
   RxBool isObscureConfirmPassword = true.obs;
   RxBool isValidate = false.obs;
+  RxString oldPasswordMessage = "".obs;
   RxString newPasswordMessage = "".obs;
-  RxString newPasswordMessage2 = "".obs;
   RxString confirmPasswordMessage = "".obs;
 
   @override
   void onInit() {
     fetchSavedData();
-
     super.onInit();
+  }
+
+  onChanged(String value) {
+    if (value.isEmpty) {
+      oldPasswordMessage.value = "";
+    } else if (value.length < 6) {
+      oldPasswordMessage.value = "Password cannot be less than 6 characters";
+    } else {
+      oldPasswordMessage.value = "";
+    }
+  }
+
+  onChanged2(String value) {
+    if (value.isEmpty) {
+      newPasswordMessage.value = "";
+    } else if (value.length < 6) {
+      newPasswordMessage.value = "Password cannot be less than 6 characters";
+    } else {
+      newPasswordMessage.value = "";
+    }
+  }
+
+  onChanged3(String value) {
+    if (value.isEmpty) {
+      confirmPasswordMessage.value = "";
+    } else if (value.length < 6) {
+      confirmPasswordMessage.value =
+          "Password cannot be less than 6 characters";
+    } else if (value == newPassword.text) {
+      isValidate.value = true;
+      confirmPasswordMessage.value = "";
+    } else if (value != newPassword.text) {
+      isValidate.value = false;
+    } else {
+      confirmPasswordMessage.value = "";
+    }
   }
 
   @override
@@ -58,7 +93,7 @@ class ChangepasswordPageController extends GetxController {
 
   changePassBody() async {
     final verifyUserBody = {
-      "oldPassword": "123456",
+      "oldPassword": oldPassword.text,
       "password": newPassword.text,
       "confirmPassword": confirmPassword.text,
     };
@@ -85,20 +120,22 @@ class ChangepasswordPageController extends GetxController {
   void onTapConfirmPass() {
     FocusManager.instance.primaryFocus?.unfocus();
     Get.closeCurrentSnackbar();
-// if (oldPassword.text.isEmpty) {
-//       AppUtils.showErrorSnackBar(
-//         bodyText: "Enter Old Password",
-//       );
-//     } else
-
+    if (oldPassword.text.isEmpty) {
+      // AppUtils.showErrorSnackBar(
+      //   bodyText: "Enter Old Password",
+      // );
+      oldPasswordMessage.value = "Enter Old Password";
+    }
     if (newPassword.text.isEmpty) {
-      AppUtils.showErrorSnackBar(
-        bodyText: "Enter New Password",
-      );
+      // AppUtils.showErrorSnackBar(
+      //   bodyText: "Enter New Password",
+      // );
+      newPasswordMessage.value = "Enter New Password";
     } else if (confirmPassword.text.isEmpty) {
-      AppUtils.showErrorSnackBar(
-        bodyText: "Enter Confirm Password",
-      );
+      // AppUtils.showErrorSnackBar(
+      //   bodyText: "Enter Confirm Password",
+      // );
+      confirmPasswordMessage.value = "Enter Confirm Password";
     } else {
       changePasswordApi();
     }
@@ -109,20 +146,6 @@ class ChangepasswordPageController extends GetxController {
     userDetailsModel = UserDetailsModel.fromJson(userData);
     print("Get User Data ***********************${userDetailsModel.toJson()}");
   }
-
-  // void onchageEnterpass(value) {
-  //   if (value[0] == value[0].toUpperCase() &&
-  //       (value.length >= 6 && value == password.value.text)) {
-  //     isValidate.value = true;
-  //     confirmPasswordMessage.value = "";
-  //   } else if (value.isEmpty) {
-  //     confirmPasswordMessage.value = "";
-  //     isValidate.value = false;
-  //   } else {
-  //     isValidate.value = false;
-  //     confirmPasswordMessage.value = "Password does not match";
-  //   }
-  // }
 }
 
 // // import 'package:get/get.dart';

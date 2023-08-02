@@ -24,15 +24,27 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
     this.maxLength,
     this.iconColor,
     this.containerBackColor,
+    this.textAlign,
+    this.contentPadding,
+    this.tapTextStyle,
+    this.hintTextColor,
+    this.textStyle,
+    this.onEditingComplete,
+    this.onTapOutside,
+    this.hintTextStyle,
+    this.autofocus,
+    this.focusNode,
   }) : super(key: key);
 
   final TextEditingController controller;
 
   int? maxLength;
   int? maxLines;
+  bool? autofocus;
   int? minLines;
   String hintText;
   String imagePath;
+  FocusNode? focusNode;
   bool isEnabled;
   double height;
   double? width;
@@ -41,7 +53,14 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
   List<TextInputFormatter>? formatter;
   TextInputType keyboardType;
   Function(String?)? onChanged;
-
+  TextAlign? textAlign;
+  Color? hintTextColor;
+  EdgeInsetsGeometry? contentPadding;
+  Color? tapTextStyle;
+  TextStyle? textStyle;
+  Function()? onEditingComplete;
+  Function(PointerDownEvent?)? onTapOutside;
+  TextStyle? hintTextStyle;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -50,24 +69,31 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
         height: height,
         width: width,
         child: TextFormField(
-          autofocus: false,
+          autofocus: autofocus ?? false,
           enabled: isEnabled,
           controller: controller,
           maxLength: maxLength,
+          focusNode: focusNode,
           maxLines: maxLines,
           minLines: minLines,
+          onTapOutside: onTapOutside,
+          onEditingComplete: onEditingComplete,
           keyboardType: keyboardType,
           inputFormatters: formatter,
           cursorColor: AppColors.black,
-          style: CustomTextStyle.textPTsansMedium.copyWith(
-            color: AppColors.black,
-            fontWeight: FontWeight.normal,
-            fontSize: Dimensions.h15,
-          ),
+          style: textStyle ??
+              CustomTextStyle.textPTsansMedium.copyWith(
+                color: tapTextStyle ?? AppColors.black,
+                fontWeight: FontWeight.normal,
+                fontSize: Dimensions.h15,
+              ),
+          textAlign: textAlign ?? TextAlign.start,
           decoration: InputDecoration(
-            contentPadding: imagePath.isEmpty
-                ? EdgeInsets.symmetric(horizontal: Dimensions.w12)
-                : EdgeInsets.zero,
+            contentPadding: contentPadding == null
+                ? imagePath.isEmpty
+                    ? EdgeInsets.symmetric(horizontal: Dimensions.w12)
+                    : EdgeInsets.zero
+                : contentPadding,
             focusColor: AppColors.appbarColor,
             filled: true,
             fillColor: AppColors.grey.withOpacity(0.2),
@@ -79,10 +105,12 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
             enabledBorder: decoration,
             errorMaxLines: 0,
             hintText: hintText,
-            hintStyle: CustomTextStyle.textPTsansBold.copyWith(
-                color: AppColors.grey,
-                fontSize: Dimensions.h15,
-                fontWeight: FontWeight.normal),
+            hintStyle: hintTextStyle ??
+                CustomTextStyle.textRobotoSansLight.copyWith(
+                  color: hintTextColor ?? AppColors.grey,
+                  fontSize: Dimensions.h15,
+                  // fontWeight: FontWeight.bold,
+                ),
             prefixIcon: imagePath.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),

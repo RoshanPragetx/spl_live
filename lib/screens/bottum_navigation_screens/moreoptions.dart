@@ -1,13 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:spllive/helper_files/app_colors.dart';
+import 'package:spllive/helper_files/constant_variables.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/helper_files/dimentions.dart';
 import 'package:spllive/routes/app_routes_name.dart';
+import 'package:spllive/screens/Local%20Storage.dart';
 import '../../helper_files/constant_image.dart';
 import '../../helper_files/ui_utils.dart';
+import '../home_screen/controller/homepage_controller.dart';
 import 'controller/bottum_navigation_controller.dart';
 
 class MoreOptions extends StatelessWidget {
@@ -18,24 +23,26 @@ class MoreOptions extends StatelessWidget {
     // ignore: unused_local_variable
     Size size = MediaQuery.of(context).size;
     var controller = Get.put(MoreListController());
+    var homeController = Get.put(HomePageController());
     // ignore: sized_box_for_whitespace
     return Column(
       children: [
         AppUtils().simpleAppbar(appBarTitle: "MORE".tr, actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 15),
             child: InkWell(
               onTap: () {
                 Share.share("http://spl.live");
               },
               child: Container(
-                width: Dimensions.w25,
+                width: Dimensions.w20,
                 decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(25)),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(Dimensions.r25),
+                ),
                 child: Icon(
                   Icons.share,
-                  size: 15,
+                  size: 13,
                   color: AppColors.appbarColor,
                 ),
               ),
@@ -51,7 +58,9 @@ class MoreOptions extends StatelessWidget {
                   height: Dimensions.h15,
                 ),
                 listItems(
-                    onTap: () => Get.toNamed(AppRoutName.profilePage),
+                    onTap: () {
+                      Get.toNamed(AppRoutName.profilePage);
+                    },
                     iconData: ConstantImage.profileIconSVG,
                     text: "MYPROFILE".tr),
                 listItems(
@@ -81,11 +90,18 @@ class MoreOptions extends StatelessWidget {
                     iconData: ConstantImage.plusIcon,
                     text: "ADDFUND".tr),
                 listItems(
-                    onTap: () {},
+                    onTap: () {
+                      homeController.pageWidget.value = 1;
+                      homeController.currentIndex.value = 1;
+                    },
                     iconData: ConstantImage.clockIcon,
                     text: "BIDDINGHISTORY".tr),
                 listItems(
-                    onTap: () {
+                    onTap: () async {
+                      await LocalStorage.write(
+                          ConstantsVariables.withDrawal, true);
+                      homeController.pageWidget.value = 4;
+                      homeController.currentIndex.value = 4;
                       Get.toNamed(AppRoutName.withdrawalpage);
                     },
                     iconData: ConstantImage.withDrawalIcon,
@@ -155,7 +171,7 @@ Widget listItems(
                 width: Dimensions.w20,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 3),
+                padding: EdgeInsets.only(top: Dimensions.h3),
                 child: SizedBox(
                   // color: Colors.amber,
                   height: Dimensions.h20,

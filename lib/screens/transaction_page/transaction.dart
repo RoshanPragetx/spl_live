@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spllive/helper_files/common_utils.dart';
 import 'package:spllive/helper_files/constant_image.dart';
+import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/helper_files/dimentions.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 
 import '../../helper_files/app_colors.dart';
+import 'controller/transaction_controller.dart';
 
+// ignore: must_be_immutable
 class TransactionPage extends StatelessWidget {
-  const TransactionPage({super.key});
-
+  TransactionPage({super.key});
+  var controller = Get.put(TransactionHistoryPageController());
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppUtils().simpleAppbar(appBarTitle: "TRANSACTIONS".tr),
       body: SafeArea(
@@ -18,15 +23,52 @@ class TransactionPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: Dimensions.h5),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                listveiwTransaction(),
-                listveiwTransaction(),
-                listveiwTransaction(),
-                listveiwTransaction(),
-                listveiwTransaction(),
-                listveiwTransaction(),
-              ],
+            child: Obx(
+              () {
+                return controller.transactionList.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.transactionList.length,
+                        itemBuilder: (context, index) {
+                          var data = controller.transactionList[index];
+                          return listveiwTransaction(
+                            containerColor: data.isWin == true
+                                ? AppColors.greenAccent.withOpacity(0.65)
+                                : AppColors.white,
+                            bid: data.isWin == true ? "Earning" : "Bid",
+                            timeDate: CommonUtils().formatStringToDDMMYYYYHHMMA(
+                                data.bidTime ?? ""),
+                            ballance: data.balance.toString(),
+                            coins: data.coins.toString(),
+                            bidNo: data.bidNo ?? "",
+                            gameName: data.gameMode ?? "",
+                            closeTime: CommonUtils()
+                                .formatStringToHHMMA(data.openTime ?? ""),
+                            openTime: CommonUtils()
+                                .formatStringToHHMMA(data.openTime ?? ""),
+                            marketName: data.marketName ?? "",
+                          );
+                        },
+                      )
+                    : SingleChildScrollView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        child: SizedBox(
+                          height: size.height - 100,
+                          width: size.width,
+                          // color: AppColors.appbarColor,
+                          child: Center(
+                            child: Text(
+                              "There is no Transaction History",
+                              style:
+                                  CustomTextStyle.textRobotoSansLight.copyWith(
+                                fontSize: Dimensions.h13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+              },
             ),
           ),
         ),
@@ -34,47 +76,70 @@ class TransactionPage extends StatelessWidget {
     );
   }
 
-  Widget listveiwTransaction() {
+  Widget listveiwTransaction(
+      {required String marketName,
+      required String openTime,
+      required String closeTime,
+      required String gameName,
+      required String bidNo,
+      required String ballance,
+      required String coins,
+      required String timeDate,
+      required String bid,
+      required Color containerColor}) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: Dimensions.h5),
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              spreadRadius: 1,
+              spreadRadius: 0.5,
               color: AppColors.grey,
-              blurRadius: 10,
-              offset: const Offset(7, 4),
+              blurRadius: 5,
+              offset: const Offset(2, 4),
             ),
           ],
           border: Border.all(width: 0.6),
-          color: AppColors.white,
+          color: containerColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Bid",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    bid,
+                    style: CustomTextStyle.textRobotoSansBold
+                        .copyWith(fontSize: Dimensions.h15),
                   ),
-                  Text("SRIDEVI NIGHT"),
+                  Text(
+                    marketName,
+                    style: CustomTextStyle.textRobotoSansLight,
+                  ),
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            SizedBox(
+              height: Dimensions.h5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("7:05 PM | 8:05 PM"),
-                  Text(" 8 - (Single Ank)")
+                  Text(
+                    "$openTime | $closeTime",
+                    style: CustomTextStyle.textRobotoSansLight,
+                  ),
+                  Text(
+                    " $bidNo - ($gameName)",
+                    style: CustomTextStyle.textRobotoSansLight,
+                  )
                 ],
               ),
             ),
@@ -82,7 +147,10 @@ class TransactionPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  const Text("Coins"),
+                  Text(
+                    "Coins",
+                    style: CustomTextStyle.textRobotoSansLight,
+                  ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -94,9 +162,9 @@ class TransactionPage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  const Text("10"),
-                  const Expanded(child: SizedBox()),
-                  const Text("Balance"),
+                  Text("10"),
+                  Expanded(child: SizedBox()),
+                  Text("Balance"),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -108,22 +176,29 @@ class TransactionPage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  const Text("50"),
+                  Text(
+                    ballance,
+                    style: CustomTextStyle.textRobotoSansLight,
+                  ),
                 ],
               ),
             ),
             Container(
-              height: Dimensions.h40,
+              height: Dimensions.h30,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.greywhite,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(Dimensions.r8),
+                  bottomRight: Radius.circular(Dimensions.r8),
                 ),
               ),
-              child:
-                  const Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
+              child: Center(
+                child: Text(
+                  "Time : $timeDate",
+                  style: CustomTextStyle.textRobotoSansLight,
+                ),
+              ),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:spllive/helper_files/app_colors.dart';
@@ -42,6 +43,19 @@ class ResetPasswordPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
+            child: SizedBox(
+              height: Dimensions.h80,
+              width: Dimensions.w200,
+              child: Image.asset(
+                ConstantImage.splLogo,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Center(
             child: Text(
               "RESETPASSWORD".tr,
               style: CustomTextStyle.textRobotoSlabBold.copyWith(
@@ -52,34 +66,51 @@ class ResetPasswordPage extends StatelessWidget {
               ),
             ),
           ),
-          verticalSpace,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.w20),
-            child: Text(
-              "RESETPASSWORDTEXT".tr,
-              textAlign: TextAlign.center,
-              style: CustomTextStyle.textPTsansMedium.copyWith(
-                fontSize: Dimensions.h17,
-                letterSpacing: 1,
-                height: 1.5,
-                color: AppColors.appbarColor,
-              ),
-            ),
-          ),
+          // verticalSpace,
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: Dimensions.w20),
+          //   child: Text(
+          //     "RESETPASSWORDTEXT".tr,
+          //     textAlign: TextAlign.center,
+          //     style: CustomTextStyle.textRobotoSansLight.copyWith(
+          //       fontSize: Dimensions.h16,
+          //       letterSpacing: 1,
+          //       height: 1.5,
+          //       color: AppColors.appbarColor,
+          //     ),
+          //   ),
+          // ),
           verticalSpace,
           _buildPinCodeField(
-              context: context,
-              pinCodeLength: 6,
-              title: "OTP".tr,
-              pinType: controller.otp),
+            context: context,
+            pinCodeLength: 6,
+            title: "OTP".tr,
+            pinType: controller.otp,
+            focusNode: controller.focusNode1,
+            onChanged: (val) {
+              if (val.length == 6) {
+                controller.focusNode1.unfocus();
+                controller.focusNode2.requestFocus();
+              }
+            },
+          ),
           verticalSpace,
           _buildPasswordField(
+              focusNode: controller.focusNode2,
+              onChanged: (val) {
+                if (val.isEmpty) {
+                  controller.focusNode2.unfocus();
+                  controller.focusNode1.requestFocus();
+                }
+              },
               title: "PASSWORD".tr,
               hintText: "ENTERPASSWORD".tr,
               textController: controller.passwordController,
               visibility: controller.pVisibility),
           verticalSpace,
           _buildPasswordField(
+              focusNode: controller.focusNode3,
+              onChanged: (val) {},
               title: "ENTERCONFIRMPASSWORD".tr,
               hintText: "ENTERCONFIRMPASSWORD".tr,
               textController: controller.confirmPasswordController,
@@ -110,9 +141,13 @@ class ResetPasswordPage extends StatelessWidget {
     required String hintText,
     required TextEditingController textController,
     required RxBool visibility,
+    FocusNode? focusNode,
+    required Function(String) onChanged,
   }) {
     return Obx(() {
       return PasswordFieldWithIcon(
+        focusNode: focusNode,
+        onChanged: onChanged,
         height: Dimensions.h40,
         keyBoardType: TextInputType.visiblePassword,
         controller: textController,
@@ -139,6 +174,8 @@ class ResetPasswordPage extends StatelessWidget {
     required String title,
     required RxString pinType,
     required int pinCodeLength,
+    FocusNode? focusNode,
+    required Function(String) onChanged,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,43 +190,66 @@ class ResetPasswordPage extends StatelessWidget {
             color: AppColors.black,
           ),
         ),
-        SizedBox(
-          height: Dimensions.h10,
-        ),
-        PinCodeTextField(
+        PinCodeFields(
+          autofocus: true,
           length: pinCodeLength,
-          appContext: context,
-          cursorColor: AppColors.black,
+          focusNode: focusNode,
           obscureText: false,
-          animationType: AnimationType.fade,
-          keyboardType: TextInputType.number,
-          enableActiveFill: true,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          pinTheme: PinTheme(
-              shape: PinCodeFieldShape.box,
-              activeFillColor: AppColors.grey.withOpacity(0.2),
-              inactiveFillColor: AppColors.grey.withOpacity(0.2),
-              selectedFillColor: AppColors.grey.withOpacity(0.2),
-              inactiveColor: Colors.transparent,
-              activeColor: Colors.transparent,
-              selectedColor: Colors.transparent,
-              errorBorderColor: Colors.transparent,
-              borderWidth: 0,
-              borderRadius: BorderRadius.all(Radius.circular(Dimensions.r5))),
-          textStyle: CustomTextStyle.textPTsansMedium
-              .copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
+          obscureCharacter: "",
+          textStyle: CustomTextStyle.textRobotoSansMedium.copyWith(
+              color: AppColors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20),
           animationDuration: const Duration(milliseconds: 200),
-          // controller: controller.otpController,
-          onCompleted: (val) {
+          onComplete: (val) {
             pinType.value = val;
           },
-          onChanged: (val) {
+          keyboardType: TextInputType.number,
+          animation: Animations.fade,
+          activeBorderColor: AppColors.appbarColor,
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          onChange: (val) {
             pinType.value = val;
+            onChanged(val);
           },
-          beforeTextPaste: (text) {
-            return false;
-          },
+          enabled: true,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          responsive: true,
         ),
+        // PinCodeTextField(
+        //   length: pinCodeLength,
+        //   appContext: context,
+        //   cursorColor: AppColors.black,
+        //   obscureText: false,
+        //   animationType: AnimationType.fade,
+        //   keyboardType: TextInputType.number,
+        //   enableActiveFill: true,
+        //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        //   pinTheme: PinTheme(
+        //       shape: PinCodeFieldShape.box,
+        //       activeFillColor: AppColors.grey.withOpacity(0.2),
+        //       inactiveFillColor: AppColors.grey.withOpacity(0.2),
+        //       selectedFillColor: AppColors.grey.withOpacity(0.2),
+        //       inactiveColor: Colors.transparent,
+        //       activeColor: Colors.transparent,
+        //       selectedColor: Colors.transparent,
+        //       errorBorderColor: Colors.transparent,
+        //       borderWidth: 0,
+        //       borderRadius: BorderRadius.all(Radius.circular(Dimensions.r5))),
+        //   textStyle: CustomTextStyle.textPTsansMedium
+        //       .copyWith(color: AppColors.black, fontWeight: FontWeight.bold),
+        //   animationDuration: const Duration(milliseconds: 200),
+        //   // controller: controller.otpController,
+        //   onCompleted: (val) {
+        //     pinType.value = val;
+        //   },
+        //   onChanged: (val) {
+        //     pinType.value = val;
+        //   },
+        //   beforeTextPaste: (text) {
+        //     return false;
+        //   },
+        // ),
       ],
     );
   }

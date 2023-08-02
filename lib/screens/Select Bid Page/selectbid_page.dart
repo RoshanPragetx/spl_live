@@ -68,13 +68,16 @@ class SelectedBidsPage extends StatelessWidget {
                             visualDensity: const VisualDensity(vertical: -2),
                             title: Text(
                               "${controller.requestModel.value.bids![index].gameModeName} - ",
-                              style: CustomTextStyle.textPTsansMedium
+                              style: CustomTextStyle.textRobotoSansLight
                                   .copyWith(fontSize: Dimensions.h12),
                             ),
-                            subtitle: Text(
-                              "Bid no. : ${controller.requestModel.value.bids![index].gameId} , Coins : ${controller.requestModel.value.bids![index].coins}",
-                              style: CustomTextStyle.textPTsansMedium
-                                  .copyWith(fontSize: Dimensions.h12),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 2.0),
+                              child: Text(
+                                "Bid no. : ${controller.requestModel.value.bids![index].gameId} , Coins : ${controller.requestModel.value.bids![index].coins}",
+                                style: CustomTextStyle.textRobotoSansLight
+                                    .copyWith(fontSize: Dimensions.h12),
+                              ),
                             ),
                             trailing: InkWell(
                               onTap: () {
@@ -111,8 +114,8 @@ class SelectedBidsPage extends StatelessWidget {
                           letterSpacing: 0,
                           borderRadius: Dimensions.r5,
                           borderWidth: 2,
-                          textStyle: CustomTextStyle.textPTsansBold,
-                          onTap: () => Get.toNamed(AppRoutName.gameModePage),
+                          textStyle: CustomTextStyle.textRobotoSansMedium,
+                          onTap: () => controller.playMore(),
                           height: Dimensions.h30,
                           width: double.infinity,
                         ),
@@ -131,8 +134,10 @@ class SelectedBidsPage extends StatelessWidget {
                           letterSpacing: 0,
                           borderRadius: Dimensions.r5,
                           borderWidth: 1,
-                          textStyle: CustomTextStyle.textPTsansBold,
-                          onTap: () => controller.createMarketBidApi(),
+                          textStyle: CustomTextStyle.textRobotoSansMedium,
+                          onTap: () =>
+                              controller.showConfirmationDialog(context),
+                          //onTap: () {},
                           height: Dimensions.h30,
                           width: double.infinity,
                         ),
@@ -162,11 +167,13 @@ class SelectedBidsPage extends StatelessWidget {
                 horizontal: Dimensions.commonPaddingForScreen,
               ),
               child: Text(
-                "TOTAL_COIN".tr,
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: Dimensions.h18,
-                ),
+                "TOTALCOIN".tr,
+                style: CustomTextStyle.textRobotoSansMedium
+                    .copyWith(color: AppColors.white, fontSize: Dimensions.h18),
+                // style: TextStyle(
+                // color: AppColors.white,
+                // fontSize: Dimensions.h18,
+                // // ),
               ),
             ),
             Row(

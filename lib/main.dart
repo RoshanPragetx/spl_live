@@ -2,24 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
+import 'package:spllive/test.dart';
+import 'package:spllive/test2.dart';
+import 'package:spllive/test3.dart';
+
 import 'helper_files/constant_variables.dart';
 import 'localization/app_localization.dart';
 import 'routes/app_routes.dart';
 import 'routes/app_routes_name.dart';
 import 'screens/Local Storage.dart';
 import 'screens/initial_bindings.dart';
+import 'self_closing_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  runApp(const MyApp());
+  Get.put(AppLifecycleController());
+  runApp(MyApp());
 }
 
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey(debugLabel: "Main Navigator");
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final AppLifecycleController _controller = Get.find<AppLifecycleController>();
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +43,12 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
           transitionDuration: const Duration(milliseconds: 500),
-          //  home: const DashBoardPage(),
           translations: AppLocalization(),
           locale: getLocale(),
           initialBinding: InitialBindings(),
-          initialRoute: AppRoutName.splashScreen,
+          initialRoute: AppRoutName.oddEvenPage,
           getPages: AppRoutes.pages,
+          // home: Gamemode(),
         );
       },
     );

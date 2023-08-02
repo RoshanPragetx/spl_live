@@ -23,6 +23,8 @@ class AutoCompleteTextField extends StatelessWidget {
     this.focusNode,
     this.maxLength = 2,
     this.formatter,
+    this.hintTextColor,
+    this.textStyle,
   }) : super(key: key);
 
   double height, suggestionWidth;
@@ -35,6 +37,8 @@ class AutoCompleteTextField extends StatelessWidget {
   TextInputType keyboardType;
   FocusNode? focusNode;
   TextEditingController controller;
+  Color? hintTextColor;
+  TextStyle? textStyle;
   FutureOr<Iterable<String>> Function(TextEditingValue) optionsBuilder;
   Function(bool, String) validateValue;
 
@@ -63,11 +67,13 @@ class AutoCompleteTextField extends StatelessWidget {
             (context, textEditingController, focusNod, onFieldSubmitted) {
           return TextFormField(
             textInputAction: TextInputAction.next,
-            style: CustomTextStyle.textPTsansMedium.copyWith(
-              color: AppColors.appbarColor,
-              fontWeight: FontWeight.normal,
-              fontSize: Dimensions.h16,
-            ),
+            style: textStyle ??
+                CustomTextStyle.textPTsansMedium.copyWith(
+                  color: AppColors.appbarColor,
+                  fontWeight: FontWeight.normal,
+                  fontSize: Dimensions.h16,
+                ),
+            cursorColor: AppColors.appbarColor,
             controller: textEditingController,
             focusNode: focusNode,
             autofocus: autoFocus!,
@@ -76,14 +82,17 @@ class AutoCompleteTextField extends StatelessWidget {
             onFieldSubmitted: (String value) {
               if (isBulkMode ?? false) {
                 textEditingController.clear();
+              } else {
+                onFieldSubmitted;
               }
             },
             keyboardType: keyboardType,
             onChanged: (val) {
               validateValue(false, val);
             },
+            textAlign: TextAlign.center,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(horizontal: Dimensions.w12),
+              contentPadding: EdgeInsets.only(right: Dimensions.w40),
               focusColor: AppColors.black,
               filled: true,
               fillColor: AppColors.white,
@@ -95,10 +104,10 @@ class AutoCompleteTextField extends StatelessWidget {
               enabledBorder: border,
               errorMaxLines: 0,
               hintText: hintText,
-              hintStyle: CustomTextStyle.textPTsansBold.copyWith(
-                color: AppColors.grey,
+              hintStyle: CustomTextStyle.textRobotoSansMedium.copyWith(
+                color: hintTextColor ?? AppColors.grey,
                 fontSize: Dimensions.h16,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.bold,
               ),
             ),
           );

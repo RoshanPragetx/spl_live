@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spllive/helper_files/app_colors.dart';
+import 'package:spllive/helper_files/custom_text_style.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget(
@@ -30,10 +31,14 @@ class ButtonWidget extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
+            style: CustomTextStyle.textRobotoSansMedium.copyWith(
               color: AppColors.white,
-              fontWeight: FontWeight.bold,
+              wordSpacing: 1,
             ),
+            // style: TextStyle(
+            //   color: AppColors.white,
+            //   fontWeight: FontWeight.bold,
+            // ),
           ),
         ),
       ),

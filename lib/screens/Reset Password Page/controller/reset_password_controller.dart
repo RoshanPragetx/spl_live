@@ -9,6 +9,9 @@ import '../../../helper_files/constant_variables.dart';
 class ResetPasswordController extends GetxController {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
+  final FocusNode focusNode3 = FocusNode();
 
   RxBool pVisibility = false.obs;
   RxBool cpVisibility = false.obs;
@@ -25,10 +28,17 @@ class ResetPasswordController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void dispose() {
+    focusNode1.dispose();
+    focusNode2.dispose();
+    focusNode3.dispose();
+    super.dispose();
+  }
+  // @override
+  // void onClose() {}
 
-  @override
-  void onReady() {}
+  // @override
+  // void onReady() {}
 
   void getArguments() {
     if (arguments != null) {

@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.1.11
   share_plus: ^7.0.2
   image_picker: ^1.0.1
+  flutter_pin_code_fields: ^2.2.0
 
 dev_dependencies:
   flutter_test:
@@ -103,6 +104,12 @@ flutter:
       fonts:
         - asset: assets/fonts/pt_sans/PTSans-Bold.ttf
         - asset: assets/fonts/pt_sans/PTSans-Regular.ttf
+    - family: RobotoSans
+      fonts:
+        - asset: assets/fonts/roboto_sans/Roboto-Bold.ttf
+        - asset: assets/fonts/roboto_sans/Roboto-Medium.ttf
+        - asset: assets/fonts/roboto_sans/Roboto-Regular.ttf
+  
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

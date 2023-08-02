@@ -4,8 +4,8 @@ final Map<String, String> enUs = {
   "STARLINE": "STARLINE",
   "WELCOMEBACK": "Welcome Back",
   "WELCOME": "Welcome",
-  "SIGNIN": "SIGN IN",
-  "SIGNUP": "SIGN UP",
+  "SIGNIN": "Login",
+  "SIGNUP": "I'am a new user ,Register",
   "HELLO": "Hello",
   "OR": "OR",
   "DATE": "Date",
@@ -68,12 +68,14 @@ final Map<String, String> enUs = {
   "WALLET_TEXT": "Add or Withdraw money to or from SPL to play games.",
   "ENTERPASSWORDTEXT": "Please enter password",
   "NEWPASSWORD": "New password",
+  "ENTEROLDPASSWORD": "Enter old password",
+  "OLDPASSWORD": "Old password",
 
-  "WITHDRAWAL2": "WITHDRAWAL",
+  // "WITHDRAWAL2": "WITHDRAWAL",
   "BIDHISTORY": "BID HISTORY",
   "COINS": "Enter Coins",
   "SEARCH_TEXT": "Search ...",
-  "TOTALCOIN": "Total Coin",
+  "TOTALCOIN": "Total Coins",
   "40": "40",
   "GOODAFTERNOON": "GOOD AFTERNOON",
   "PLUSADD": "+ ADD",
@@ -126,6 +128,8 @@ final Map<String, String> enUs = {
   "CONFIRMPASSWORD": "Enter password to confirm",
   "ENTERNEWPINTEXT": "Enter new pin",
   "NEWPINTEXT": "New pin",
+  "ENTEROLDPINTEXT": "Enter old pin",
+  "OLDPINTEXT": "Old pin",
   "ENTERCONFIRMPINTEXT": "Enter pin to confirm",
   "CONFIRMPINTEXT": "Confirm pin",
   "DIGITTEXT": "*Must have 4 digit",
@@ -241,7 +245,8 @@ final Map<String, String> enUs = {
   // AppBar names
 
   "SPL_WALLET": "Spl Wallet",
-  "TIMEBAZAAR": "Time Bazaar",
+  "TIMEBAZAAR": "TIME BAZAAR",
+
   "GAMEMODES_TEXT": "Game Modes",
   "MARKETTEXT": "Market Name",
 
@@ -252,4 +257,22 @@ final Map<String, String> enUs = {
   "IFSC_TEXT": "IFSC Code:",
   "MESSAGE_TEXT": "Error Message",
   "SNACKMSG_TEXT": "Please contact to admin for edit",
+  "FORGOT_SUBTEXT":
+      "Please enter your registered phone number to send the reset code",
+  "RESULTHISTORY2": "RESULT HISTORY",
+  "CHART2": "CHART",
+  "NOBIDHISTORY": "No Bid History",
+  "NORESULTHISTORY": "No Result History",
+
+  //  NewGameMode Page
+  "ODD": "ODD",
+  "EVEN": "EVEN",
+  "DIGITBASEDJODI": "DIGIT BASED JODI",
+  "ODDEVEN": "ODD EVEN",
+  "OPEN_TEXT": "OPEN",
+  "LEFTANK": "Left Ank",
+  "RIGHTANK": "Right Ank",
+  "POINTS_TEXT": "Enter points",
+  "BIDS": "Bids",
+  "POINTS_TXT": "Points",
 };

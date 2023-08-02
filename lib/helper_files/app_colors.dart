@@ -15,4 +15,13 @@ class AppColors {
   static Color greenShade = Colors.green.shade800;
   static Color greyShade = Colors.grey.shade600;
   static Color greywhite = const Color.fromARGB(255, 201, 198, 198);
+  static Color greenAccent = const Color(0xFFB2FF89);
+  static Color balanceCoinsColor = const Color(0xFFb47e25);
+  static Color iconColorMain = const Color(0xff0b0b0b);
+  static Color numberListContainer = const Color(0xff9b8083);
+  static Color numberListgreen = const Color(0xff358138);
+  static Color wpColor1 = const Color(0xffFFA71E);
+  static Color wpColor2 = const Color(0xffD82700);
+  static Color textFieldFillColor = const Color(0xffF1F1F1);
+  static Color buttoncolor = Colors.amber;
 }

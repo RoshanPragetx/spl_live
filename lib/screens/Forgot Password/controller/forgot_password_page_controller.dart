@@ -42,7 +42,7 @@ class ForgotPasswordController extends GetxController {
   Future<Map> forgotPasswordBody() async {
     final forgotPasswordBody = {
       "phoneNumber": mobileNumberController.text,
-      "countryCode": countryCode.value,
+      "countryCode": "+91",
     };
     debugPrint(forgotPasswordBody.toString());
     return forgotPasswordBody;

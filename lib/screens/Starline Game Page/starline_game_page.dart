@@ -29,7 +29,8 @@ class StarLineGamePage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppUtils().simpleAppbar(
-        appBarTitle: "MARKETTEXT".tr,
+        appBarTitle: controller.getBIdType.toString(),
+        //appBarTitle: "MARKETTEXT".tr,
         actions: [
           Row(
             children: [
@@ -98,11 +99,13 @@ class StarLineGamePage extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.zero,
                         decoration: BoxDecoration(
+                          boxShadow: [BoxShadow()],
+                          color: AppColors.white,
                           border: Border.all(
                             color:
                                 controller.digitList[index].isSelected ?? false
                                     ? AppColors.green
-                                    : AppColors.black,
+                                    : AppColors.transparent,
                           ),
                           borderRadius: BorderRadius.circular(Dimensions.h5),
                         ),
@@ -114,7 +117,7 @@ class StarLineGamePage extends StatelessWidget {
                             Text(
                               controller.digitList[index].value ?? "",
                               textAlign: TextAlign.center,
-                              style: CustomTextStyle.textPTsansBold.copyWith(
+                              style: CustomTextStyle.textPTsansMedium.copyWith(
                                 color: AppColors.grey,
                                 fontSize: Dimensions.h15,
                                 fontWeight: FontWeight.bold,
@@ -131,6 +134,7 @@ class StarLineGamePage extends StatelessWidget {
                                 cursorColor: AppColors.black,
                                 textAlign: TextAlign.center,
                                 //  focusNode: focusNode,
+
                                 onChanged: (val) {
                                   if (val != null) {
                                     if (val.characters.characterAt(0) ==
@@ -148,6 +152,7 @@ class StarLineGamePage extends StatelessWidget {
                                       if (val.length > 1) {
                                         controller.validCoinsEntered.value =
                                             true;
+                                        controller.ondebounce(index);
                                       } else if (int.parse(val) > 10000) {
                                         controller.validCoinsEntered.value =
                                             false;
@@ -161,9 +166,7 @@ class StarLineGamePage extends StatelessWidget {
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly
                                 ],
-                                onEditingComplete: () {
-                                  controller.onTapOfDigitTile(index);
-                                },
+                                onEditingComplete: () {},
                                 onSubmitted: (v) {
                                   if (!isLastTextField) {
                                     final nextFocusNode =
@@ -174,7 +177,6 @@ class StarLineGamePage extends StatelessWidget {
                                   } else {
                                     focusNode.unfocus();
                                   }
-                                  //controller.onTapOfDigitTile(index);
                                 },
                                 decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -193,6 +195,7 @@ class StarLineGamePage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            const Expanded(child: SizedBox()),
                             Container(
                               height: Dimensions.h2,
                               decoration: BoxDecoration(
@@ -239,11 +242,11 @@ class StarLineGamePage extends StatelessWidget {
   buttonContainer(size) {
     return Container(
       color: AppColors.grey.withOpacity(0.15),
-      height: Dimensions.h70,
+      height: Dimensions.h60,
       child: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.h40,
+            horizontal: Dimensions.h25,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -376,7 +379,7 @@ class StarLineGamePage extends StatelessWidget {
           children: [
             Text(
               text,
-              style: CustomTextStyle.textPTsansBold
+              style: CustomTextStyle.textRobotoSansMedium
                   .copyWith(color: AppColors.appbarColor, fontSize: fontSize),
             ),
           ],
@@ -399,7 +402,7 @@ class StarLineGamePage extends StatelessWidget {
               ),
               child: Text(
                 "TOTALCOIN".tr,
-                style: TextStyle(
+                style: CustomTextStyle.textRobotoSansMedium.copyWith(
                   color: AppColors.white,
                   fontSize: Dimensions.h18,
                 ),

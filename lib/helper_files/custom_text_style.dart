@@ -14,4 +14,10 @@ class CustomTextStyle {
       const TextStyle(fontFamily: 'PTsans', fontWeight: FontWeight.w600);
   static TextStyle textPTsansMedium =
       const TextStyle(fontFamily: 'PTsans', fontWeight: FontWeight.w500);
+  static TextStyle textRobotoSansBold =
+      const TextStyle(fontFamily: 'RobotoSans', fontWeight: FontWeight.w700);
+  static TextStyle textRobotoSansMedium =
+      const TextStyle(fontFamily: 'RobotoSans', fontWeight: FontWeight.w500);
+  static TextStyle textRobotoSansLight =
+      const TextStyle(fontFamily: 'RobotoSans', fontWeight: FontWeight.w300);
 }

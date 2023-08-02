@@ -16,21 +16,21 @@ class MyProfilePageController extends GetxController {
     Get.toNamed(routeString);
   }
 
-  @override
-  void onInit() {
-    fetchSavedData();
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   //fetchSavedData();
+  //   super.onInit();
+  // }
 
   void toggleValue(bool newValue) {
     value.value = newValue;
   }
 
-  Future<void> fetchSavedData() async {
-    var userData = await LocalStorage.read(ConstantsVariables.userData);
-    userDetailsModel = UserDetailsModel.fromJson(userData);
-    print("Get User Data ***********************${userDetailsModel.toJson()}");
-  }
+  // Future<void> fetchSavedData() async {
+  //   var userData = await LocalStorage.read(ConstantsVariables.userData);
+  //   userDetailsModel = UserDetailsModel.fromJson(userData);
+  //   print("Get User Data ***********************${userDetailsModel.toJson()}");
+  // }
 
   imageSelection() async {
     try {

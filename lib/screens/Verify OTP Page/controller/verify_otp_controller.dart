@@ -6,6 +6,7 @@ import 'package:spllive/routes/app_routes_name.dart';
 
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
+import '../../../routes/app_routes.dart';
 import '../../Local Storage.dart';
 
 class VerifyOTPController extends GetxController {
@@ -15,7 +16,7 @@ class VerifyOTPController extends GetxController {
   RxString mpin = "".obs;
   RxString confirmMpin = "".obs;
   String phoneNumber = "";
-  String countryCode = "";
+  // String countryCode = "";
 
   @override
   void onInit() {
@@ -26,7 +27,7 @@ class VerifyOTPController extends GetxController {
   Future<void> getStoredUserData() async {
     if (argument != null) {
       phoneNumber = argument['phoneNumber'];
-      countryCode = argument['countryCode'];
+      // countryCode = argument['countryCode'];
       verifyOTP = false;
     } else {
       verifyOTP = true;
@@ -75,7 +76,7 @@ class VerifyOTPController extends GetxController {
 
   Future<Map> verifyUserBody() async {
     final verifyUserBody = {
-      "countryCode": countryCode,
+      "countryCode": "+91",
       "phoneNumber": phoneNumber,
       "otp": otp.value,
       // "mPin": mpin.value,
@@ -93,7 +94,7 @@ class VerifyOTPController extends GetxController {
             bodyText: value['message'] ?? "", headerText: "SUCCESSMESSAGE".tr);
         var userData = value['data'];
         if (userData != null) {
-          // Get.toNamed(AppRoutes.setMPINPage);
+          Get.toNamed(AppRoutName.setMPINPage);
         } else {
           AppUtils.showErrorSnackBar(bodyText: "Something went wrong!!!");
         }
@@ -130,7 +131,7 @@ class VerifyOTPController extends GetxController {
   Future<Map> resendOtpBody() async {
     final resendOtpBody = {
       "phoneNumber": phoneNumber,
-      "countryCode": countryCode,
+      "countryCode": "+91",
     };
     return resendOtpBody;
   }

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import 'package:spllive/routes/app_routes_name.dart';
@@ -37,7 +40,7 @@ class MoreListController extends GetxController {
   Future<void> getUserData() async {
     var data = await LocalStorage.read(ConstantsVariables.userData);
     userData = UserDetailsModel.fromJson(data);
-    // getMarketBidsByUserId(lazyLoad: false);
+    getMarketBidsByUserId(lazyLoad: false);
   }
 
   void callLogout() async {
@@ -56,31 +59,35 @@ class MoreListController extends GetxController {
     });
   }
 
-  // void getMarketBidsByUserId({required bool lazyLoad}) {
-  //   ApiService()
-  //       .getBidHistoryByUserId(
-  //           userId: userData.id.toString(),
-  //           limit: "10",
-  //           offset: offset.toString(),
-  //           isStarline: isStarline.value)
-  //       .then((value) async {
-  //     debugPrint("Get Market Api Response :- $value");
-  //     if (value['status']) {
-  //       if (value['data'] != null) {
-  //         NormalMarketBidHistoryResponseModel model =
-  //             NormalMarketBidHistoryResponseModel.fromJson(value);
-  //         lazyLoad
-  //             ? marketHistoryList.addAll(model.data?.resultArr ?? <ResultArr>[])
-  //             : marketHistoryList.value =
-  //                 model.data?.resultArr ?? <ResultArr>[];
-  //       }
-  //     } else {
-  //       AppUtils.showErrorSnackBar(
-  //         bodyText: value['message'] ?? "",
-  //       );
-  //     }
-  //   });
-  // }
+  void getMarketBidsByUserId({required bool lazyLoad}) {
+    ApiService()
+        .getBidHistoryByUserId(
+            userId: userData.id.toString(),
+            //  userId: "3",
+            limit: "10",
+            offset: offset.toString(),
+            isStarline: isStarline.value)
+        .then(
+      (value) async {
+        debugPrint("Get Market Api Response :- $value");
+        if (value['status']) {
+          if (value['data'] != null) {
+            NormalMarketBidHistoryResponseModel model =
+                NormalMarketBidHistoryResponseModel.fromJson(value);
+            lazyLoad
+                ? marketHistoryList
+                    .addAll(model.data?.resultArr ?? <ResultArr>[])
+                : marketHistoryList.value =
+                    model.data?.resultArr ?? <ResultArr>[];
+          }
+        } else {
+          AppUtils.showErrorSnackBar(
+            bodyText: value['message'] ?? "",
+          );
+        }
+      },
+    );
+  }
 
   void getUserBalance() {
     ApiService().getBalance().then((value) async {
@@ -156,7 +163,7 @@ class MoreListController extends GetxController {
   Future<Map> createFeedbackBody(rating) async {
     final createFeedbackBody = {
       "userId": 1,
-      // "userId": userDetailsModel.value.id,
+      //  "userId": userDetailsModel.value.id,
       "feedback": "",
       "rating": rating,
     };

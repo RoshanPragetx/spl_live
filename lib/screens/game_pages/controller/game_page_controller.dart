@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,14 +14,14 @@ import '../../../models/game_modes_api_response_model.dart';
 import '../../Local Storage.dart';
 
 class GamePageController extends GetxController {
+  // RxList<String> filteredItems = RxList<String>();
   RxInt containerWidget = 0.obs;
   var coinController = TextEditingController();
   var searchController = TextEditingController();
   RxBool isEnable = false.obs;
   RxBool showNumbersLine = false.obs;
-
   GameMode gameMode = GameMode();
-
+  List<String> matches = <String>[].obs;
   bool enteredDigitsIsValidate = false;
 
   var biddingType = "".obs;
@@ -61,11 +62,22 @@ class GamePageController extends GetxController {
     DigitListModelOffline(value: "8", isSelected: false),
     DigitListModelOffline(value: "9", isSelected: false),
   ].obs;
-
+  Timer? _debounce;
   @override
   void onInit() {
     super.onInit();
     getArguments();
+  }
+
+  ondebounce() {
+    if (_debounce != null && _debounce!.isActive) {
+      _debounce!.cancel();
+    }
+    Timer(const Duration(milliseconds: 400), () {
+      if (int.parse(coinController.text) == 0) {
+        AppUtils.showErrorSnackBar(bodyText: "Please enter minimun 1 coin");
+      }
+    });
   }
 
   Future<void> loadJsonFile() async {
@@ -88,7 +100,7 @@ class GamePageController extends GetxController {
         showNumbersLine.value = false;
         enteredDigitsIsValidate = true;
         panaControllerLength.value = 1;
-        // suggestionList.value = jsonModel.singleAnk!;
+        suggestionList.value = jsonModel.singleAnk!;
         for (var e in jsonModel.singleAnk!) {
           singleAnkList.add(DigitListModelOffline.fromJson(e));
         }
@@ -144,12 +156,14 @@ class GamePageController extends GetxController {
   // void onTapOfDigitTile(int index) {}
 
   void onTapNumberList(index) {
-    if (digitList[index].isSelected == false) {
-      onTapOfDigitTile(index);
-      digitList[index].isSelected = true;
-    } else {
-      digitList[index].isSelected = false;
-      onLongPressDigitTile(index);
+    if (validCoinsEntered.value) {
+      if (digitList[index].isSelected == false) {
+        onTapOfDigitTile(index);
+        digitList[index].isSelected = true;
+      } else {
+        digitList[index].isSelected = false;
+        onLongPressDigitTile(index);
+      }
     }
   }
 
@@ -245,70 +259,84 @@ class GamePageController extends GetxController {
 
   void panaSwitchCase(ThreePana panaList, int index) {
     List<DigitListModelOffline> tempList = [];
+    List<String> temListFor = [];
     switch (index) {
       case 0:
         for (var e in panaList.l0!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 1:
         for (var e in panaList.l1!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 2:
         for (var e in panaList.l2!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 3:
         for (var e in panaList.l3!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 4:
         for (var e in panaList.l4!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 5:
         for (var e in panaList.l5!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 6:
         for (var e in panaList.l6!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 7:
         for (var e in panaList.l7!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 8:
         for (var e in panaList.l8!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       case 9:
         for (var e in panaList.l9!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
       default:
         for (var e in panaList.l0!) {
           tempList.add(DigitListModelOffline.fromJson(e));
+          temListFor.add(e);
         }
         break;
     }
     digitList.value = tempList;
+    suggestionList.value = temListFor;
+    // print(temListFor);
   }
 
   Future<void> onTapOfSaveButton() async {
     if (selectedBidsList.isNotEmpty) {
       await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
-      Get.toNamed(AppRoutName.selectedBidsPage, arguments: {
+      Get.offAndToNamed(AppRoutName.selectedBidsPage, arguments: {
         "bidsList": selectedBidsList,
         "biddingType": biddingType.value,
         "gameName": gameMode.name,

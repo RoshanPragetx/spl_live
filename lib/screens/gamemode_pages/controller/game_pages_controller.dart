@@ -22,6 +22,7 @@ class GameModePagesController extends GetxController {
   var openCloseRadioValue = 0.obs;
   var closeBiddingOpen = true.obs;
   RxBool isBulkMode = false.obs;
+  var playmore;
   // RxString totalAmount = "00".obs;
   // var biddingType = "".obs;
   // var gameName = "".obs;
@@ -54,6 +55,12 @@ class GameModePagesController extends GetxController {
     callGetGameModes();
     getArguments();
     super.onInit();
+  }
+
+  @override
+  void onClose() async {
+    await LocalStorage.write(ConstantsVariables.playMore, false);
+    super.onClose();
   }
 
   void setSelectedRadioValue(int value) {
@@ -98,6 +105,7 @@ class GameModePagesController extends GetxController {
         );
       }
     });
+    print(playmore);
   }
 
   void onTapOfGameModeTile(int index) {
@@ -106,6 +114,7 @@ class GameModePagesController extends GetxController {
         "gameMode": gameModesList[index],
         "marketData": marketValue.value,
       });
+      print(gameModesList[index].name.toString());
     } else {
       Get.toNamed(AppRoutName.singleAnkPage, arguments: {
         "gameMode": gameModesList[index],
@@ -117,6 +126,7 @@ class GameModePagesController extends GetxController {
         "biddingType": openCloseRadioValue.value == 0 ? "Open" : "Close",
         "isBulkMode": true,
       });
+      print(gameModesList[index].name.toString());
     }
   }
 
@@ -127,6 +137,8 @@ class GameModePagesController extends GetxController {
     // requestModel.value.bids = arguments["bidsList"];
     // checkBidsList();
     var data = await LocalStorage.read(ConstantsVariables.userData);
+    // playmore = await LocalStorage.read(ConstantsVariables.playMore);
+    // print("playmore $playmore");
     UserDetailsModel userData = UserDetailsModel.fromJson(data);
     requestModel.value.userId = userData.id;
     // requestModel.value.bidType = arguments["biddingType"];

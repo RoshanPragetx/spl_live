@@ -10,6 +10,10 @@ class UserDetailsPageController extends GetxController {
   var userNameController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
+  // var fullNameFocusNode = FocusNode();
+  // var userNameFocusNode = FocusNode();
+  // var passwordFocusNode = FocusNode();
+  // var confirmPasswordFocusNode = FocusNode();
 
   RxBool pVisibility = false.obs;
   RxBool cpVisibility = false.obs;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:spllive/helper_files/custom_text_style.dart';
 import '../helper_files/app_colors.dart';
 import '../helper_files/dimentions.dart';
 
@@ -21,8 +21,8 @@ class ListContainer extends StatelessWidget {
       color: Colors.grey.withOpacity(0.1),
       child: Row(
         children: [
-          const SizedBox(
-            width: 10,
+          SizedBox(
+            width: Dimensions.w10,
           ),
           iconData == null
               ? Container()
@@ -33,11 +33,18 @@ class ListContainer extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            title,
-            style: TextStyle(
-              color: color,
+          FittedBox(
+            fit: BoxFit.contain,
+            child: Text(
+              title,
+              style: CustomTextStyle.textRobotoSansMedium.copyWith(
+                color: color,
+                letterSpacing: 1,
+              ),
             ),
+          ),
+          const SizedBox(
+            width: 5,
           ),
         ],
       ),

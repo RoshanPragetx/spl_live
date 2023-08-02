@@ -6,6 +6,10 @@ import 'package:spllive/screens/More%20Details%20Screens/Change%20Mpin/binding/c
 import 'package:spllive/screens/More%20Details%20Screens/Notification%20Page/binding/notification_details_page_binding.dart';
 import 'package:spllive/screens/More%20Details%20Screens/myProfile/binding/myprofile_page_binding.dart';
 import 'package:spllive/screens/More%20Details%20Screens/myProfile/myprofile_page.dart';
+import 'package:spllive/screens/New%20GameModes/binding/new_gamemode_page_bindings.dart';
+import 'package:spllive/screens/New%20GameModes/new_gamemodes_page.dart';
+import 'package:spllive/screens/Normal%20Market%20List/binding/normal_market_page_binding.dart';
+import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
 import 'package:spllive/screens/Sangam%20Page/binding/snagam_page_binding.dart';
 import 'package:spllive/screens/Sangam%20Page/controller/sangam_page_controller.dart';
 import 'package:spllive/screens/game_pages/game_pages.dart';
@@ -27,6 +31,8 @@ import '../screens/More Details Screens/Check Withdrawal History/binding/check_w
 import '../screens/More Details Screens/Check Withdrawal History/check_withdrawal_history.dart';
 import '../screens/More Details Screens/Create Withdrawal Page/binding/create_withdrawal_page_bidings.dart';
 import '../screens/More Details Screens/Create Withdrawal Page/create_withdrawal_page.dart';
+import '../screens/More Details Screens/Digit Based Jodi/binding/digit_based_page_binding.dart';
+import '../screens/More Details Screens/Digit Based Jodi/digit_based_jodi.dart';
 import '../screens/More Details Screens/Game Rate Page/binding/game_rate_page_binding.dart';
 import '../screens/More Details Screens/Game Rate Page/game_rate_page.dart';
 import '../screens/More Details Screens/Give Feedback Page/binding/give_feedback_page_binding.dart';
@@ -34,6 +40,8 @@ import '../screens/More Details Screens/Give Feedback Page/give_feedback_page.da
 import '../screens/More Details Screens/My Account Page/binding/myaccount_page_bindings.dart';
 import '../screens/More Details Screens/My Account Page/myaccount_page.dart';
 import '../screens/More Details Screens/Notification Page/notification_details.dart';
+import '../screens/More Details Screens/Odd Even Page/binding/odd_even_page_binding.dart';
+import '../screens/More Details Screens/Odd Even Page/odd_even_page.dart';
 import '../screens/More Details Screens/Starline Terms Page/binding/starline_terms_page_binding.dart';
 import '../screens/More Details Screens/Starline Terms Page/starline_terms_page.dart';
 import '../screens/More Details Screens/Withdrawal Page/binding/withdrawal_page_binding.dart';
@@ -59,6 +67,7 @@ import '../screens/home_screen/binding/home_screen_binding.dart';
 import '../screens/home_screen/home_screen.dart';
 import '../screens/notification_page/notification.dart';
 import '../screens/sign_in_screen/sign_in_screen_page.dart';
+import '../screens/transaction_page/binding/transaction_page_binding.dart';
 import '../screens/transaction_page/transaction.dart';
 import '../screens/welcome_screen/bindings/welcome_screen_bindings.dart';
 import '../screens/welcome_screen/welcome_screen.dart';
@@ -98,10 +107,10 @@ class AppRoutes {
       name: AppRoutName.transactionPage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => const TransactionPage(),
-      // bindings: [
-      //   DashBoardPage(),
-      // ],
+      page: () => TransactionPage(),
+      bindings: [
+        TransactionPageBindings(),
+      ],
     ),
     GetPage(
       name: AppRoutName.notificationPage,
@@ -370,5 +379,37 @@ class AppRoutes {
       page: () => CheckWithdrawalPage(),
       bindings: [CheckWithdrawalPageBinding()],
     ),
+    GetPage(
+      name: AppRoutName.normalMarketPage,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => NormalMarketPage(),
+      bindings: [NormalMarketPageBinding()],
+    ),
+    GetPage(
+      name: AppRoutName.newGameModePage,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => NewGameModePage(),
+      bindings: [NewGamemodePageBindings()],
+    ),
+
+    // DigitBased Page
+    GetPage(
+      name: AppRoutName.digitBasedPage,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => DigitBasedPage(),
+      bindings: [DigitBasedPageBinding()],
+    ),
+
+    // OddEven Page
+    GetPage(
+      name: AppRoutName.oddEvenPage,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => OddEvenPage(),
+      bindings: [OddEvenPageBinding()],
+    )
   ];
 }

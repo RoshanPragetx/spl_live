@@ -1,11 +1,13 @@
-// ignore_for_file: unused_import
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
+import 'package:spllive/models/starline_chart_model.dart';
 import 'package:spllive/routes/app_routes_name.dart';
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
+import '../../../models/commun_models/user_details_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../Local Storage.dart';
 import '../model/user_details_model.dart';
@@ -14,21 +16,43 @@ class SetMPINPageController extends GetxController {
   var arguments = Get.arguments;
   RxString mpin = "".obs;
   RxString confirmMpin = "".obs;
+  final FocusNode focusNode1 = FocusNode();
+  final FocusNode focusNode2 = FocusNode();
   UserDetails userDetails = UserDetails();
+  UserDetailsModel userData = UserDetailsModel();
+  Timer? cursorTimer;
   bool _fromLoginPage = false;
 
   @override
   void onInit() {
     getArguments();
+    //getUserData();
     super.onInit();
   }
 
+  @override
+  void dispose() {
+    focusNode1.dispose();
+    focusNode2.dispose();
+    super.dispose();
+  }
+
+  // Future<void> getUserData() async {
+  //   var data = await LocalStorage.read(ConstantsVariables.userData);
+  //   userData = UserDetailsModel.fromJson(data);
+  //   // getMarketBidsByUserId(lazyLoad: false);
+  //   print("userDetails :---$data");
+  // }
+
   void getArguments() {
+    print("000000000000000000000$arguments");
     if (arguments != null) {
       userDetails = arguments;
+      print("userDetails when condition false : $userDetails");
       _fromLoginPage = false;
     } else {
       _fromLoginPage = true;
+      print("userDetails when condition true : $userDetails");
     }
   }
 
@@ -54,6 +78,7 @@ class SetMPINPageController extends GetxController {
         bodyText: "MPINDOWSNTMATCHED".tr,
       );
     } else {
+      print("fromloginpage $_fromLoginPage");
       _fromLoginPage ? callSetMpinApi() : callSetUserDetailsApi();
     }
   }
@@ -108,6 +133,7 @@ class SetMPINPageController extends GetxController {
         //   headerText: "SUCCESSMESSAGE".tr,
         // );
         var userData = value['data'];
+        print("userData&&&&&&&&&&&&&&&&&&&&&&&& : $userData");
         if (userData != null) {
           String authToken = userData['Token'] ?? "Null From API";
           bool isActive = userData['IsActive'] ?? false;

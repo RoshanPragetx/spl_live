@@ -1,7 +1,8 @@
-// ignore_for_file: unused_import
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:spllive/Custom%20Controllers/wallet_controller.dart';
 import 'package:spllive/helper_files/app_colors.dart';
 import 'package:spllive/helper_files/constant_image.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
@@ -16,30 +17,49 @@ import 'utils/game_mode_utils.dart';
 class GameModePage extends StatelessWidget {
   GameModePage({super.key});
   var controller = Get.put(GameModePagesController());
+  var walletController = Get.put(WalletController());
   @override
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar:
-          AppUtils().simpleAppbar(appBarTitle: "GAMEMODES_TEXT".tr, actions: [
-        InkWell(
-          onTap: () {},
-          child: const Icon(Icons.wallet),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: Dimensions.h14, horizontal: Dimensions.h15),
-          child: Text(
-            "40".tr,
-            style: TextStyle(
-              fontSize: Dimensions.h14,
-              fontWeight: FontWeight.bold,
-              color: AppColors.white,
+      appBar: AppUtils().simpleAppbar(
+        appBarTitle: "GAMEMODES_TEXT".tr,
+        actions: [
+          InkWell(
+            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: Dimensions.w20,
+                  width: Dimensions.w20,
+                  child: SvgPicture.asset(
+                    ConstantImage.walletAppbar,
+                    color: AppColors.white,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: Dimensions.r8,
+                    bottom: Dimensions.r10,
+                    left: Dimensions.r15,
+                    right: Dimensions.r10,
+                  ),
+                  child: Obx(
+                    () => Text(
+                      walletController.walletBalance.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
       body: Obx(
         () {
           return SizedBox(
@@ -48,20 +68,29 @@ class GameModePage extends StatelessWidget {
               children: [
                 controller.openBiddingOpen.value
                     ? SizedBox(
-                        height: Dimensions.h11,
+                        height: Dimensions.h10,
                       )
-                    : Container(
-                        decoration: BoxDecoration(color: AppColors.redColor),
-                        height: Dimensions.h50,
-                        width: double.infinity,
-                        child: Center(
-                          child: Text(
-                            "BIDDINGFOROPENISCLOSED".tr,
-                            style: CustomTextStyle.textPTsansMedium.copyWith(
-                                color: AppColors.white,
-                                fontSize: Dimensions.h15),
+                    : Column(
+                        children: [
+                          Container(
+                            decoration:
+                                BoxDecoration(color: AppColors.redColor),
+                            height: Dimensions.h40,
+                            width: double.infinity,
+                            child: Center(
+                              child: Text(
+                                "BIDDINGFOROPENISCLOSED".tr,
+                                style: CustomTextStyle.textPTsansMedium
+                                    .copyWith(
+                                        color: AppColors.white,
+                                        fontSize: Dimensions.h15),
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: Dimensions.h5,
+                          ),
+                        ],
                       ),
                 GameModeUtils().rowWidget(
                   marketName: controller.marketValue.value.market.toString(),
@@ -117,26 +146,28 @@ class GameModePage extends StatelessWidget {
                   ],
                 ),
                 cardWidget(controller),
-                SizedBox(
-                  height: Dimensions.h20,
-                ),
-                // RoundedCornerButton(
-                //   text: "VIEWBIDS".tr,
-                //   color: AppColors.greenShade,
-                //   borderColor: AppColors.greenShade,
-                //   fontSize: Dimensions.h14,
-                //   fontWeight: FontWeight.w500,
-                //   fontColor: AppColors.white,
-                //   letterSpacing: 0,
-                //   borderRadius: Dimensions.r5,
-                //   borderWidth: 1,
-                //   textStyle: CustomTextStyle.textPTsansBold,
-                //   onTap: () {
-                //     Get.offAndToNamed(AppRoutName.selectedBidsPage);
-                //   },
-                //   height: Dimensions.h30,
-                //   width: Dimensions.w100,
-                // )
+                // controller.playmore == false
+                //     ? Container()
+                //     : Padding(
+                //         padding: const EdgeInsets.all(15.0),
+                //         child: RoundedCornerButton(
+                //           text: "VIEWBIDS".tr,
+                //           color: AppColors.greenShade,
+                //           borderColor: AppColors.greenShade,
+                //           fontSize: Dimensions.h14,
+                //           fontWeight: FontWeight.w500,
+                //           fontColor: AppColors.white,
+                //           letterSpacing: 0,
+                //           borderRadius: Dimensions.r5,
+                //           borderWidth: 1,
+                //           textStyle: CustomTextStyle.textPTsansBold,
+                //           onTap: () {
+                //             Get.offAndToNamed(AppRoutName.selectedBidsPage);
+                //           },
+                //           height: Dimensions.h30,
+                //           width: Dimensions.w100,
+                //         ),
+                //       ),
               ],
             ),
           );
@@ -146,120 +177,112 @@ class GameModePage extends StatelessWidget {
   }
 
   Widget cardWidget(GameModePagesController controller) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: controller.gameModesList.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisExtent: Dimensions.h100,
-      ),
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () => controller.onTapOfGameModeTile(index),
-          child: Card(
-            elevation: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                color: AppColors.blueAccent.withOpacity(0.7),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      //color: Colors.amber,
-                      width: double.infinity,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 90,
-                            child: Opacity(
-                              opacity: 0.3,
-                              // child: CachedNetworkImage(
-                              //   imageUrl: controller.gameModesList
-                              //       .elementAt(index)
-                              //       .image
-                              //       .toString(),
-                              //   height: Dimensions.h45,
-                              //   progressIndicatorBuilder:
-                              //       (context, url, progress) =>
-                              //           CircularProgressIndicator(),
-                              //   errorWidget: (context, url, error) =>
-                              //       Icon(Icons.error),
-                              // ),
-                              child: controller.gameModesList
-                                          .elementAt(index)
-                                          .image !=
-                                      null
-                                  ? Image.network(
-                                      controller.gameModesList
-                                          .elementAt(index)
-                                          .image
-                                          .toString(),
-                                      height: Dimensions.h45,
-                                    )
-                                  : const Icon(Icons.error),
+    return Expanded(
+      child: GridView.builder(
+        // physics: const NeverScrollableScrollPhysics(),
+        // shrinkWrap: true,
+        itemCount: controller.gameModesList.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisExtent: Dimensions.h100,
+        ),
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () => controller.onTapOfGameModeTile(index),
+            child: Card(
+              elevation: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  color: AppColors.blueAccent.withOpacity(0.7),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        //color: Colors.amber,
+                        width: double.infinity,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 90,
+                              child: Opacity(
+                                opacity: 0.3,
+                                // child: CachedNetworkImage(
+                                //   imageUrl: controller.gameModesList
+                                //       .elementAt(index)
+                                //       .image
+                                //       .toString(),
+                                //   height: Dimensions.h45,
+                                //   errorWidget: (context, url, error) =>
+                                //       const Icon(Icons.error),
+                                // ),
+                                child: Image.network(
+                                  controller.gameModesList
+                                      .elementAt(index)
+                                      .image
+                                      .toString(),
+                                  height: Dimensions.h45,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(Icons.error);
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
-                          Positioned(
-                            left: 60,
-                            child: controller.gameModesList
-                                        .elementAt(index)
-                                        .image !=
-                                    null
-                                ? Image.network(
+                            Positioned(
+                              left: 60,
+                              child: Image.network(
+                                controller.gameModesList
+                                    .elementAt(index)
+                                    .image
+                                    .toString(),
+                                height: Dimensions.h45,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.error);
+                                },
+                              ),
+                            ),
+                            Positioned(
+                              left: 30,
+                              child: Opacity(
+                                  opacity: 0.3,
+                                  child: Image.network(
                                     controller.gameModesList
                                         .elementAt(index)
                                         .image
                                         .toString(),
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Icon(Icons.error);
+                                    },
                                     height: Dimensions.h45,
-                                  )
-                                : const Icon(Icons.error),
-                          ),
-                          Positioned(
-                            left: 30,
-                            child: Opacity(
-                              opacity: 0.3,
-                              child: controller.gameModesList
-                                          .elementAt(index)
-                                          .image !=
-                                      null
-                                  ? Image.network(
-                                      controller.gameModesList
-                                          .elementAt(index)
-                                          .image
-                                          .toString(),
-                                      height: Dimensions.h45,
-                                    )
-                                  : const Icon(Icons.error),
-                            ),
-                          ), // Bottom image
-                          Opacity(
-                            opacity: 0.0,
-                            child: Image.asset(
-                              ConstantImage.diceImage,
-                              height: Dimensions.h45,
-                            ),
-                          )
-                        ],
+                                  )),
+                            ), // Bottom image
+                            Opacity(
+                              opacity: 0.0,
+                              child: Image.asset(
+                                ConstantImage.diceImage,
+                                height: 45,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    // Image(image: AssetImage(ConstantImage.diceImage)),
-                    Text(
-                      controller.gameModesList.elementAt(index).name ?? "",
-                      style: CustomTextStyle.textPTsansMedium.copyWith(
-                        color: AppColors.black,
-                        fontSize: Dimensions.h15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  ],
+                      Text(
+                        controller.gameModesList.elementAt(index).name ?? "",
+                        style: CustomTextStyle.textPTsansBold.copyWith(
+                          color: AppColors.black,
+                          fontSize: Dimensions.h15,
+                          height: 2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -294,7 +317,7 @@ Widget radioButtonWidget(
               ),
               Text(
                 buttonText,
-                style: TextStyle(
+                style: CustomTextStyle.textRobotoSansMedium.copyWith(
                   color:
                       controller.openCloseRadioValue.value == radioButtonValue
                           ? AppColors.buttonColorDarkGreen

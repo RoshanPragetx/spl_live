@@ -25,6 +25,7 @@ class StarLineGameModesPage extends StatelessWidget {
     var verticalSpace = SizedBox(
       height: Dimensions.h10,
     );
+
     return Scaffold(
       appBar: AppUtils().simpleAppbar(
         appBarTitle: "STARLINEGAME".tr,
@@ -36,35 +37,47 @@ class StarLineGameModesPage extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () {},
-            child: const Icon(Icons.wallet),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: Dimensions.h14, horizontal: Dimensions.h15),
-            child: Obx(
-              () => Text(
-                walletController.walletBalance.toString(),
-                style: TextStyle(
-                  fontSize: Dimensions.h14,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
+            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            child: Row(
+              children: [
+                SizedBox(
+                  height: Dimensions.w20,
+                  width: Dimensions.w20,
+                  child: SvgPicture.asset(
+                    ConstantImage.walletAppbar,
+                    color: AppColors.white,
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: Dimensions.r8,
+                    bottom: Dimensions.r10,
+                    left: Dimensions.r15,
+                    right: Dimensions.r10,
+                  ),
+                  child: Obx(
+                    () => Text(
+                      walletController.walletBalance.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Obx(
-          () => SizedBox(
-            height: size.height,
-            width: size.width,
-            child: controller.gameModesList.isEmpty
-                ? _buildCustomAboutBoxDialog()
-                : Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.w10, vertical: Dimensions.h10),
+      body: Obx(
+        () => SizedBox(
+          child: controller.gameModesList.isEmpty
+              ? _buildCustomAboutBoxDialog()
+              : Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.w10, vertical: Dimensions.h10),
+                  child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -82,100 +95,99 @@ class StarLineGameModesPage extends StatelessWidget {
                         verticalSpace,
                         Text(
                           "GAMETYPE".tr,
-                          style: CustomTextStyle.textPTsansMedium
+                          style: CustomTextStyle.textRobotoSansLight
                               .copyWith(fontSize: Dimensions.h15),
                         ),
-                        // controller.getBidData!
-                        //     ? Container(
-                        //         height: 30,
-                        //         width: 100,
-                        //         color: AppColors.appbarColor,
-                        //       )
-                        //     : Container(
-                        //         height: 30,
-                        //         width: 100,
-                        //         color: AppColors.redColor,
-                        //       ),
                         verticalSpace,
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: controller.gameModesList.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisExtent: Dimensions.h50,
-                                  crossAxisSpacing: Dimensions.w10,
-                                  mainAxisSpacing: Dimensions.h10),
-                          itemBuilder: (context, index) {
-                            return gameTile(
-                              controller.gameModesList[index].name ?? "",
-                              onTap: () =>
-                                  controller.onTapOfGameModeTile(index),
-                            );
-                          },
+                        SizedBox(
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.gameModesList.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisExtent: Dimensions.h50,
+                                    crossAxisSpacing: Dimensions.w10,
+                                    mainAxisSpacing: Dimensions.h10),
+                            itemBuilder: (context, index) {
+                              return gameTile(
+                                controller.gameModesList[index].name ?? "",
+                                onTap: () =>
+                                    controller.requestModel.value.bids !=
+                                                null &&
+                                            controller.requestModel.value.bids!
+                                                .isNotEmpty
+                                        ? null
+                                        : controller.onTapOfGameModeTile(index),
+                              );
+                            },
+                          ),
                         ),
                         Obx(
                           () => controller.requestModel.value.bids != null &&
                                   controller.requestModel.value.bids!.isNotEmpty
                               ? Column(
                                   children: [
-                                    ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount: controller
-                                          .requestModel.value.bids?.length,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: DecoratedBox(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        Dimensions.h5)),
-                                            child: ListTile(
-                                              dense: true,
-                                              visualDensity:
-                                                  const VisualDensity(
-                                                      vertical: -2),
-                                              title: Text(
-                                                "${controller.gameModesList[index].name} - Open  ",
-                                                style: CustomTextStyle
-                                                    .textPTsansMedium
-                                                    .copyWith(
-                                                        fontSize:
-                                                            Dimensions.h12),
-                                              ),
-                                              subtitle: Text(
-                                                "Bid no.: ${controller.requestModel.value.bids?.elementAt(index).starlineGameId}, Coins :${controller.requestModel.value.bids?.elementAt(index).coins}",
-                                                style: CustomTextStyle
-                                                    .textPTsansMedium
-                                                    .copyWith(
-                                                        fontSize:
-                                                            Dimensions.h12),
-                                              ),
-                                              trailing: InkWell(
-                                                onTap: () {
-                                                  controller
-                                                      .onDeleteBids(index);
-                                                },
-                                                child: Container(
-                                                  color: AppColors.transparent,
-                                                  height: Dimensions.h30,
-                                                  width: Dimensions.w30,
-                                                  child: SvgPicture.asset(
-                                                    ConstantImage.trashIcon,
-                                                    fit: BoxFit.cover,
+                                    SizedBox(
+                                      child: ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: controller
+                                            .requestModel.value.bids?.length,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          Dimensions.h5)),
+                                              child: ListTile(
+                                                dense: true,
+                                                visualDensity:
+                                                    const VisualDensity(
+                                                        vertical: -2),
+                                                title: Text(
+                                                  "Single Digit - Open  ",
+                                                  style: CustomTextStyle
+                                                      .textRobotoSansLight
+                                                      .copyWith(
+                                                          fontSize:
+                                                              Dimensions.h12),
+                                                ),
+                                                subtitle: Text(
+                                                  "Bid no.: ${controller.requestModel.value.bids?.elementAt(index).starlineGameId}, Coins :${controller.requestModel.value.bids?.elementAt(index).coins}",
+                                                  style: CustomTextStyle
+                                                      .textRobotoSansLight
+                                                      .copyWith(
+                                                          fontSize:
+                                                              Dimensions.h12),
+                                                ),
+                                                trailing: InkWell(
+                                                  onTap: () {
+                                                    controller
+                                                        .onDeleteBids(index);
+                                                  },
+                                                  child: Container(
+                                                    color:
+                                                        AppColors.transparent,
+                                                    height: Dimensions.h30,
+                                                    width: Dimensions.w30,
+                                                    child: SvgPicture.asset(
+                                                      ConstantImage.trashIcon,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                      },
+                                          );
+                                        },
+                                      ),
                                     ),
                                     Row(
                                       children: [
@@ -191,8 +203,12 @@ class StarLineGameModesPage extends StatelessWidget {
                                           borderWidth: 0.2,
                                           textStyle:
                                               CustomTextStyle.textPTsansMedium,
-                                          onTap: () =>
-                                              controller.createMarketBidApi(),
+                                          onTap: () {
+                                            controller.showConfirmationDialog(
+                                                context);
+                                          },
+                                          // onTap: () =>
+                                          //     controller.createMarketBidApi(),
                                           height: Dimensions.h40,
                                           width: size.width / 1.8,
                                         ),
@@ -239,7 +255,7 @@ class StarLineGameModesPage extends StatelessWidget {
                                                     controller
                                                         .totalAmount.value,
                                                     style: CustomTextStyle
-                                                        .textPTsansMedium
+                                                        .textRobotoSansBold
                                                         .copyWith(fontSize: 18),
                                                   ),
                                                 )
@@ -252,11 +268,11 @@ class StarLineGameModesPage extends StatelessWidget {
                                   ],
                                 )
                               : Container(),
-                        )
+                        ),
                       ],
                     ),
                   ),
-          ),
+                ),
         ),
       ),
     );
@@ -268,7 +284,10 @@ class StarLineGameModesPage extends StatelessWidget {
     required double fontSize,
   }) {
     return ListTile(
-      tileColor: AppColors.grey.withOpacity(0.2),
+      visualDensity: const VisualDensity(
+        vertical: -2,
+      ),
+      tileColor: AppColors.grey.withOpacity(0.1),
       title: Row(
         children: [
           widget ?? Container(),
@@ -279,7 +298,7 @@ class StarLineGameModesPage extends StatelessWidget {
               : const SizedBox(),
           Text(
             text,
-            style: CustomTextStyle.textPTsansBold
+            style: CustomTextStyle.textRobotoSansBold
                 .copyWith(color: AppColors.appbarColor, fontSize: fontSize),
           )
         ],
@@ -295,10 +314,10 @@ class StarLineGameModesPage extends StatelessWidget {
           color: AppColors.white,
           boxShadow: [
             BoxShadow(
-                color: AppColors.grey,
-                offset: const Offset(2, 2),
-                blurRadius: 10,
-                spreadRadius: 5),
+                color: AppColors.grey.withOpacity(0.7),
+                offset: const Offset(0, 0),
+                blurRadius: 5,
+                spreadRadius: 3.5),
           ],
           border: Border.all(width: 0.8),
         ),

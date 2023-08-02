@@ -38,4 +38,6 @@ class ConstantImage {
   static String profileImage = "assets/images/myProfileImage.svg";
   static String aboutUsImage =
       "assets/images/8219552_communication_support_talk_conversation_folder_icon.svg";
+  static String stopWatchIcon = "assets/images/stop_watch.svg";
+  static String passbookIcon = "assets/images/passbook_icon.svg";
 }

@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Dimensions.w50),
+        padding: EdgeInsets.symmetric(horizontal: Dimensions.w25),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -31,18 +31,24 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             Text(
-              "WELCOME_TEXT".tr,
-              style: CustomTextStyle.textRobotoSlabBold
-                  .copyWith(fontSize: Dimensions.h30, color: AppColors.black),
+              "Welcome",
+              style: CustomTextStyle.textRobotoSlabLight.copyWith(
+                fontSize: Dimensions.h25,
+                color: AppColors.appbarColor,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            SizedBox(
-              height: Dimensions.h10,
-            ),
-            Text("WELCOMETEXT".tr,
-                textAlign: TextAlign.center,
-                style: CustomTextStyle.textPTsansMedium.copyWith(
-                  fontSize: Dimensions.h14,
-                )),
+            // SizedBox(
+            //   height: Dimensions.h10,
+            // ),
+            // SizedBox(
+            //   height: Dimensions.h10,
+            // ),
+            // Text("WELCOMETEXT".tr,
+            //     textAlign: TextAlign.center,
+            //     style: CustomTextStyle.textRobotoSansLight.copyWith(
+            //       fontSize: Dimensions.h14,
+            //     )),
             verticalSpace,
             verticalSpace,
             RoundedCornerButton(
@@ -55,27 +61,27 @@ class WelcomeScreen extends StatelessWidget {
               letterSpacing: 0,
               borderRadius: Dimensions.r25,
               borderWidth: 1,
-              textStyle: CustomTextStyle.textPTsansBold,
+              textStyle: CustomTextStyle.textRobotoSansLight,
               onTap: () => Get.toNamed(AppRoutName.signInPage),
-              height: Dimensions.h28,
+              height: Dimensions.h30,
               width: double.infinity,
             ),
             verticalSpace,
             orView(),
             verticalSpace,
             RoundedCornerButton(
-              text: "SIGN UP".tr,
+              text: "SIGNUP".tr,
               color: AppColors.white,
               borderColor: AppColors.appbarColor,
               fontSize: Dimensions.h12,
               fontWeight: FontWeight.w500,
               fontColor: AppColors.appbarColor,
               letterSpacing: 0,
-              borderRadius: Dimensions.r25,
-              borderWidth: 1.5,
-              textStyle: CustomTextStyle.textPTsansBold,
+              borderRadius: Dimensions.r50,
+              borderWidth: 1,
+              textStyle: CustomTextStyle.textRobotoSansMedium,
               onTap: () => Get.toNamed(AppRoutName.signUnPage),
-              height: Dimensions.h28,
+              height: Dimensions.h30,
               width: double.infinity,
             ),
           ],
@@ -90,22 +96,23 @@ class WelcomeScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Divider(
-            color: AppColors.grey,
+            color: AppColors.greyShade.withOpacity(0.6),
             indent: Dimensions.w20,
             endIndent: Dimensions.w20,
             thickness: 2,
           ),
         ),
         Text(
-          "OR".tr,
-          style: CustomTextStyle.textRobotoSlabBold.copyWith(
-              fontSize: Dimensions.h20,
-              color: AppColors.greyShade,
-              fontWeight: FontWeight.w300),
+          "OR",
+          style: CustomTextStyle.textRobotoSlabMedium.copyWith(
+            fontSize: Dimensions.h20,
+            color: AppColors.greyShade.withOpacity(0.6),
+            fontWeight: FontWeight.w300,
+          ),
         ),
         Expanded(
           child: Divider(
-            color: AppColors.grey,
+            color: AppColors.greyShade.withOpacity(0.6),
             indent: Dimensions.w20,
             endIndent: Dimensions.w20,
             thickness: 2,

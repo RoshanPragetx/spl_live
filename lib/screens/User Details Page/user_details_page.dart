@@ -29,51 +29,74 @@ class UserDetailsPage extends StatelessWidget {
       backgroundColor: AppColors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(Dimensions.h15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "SIGN UP".tr,
-                style: CustomTextStyle.textRobotoSlabBold.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: Dimensions.h25,
-                  letterSpacing: 1,
-                  color: AppColors.appbarColor,
+          padding: EdgeInsets.only(left: Dimensions.h15, right: Dimensions.h15),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                verticalSpace,
+                verticalSpace,
+                verticalSpace,
+                verticalSpace,
+                verticalSpace,
+                verticalSpace,
+                verticalSpace,
+                Center(
+                  child: SizedBox(
+                    height: Dimensions.h70,
+                    width: Dimensions.w150,
+                    child: Image.asset(
+                      ConstantImage.splLogo,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                 ),
-              ),
-              verticalSpace,
-              _buildNormalField(
-                hintText: "Enter Full Name".tr,
-                textController: controller.fullNameController,
-                maxLength: 100,
-                keyboardType: TextInputType.name,
-              ),
-              verticalSpace,
-              _buildNormalField(
-                hintText: "Enter User Name".tr,
-                textController: controller.userNameController,
-                maxLength: 100,
-                keyboardType: TextInputType.name,
-              ),
-              verticalSpace,
-              _buildPasswordField(
-                hintText: "Enter Password".tr,
-                textController: controller.passwordController,
-                visibility: controller.pVisibility,
-              ),
-              verticalSpace,
-              _buildPasswordField(
-                hintText: "Enter Confirm Password".tr,
-                textController: controller.confirmPasswordController,
-                visibility: controller.cpVisibility,
-              ),
-              verticalSpace,
-              _buildSignUpButtonRow(),
-              verticalSpace,
-              _buildCreateAccount(),
-            ],
+                verticalSpace,
+                Text(
+                  "SIGN UP".tr,
+                  style: CustomTextStyle.textRobotoSlabBold.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: Dimensions.h25,
+                    letterSpacing: 1,
+                    color: AppColors.appbarColor,
+                  ),
+                ),
+                verticalSpace,
+                _buildNormalField(
+                  hintText: "Enter Full Name".tr,
+                  textController: controller.fullNameController,
+                  maxLength: 100,
+                  keyboardType: TextInputType.name,
+                  autofocus: true,
+                  //focusNode: controller.fullNameFocusNode,
+                ),
+                verticalSpace,
+                _buildNormalField(
+                  hintText: "Enter User Name".tr,
+                  textController: controller.userNameController,
+                  maxLength: 100,
+                  keyboardType: TextInputType.name,
+                  //  focusNode: controller.userNameFocusNode,
+                ),
+                verticalSpace,
+                _buildPasswordField(
+                  hintText: "Enter Password".tr,
+                  textController: controller.passwordController,
+                  visibility: controller.pVisibility,
+                ),
+                verticalSpace,
+                _buildPasswordField(
+                  hintText: "Enter Confirm Password".tr,
+                  textController: controller.confirmPasswordController,
+                  visibility: controller.cpVisibility,
+                ),
+                verticalSpace,
+                _buildSignUpButtonRow(),
+                verticalSpace,
+                _buildCreateAccount(),
+              ],
+            ),
           ),
         ),
       ),
@@ -86,6 +109,8 @@ class UserDetailsPage extends StatelessWidget {
     required int maxLength,
     required TextInputType keyboardType,
     List<TextInputFormatter>? formatter,
+    bool? autofocus,
+    FocusNode? focusNode,
   }) {
     return RoundedCornerEditTextWithIcon(
       height: Dimensions.h40,
@@ -98,6 +123,8 @@ class UserDetailsPage extends StatelessWidget {
       isEnabled: true,
       maxLength: maxLength,
       formatter: formatter,
+      focusNode: focusNode,
+      autofocus: autofocus ?? false,
     );
   }
 
@@ -105,9 +132,13 @@ class UserDetailsPage extends StatelessWidget {
     required String hintText,
     required TextEditingController textController,
     required RxBool visibility,
+    FocusNode? focusNode,
+    Function(String)? onChanged,
   }) {
     return Obx(() {
       return PasswordFieldWithIcon(
+        focusNode: focusNode,
+        onChanged: onChanged,
         height: Dimensions.h40,
         keyBoardType: TextInputType.visiblePassword,
         controller: textController,
@@ -137,12 +168,13 @@ class UserDetailsPage extends StatelessWidget {
         RoundedCornerButton(
           height: Dimensions.h30,
           width: Dimensions.w300,
-          letterSpacing: 0,
+          letterSpacing: 1,
           color: AppColors.appbarColor,
           fontSize: Dimensions.h12,
-          fontWeight: FontWeight.normal,
-          text: "REGISTER".tr,
-          textStyle: CustomTextStyle.textPTsansBold,
+          fontWeight: FontWeight.w500,
+          // text: "SIGNUP".tr,
+          text: "Register",
+          textStyle: CustomTextStyle.textRobotoSansMedium,
           borderRadius: Dimensions.h25,
           borderColor: AppColors.appbarColor,
           borderWidth: 2,
@@ -167,6 +199,7 @@ class UserDetailsPage extends StatelessWidget {
               fontSize: Dimensions.h14,
               letterSpacing: 1,
               color: AppColors.appbarColor,
+              decoration: TextDecoration.underline,
             ),
           ),
         ),

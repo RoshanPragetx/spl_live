@@ -95,7 +95,7 @@
 class NormalMarketBidHistoryResponseModel {
   final String? message;
   final bool? status;
-  final Data? data;
+  final dynamic data;
 
   NormalMarketBidHistoryResponseModel({
     this.message,

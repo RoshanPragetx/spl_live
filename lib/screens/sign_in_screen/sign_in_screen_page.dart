@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,31 +34,45 @@ class SignInScreen extends StatelessWidget {
         systemOverlayStyle: AppUtils.toolBarStyleDark,
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "WELCOMEBACK".tr,
-              style: CustomTextStyle.textPTsansMedium.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: Dimensions.h12,
-                letterSpacing: 1,
-                color: AppColors.black.withAlpha(200),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              verticalSpace,
+              verticalSpace,
+              verticalSpace,
+              SizedBox(
+                height: Dimensions.h70,
+                width: Dimensions.w150,
+                child: Image.asset(
+                  ConstantImage.splLogo,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            Text(
-              "SIGNIN".tr,
-              style: CustomTextStyle.textRobotoSlabBold.copyWith(
-                fontWeight: FontWeight.bold,
-                fontSize: Dimensions.h20,
-                letterSpacing: 1,
-                color: AppColors.appbarColor,
+              verticalSpace,
+              Text(
+                "WELCOMEBACK".tr,
+                style: CustomTextStyle.textPTsansMedium.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: Dimensions.h12,
+                  letterSpacing: 1,
+                  color: AppColors.black.withAlpha(200),
+                ),
               ),
-            ),
-            verticalSpace,
-            _buildSignInForm(),
-          ],
+              Text(
+                "SIGNIN".tr,
+                style: CustomTextStyle.textRobotoSlabBold.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: Dimensions.h20,
+                  letterSpacing: 1,
+                  color: AppColors.appbarColor,
+                ),
+              ),
+              verticalSpace,
+              _buildSignInForm()
+            ],
+          ),
         ),
       ),
     );
@@ -65,68 +81,68 @@ class SignInScreen extends StatelessWidget {
   _buildMobileNumberField() {
     return Row(
       children: [
-        Container(
-          height: Dimensions.h40,
-          padding: EdgeInsets.zero,
-          decoration: BoxDecoration(
-            color: AppColors.grey.withOpacity(0.2),
-            borderRadius: BorderRadius.all(
-              Radius.circular(Dimensions.r10),
-            ),
-          ),
-          child: CountryListPick(
-            appBar: AppBar(
-              backgroundColor: AppColors.appbarColor,
-              title: const Text('Choose your country code'),
-            ),
-            pickerBuilder: (context, code) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: Dimensions.h5),
-                child: Row(
-                  children: [
-                    Text(
-                      code != null ? code.dialCode ?? "+91" : "91",
-                      style: CustomTextStyle.textRobotoSlabMedium.copyWith(
-                        color: AppColors.appbarColor,
-                        fontSize: Dimensions.h15,
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: Dimensions.w7,
-                      ),
-                      child: SvgPicture.asset(
-                        ConstantImage.dropDownArrowSVG,
-                        color: AppColors.appbarColor,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-            theme: CountryTheme(
-              isShowFlag: false,
-              isShowTitle: false,
-              isShowCode: true,
-              isDownIcon: true,
-              showEnglishName: true,
-              alphabetSelectedTextColor: AppColors.white,
-              labelColor: AppColors.black,
-              alphabetTextColor: AppColors.green,
-            ),
-            initialSelection: '+91',
-            onChanged: (code) {
-              String tempCountryCode =
-                  code != null ? code.dialCode ?? "+91" : "91";
-              controller.onChangeCountryCode(tempCountryCode);
-            },
-            useUiOverlay: true,
-            useSafeArea: false,
-          ),
-        ),
-        SizedBox(
-          width: Dimensions.w9,
-        ),
+        // Container(
+        //   height: Dimensions.h40,
+        //   padding: EdgeInsets.zero,
+        //   decoration: BoxDecoration(
+        //     color: AppColors.grey.withOpacity(0.2),
+        //     borderRadius: BorderRadius.all(
+        //       Radius.circular(Dimensions.r10),
+        //     ),
+        //   ),
+        //   child: CountryListPick(
+        //     appBar: AppBar(
+        //       backgroundColor: AppColors.appbarColor,
+        //       title: const Text('Choose your country code'),
+        //     ),
+        //     pickerBuilder: (context, code) {
+        //       return Padding(
+        //         padding: EdgeInsets.symmetric(horizontal: Dimensions.h5),
+        //         child: Row(
+        //           children: [
+        //             Text(
+        //               code != null ? code.dialCode ?? "+91" : "91",
+        //               style: CustomTextStyle.textRobotoSlabMedium.copyWith(
+        //                 color: AppColors.appbarColor,
+        //                 fontSize: Dimensions.h15,
+        //               ),
+        //             ),
+        //             Padding(
+        //               padding: EdgeInsets.only(
+        //                 left: Dimensions.w7,
+        //               ),
+        //               child: SvgPicture.asset(
+        //                 ConstantImage.dropDownArrowSVG,
+        //                 color: AppColors.appbarColor,
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       );
+        //     },
+        //     theme: CountryTheme(
+        //       isShowFlag: false,
+        //       isShowTitle: false,
+        //       isShowCode: true,
+        //       isDownIcon: true,
+        //       showEnglishName: true,
+        //       alphabetSelectedTextColor: AppColors.white,
+        //       labelColor: AppColors.black,
+        //       alphabetTextColor: AppColors.green,
+        //     ),
+        //     initialSelection: '+91',
+        //     onChanged: (code) {
+        //       String tempCountryCode =
+        //           code != null ? code.dialCode ?? "+91" : "91";
+        //       controller.onChangeCountryCode(tempCountryCode);
+        //     },
+        //     useUiOverlay: true,
+        //     useSafeArea: false,
+        //   ),
+        // ),
+        // SizedBox(
+        //   width: Dimensions.w9,
+        // ),
         Expanded(
           child: RoundedCornerEditTextWithIcon(
             height: Dimensions.h40,
@@ -134,7 +150,23 @@ class SignInScreen extends StatelessWidget {
             keyboardType: TextInputType.phone,
             hintText: "ENTERMOBILENUMBER".tr,
             imagePath: ConstantImage.phoneSVG,
+            autofocus: true,
+            onChanged: (v) {
+              if (v?.length == 10) {
+                controller.focusNode1.unfocus();
+                controller.focusNode2.requestFocus();
+                controller.cursorTimer?.cancel();
+                controller.cursorTimer = Timer(Duration(milliseconds: 50), () {
+                  controller.mobileNumberController.selection =
+                      TextSelection.fromPosition(
+                    TextPosition(
+                        offset: controller.mobileNumberController.text.length),
+                  );
+                });
+              }
+            },
             maxLines: 1,
+            focusNode: controller.focusNode1,
             minLines: 1,
             isEnabled: true,
             maxLength: 10,
@@ -152,9 +184,15 @@ class SignInScreen extends StatelessWidget {
         () => Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildMobileNumberField(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: _buildMobileNumberField(),
+            ),
             verticalSpace,
-            _buildPasswordField(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: _buildPasswordField(),
+            ),
             verticalSpace,
             // GestureDetector(
             //   // onTap: () {},
@@ -177,45 +215,44 @@ class SignInScreen extends StatelessWidget {
             // ),
 
             Padding(
-              padding: EdgeInsets.all(Dimensions.h5),
+              padding: EdgeInsets.symmetric(horizontal: Dimensions.w15),
               child: RoundedCornerButton(
                 text: "SIGNIN".tr,
                 color: AppColors.appbarColor,
                 borderColor: AppColors.appbarColor,
                 fontSize: Dimensions.h12,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w300,
                 fontColor: AppColors.white,
                 letterSpacing: 0,
                 borderRadius: Dimensions.r25,
                 borderWidth: 1,
-                textStyle: CustomTextStyle.textPTsansBold,
+                textStyle: CustomTextStyle.textRobotoSansLight,
                 onTap: () => controller.onTapOfSignIn(),
                 height: Dimensions.h30,
                 width: double.infinity,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: orView(),
             ),
-            SizedBox(
-              height: Dimensions.h5,
-            ),
-
-            RoundedCornerButton(
-              text: "FORGOTPASS".tr,
-              color: AppColors.white,
-              borderColor: AppColors.appbarColor,
-              fontSize: Dimensions.h12,
-              fontWeight: FontWeight.w500,
-              fontColor: AppColors.appbarColor,
-              letterSpacing: 1,
-              borderRadius: Dimensions.r25,
-              borderWidth: 1.5,
-              textStyle: CustomTextStyle.textPTsansBold,
-              onTap: () => Get.toNamed(AppRoutName.forgotPasswordPage),
-              height: Dimensions.h30,
-              width: double.infinity,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: Dimensions.w15),
+              child: RoundedCornerButton(
+                text: "FORGOTPASS".tr,
+                color: AppColors.white,
+                borderColor: AppColors.appbarColor,
+                fontSize: Dimensions.h12,
+                fontWeight: FontWeight.w300,
+                fontColor: AppColors.appbarColor,
+                letterSpacing: 0,
+                borderRadius: Dimensions.r25,
+                borderWidth: 1,
+                textStyle: CustomTextStyle.textRobotoSansLight,
+                onTap: () => Get.toNamed(AppRoutName.forgotPasswordPage),
+                height: Dimensions.h30,
+                width: double.infinity,
+              ),
             ),
             // GestureDetector(
             //   onTap: () => Get.offAllNamed(AppRoutName.signUnPage),
@@ -246,8 +283,8 @@ class SignInScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Divider(
-            color: AppColors.grey,
-            indent: Dimensions.w20,
+            color: AppColors.greyShade.withOpacity(0.6),
+            indent: Dimensions.w30,
             endIndent: Dimensions.w20,
             thickness: 2,
           ),
@@ -256,14 +293,14 @@ class SignInScreen extends StatelessWidget {
           "OR",
           style: CustomTextStyle.textRobotoSlabMedium.copyWith(
               fontSize: Dimensions.h20,
-              color: AppColors.greyShade,
+              color: AppColors.greyShade.withOpacity(0.6),
               fontWeight: FontWeight.w300),
         ),
         Expanded(
           child: Divider(
-            color: AppColors.grey,
+            color: AppColors.greyShade.withOpacity(0.6),
             indent: Dimensions.w20,
-            endIndent: Dimensions.w20,
+            endIndent: Dimensions.w30,
             thickness: 2,
           ),
         ),
@@ -273,6 +310,7 @@ class SignInScreen extends StatelessWidget {
 
   _buildPasswordField() {
     return PasswordFieldWithIcon(
+      focusNode: controller.focusNode2,
       height: Dimensions.h40,
       keyBoardType: TextInputType.visiblePassword,
       controller: controller.passwordController,
