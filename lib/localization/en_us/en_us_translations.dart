@@ -70,7 +70,7 @@ final Map<String, String> enUs = {
   "NEWPASSWORD": "New password",
 
   "WITHDRAWAL2": "WITHDRAWAL",
-  "BIDHISTORY": "BIDHISTORY",
+  "BIDHISTORY": "BID HISTORY",
   "COINS": "Enter Coins",
   "SEARCH_TEXT": "Search ...",
   "TOTALCOIN": "Total Coin",
@@ -96,14 +96,18 @@ final Map<String, String> enUs = {
   "HOWTOPLAY": "How To Play",
   "PLAY2": "PLAY",
   "ADDFUND": "Add Fund",
+  "ADDFUND_TEXT": "ADD FUND",
+
   "BIDDINGHISTORY": "Bidding History",
   "WITHDRAWAL_TXT1": "WithDrawal",
   "TRANSACTIONHISTORY": "Transaction History",
   "GIVEFEEDBACK": "Give feedback",
   "RATEUS": "Rate Us",
+  "TRANSACTIONS": "Transactions",
   "STARLINETERMS&CONDITION": "Starling Terms & Condition",
   "ABOUTUS": "About Us",
   "SIGNOUT": "Sign out",
+  "NOBIDHISTORY": "No Bid History",
 
   /// validation messages
   "PASSWORDDOESNTMATCHED": "Password doesn't matched",
@@ -132,8 +136,8 @@ final Map<String, String> enUs = {
   "SHRISTARLINE": "SHRI STARLINE",
   "SHRISTARLINECAMELCASE": "Shri Starline",
   "NOMARKETFOUND": "No market found",
-  "RESULTHISTORY": "Result History",
-  "CHART": "Chart",
+  "RESULTHISTORY": "RESULT HISTORY",
+  "CHART": "CHART",
 
   "WELCOME_TEXT": "Welcome",
   "WELCOMETEXT": "Sign in to your existing account or create a new account",

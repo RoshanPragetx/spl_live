@@ -39,23 +39,23 @@ class TransactionPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: Dimensions.h5),
       child: Container(
         decoration: BoxDecoration(
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               spreadRadius: 1,
-              color: Colors.grey,
+              color: AppColors.grey,
               blurRadius: 10,
-              offset: Offset(7, 4),
+              offset: const Offset(7, 4),
             ),
           ],
           border: Border.all(width: 0.6),
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,8 +68,8 @@ class TransactionPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -82,7 +82,7 @@ class TransactionPage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text("Coins"),
+                  const Text("Coins"),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -94,35 +94,36 @@ class TransactionPage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Text("10"),
-                  Expanded(child: SizedBox()),
-                  Text("Balance"),
+                  const Text("10"),
+                  const Expanded(child: SizedBox()),
+                  const Text("Balance"),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
                   Image.asset(
                     ConstantImage.ruppeeBlueIcon,
-                    height: 25,
-                    width: 25,
+                    height: Dimensions.h25,
+                    width: Dimensions.w25,
                   ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Text("50"),
+                  const Text("50"),
                 ],
               ),
             ),
             Container(
-              height: 40,
+              height: Dimensions.h40,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.greywhite,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(8),
                   bottomRight: Radius.circular(8),
                 ),
               ),
-              child: Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
+              child:
+                  const Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
             ),
           ],
         ),

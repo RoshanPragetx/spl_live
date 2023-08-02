@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, invalid_use_of_protected_member, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';

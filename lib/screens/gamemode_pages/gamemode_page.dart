@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/app_colors.dart';
@@ -10,6 +12,7 @@ import '../../components/simple_button_with_corner.dart';
 import '../../routes/app_routes_name.dart';
 import 'utils/game_mode_utils.dart';
 
+// ignore: must_be_immutable
 class GameModePage extends StatelessWidget {
   GameModePage({super.key});
   var controller = Get.put(GameModePagesController());

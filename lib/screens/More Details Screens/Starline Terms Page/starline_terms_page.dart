@@ -1,3 +1,7 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../helper_files/app_colors.dart';
@@ -12,61 +16,68 @@ class StarlineTermsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar:
-          AppUtils().simpleAppbar(appBarTitle: "STARLINETERMSANDCONDITIONS".tr),
-      body: Padding(
-        padding: EdgeInsets.all(Dimensions.r8),
-        child: Column(
-          children: [
-            SizedBox(
-              height: Dimensions.h10,
-            ),
-            Text(
-              "STARLINE_TEXT".tr,
-              style: CustomTextStyle.textPTsansMedium.copyWith(
-                fontSize: Dimensions.h13,
-              ),
-            ),
-            SizedBox(
-              height: Dimensions.h15,
-            ),
-            Text(
-              "STARLINE_TEXT2".tr,
-              style: CustomTextStyle.textPTsansMedium.copyWith(
-                fontSize: Dimensions.h13,
-              ),
-            ),
-            SizedBox(
-              height: Dimensions.h15,
-            ),
-            Text(
-              "STARLINE_TEXT3".tr,
-              style: CustomTextStyle.textPTsansMedium.copyWith(
-                fontSize: Dimensions.h13,
-              ),
-            ),
-            SizedBox(
-              height: Dimensions.h10,
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, Dimensions.r100, 0),
-              child: Text(
-                "STARLINEGAMEWINRATIO2".tr,
-                style: CustomTextStyle.textPTsansBold.copyWith(
-                  color: AppColors.grey,
-                  fontSize: Dimensions.h18,
+        appBar: AppUtils()
+            .simpleAppbar(appBarTitle: "STARLINETERMSANDCONDITIONS".tr),
+        body: SingleChildScrollView(
+            child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: Dimensions.w10, vertical: Dimensions.h10),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: Dimensions.h10,
                 ),
-              ),
+                Text(
+                  "STARLINE_TEXT".tr,
+                  style: CustomTextStyle.textPTsansMedium.copyWith(
+                    fontSize: Dimensions.h13,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.h15,
+                ),
+                Text(
+                  "STARLINE_TEXT2".tr,
+                  style: CustomTextStyle.textPTsansMedium.copyWith(
+                    fontSize: Dimensions.h13,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.h15,
+                ),
+                Text(
+                  "STARLINE_TEXT3".tr,
+                  style: CustomTextStyle.textPTsansMedium.copyWith(
+                    fontSize: Dimensions.h13,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimensions.h10,
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, Dimensions.r100, 0),
+                  child: Text(
+                    "STARLINEGAMEWINRATIO2".tr,
+                    style: CustomTextStyle.textPTsansBold.copyWith(
+                      color: AppColors.grey,
+                      fontSize: Dimensions.h18,
+                    ),
+                  ),
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                starlineGameWinRatio()
+              ],
             ),
-            const Divider(
-              thickness: 1,
-            ),
-            starlineGameWinRatio()
-          ],
-        ),
-      ),
-    );
+          ),
+        )));
   }
 
   Widget starlineGameWinRatio() {
@@ -122,4 +133,54 @@ class StarlineTermsPage extends StatelessWidget {
       ],
     );
   }
+}
+
+// void showCustomAboutBoxDialog(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     barrierColor: AppColors.black.withOpacity(0.3), // Transparent background
+//     barrierDismissible:
+//         false, // Prevent users from dismissing the dialog by tapping outside
+//     builder: (context) => AlertDialog(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(8.0),
+//       ),
+//       content: _buildCustomAboutBoxDialog(),
+//     ),
+//   );
+// }
+
+void showCustomAboutBoxDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierColor: AppColors.black.withOpacity(0.3), // Transparent background
+    barrierDismissible:
+        false, // Prevent users from dismissing the dialog by tapping outside
+    builder: (context) => _buildCustomAboutBoxDialog(),
+  );
+}
+
+Widget _buildCustomAboutBoxDialog() {
+  return Dialog(
+    backgroundColor: AppColors.transparent,
+    child: Container(
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const CircularProgressIndicator(),
+          SizedBox(width: Dimensions.w10),
+          Text(
+            "PLEASEWAIT".tr,
+            style: CustomTextStyle.textPTsansBold
+                .copyWith(fontSize: Dimensions.h15),
+          ),
+        ],
+      ),
+    ),
+  );
 }

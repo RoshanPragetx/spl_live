@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -62,8 +64,10 @@ class HomeScreenUtils {
             // Icon(iconData),
             Text(
               text,
-              style: CustomTextStyle.textPTsansBold
-                  .copyWith(color: iconColor ?? AppColors.black),
+              style: CustomTextStyle.textPTsansMedium.copyWith(
+                  color: iconColor ?? AppColors.black,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1),
             )
           ],
         ),
@@ -233,9 +237,9 @@ class HomeScreenUtils {
                             offset: const Offset(2, 4),
                           )
                         ],
-                        color: Colors.white,
+                        color: AppColors.white,
                         borderRadius: BorderRadius.circular(Dimensions.h10),
-                        border: Border.all(color: Colors.red, width: 1),
+                        border: Border.all(color: AppColors.redColor, width: 1),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -410,7 +414,7 @@ class HomeScreenUtils {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.h10),
-                border: Border.all(color: Colors.red, width: 1),
+                border: Border.all(color: AppColors.redColor, width: 1),
               ),
               child: Column(
                 //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -478,8 +482,8 @@ class HomeScreenUtils {
   bidHistory() {
     return Column(
       children: [
-        const SizedBox(
-          height: 10,
+        SizedBox(
+          height: Dimensions.h10,
         ),
         Container(
           height: Dimensions.h35,
@@ -493,8 +497,8 @@ class HomeScreenUtils {
                 Icons.calendar_month,
                 color: AppColors.appbarColor,
               ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                width: Dimensions.w10,
               ),
               Text(
                 "03-07-2023",

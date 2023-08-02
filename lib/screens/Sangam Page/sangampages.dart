@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, must_be_immutable, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';

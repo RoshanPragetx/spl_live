@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/app_colors.dart';
@@ -67,7 +69,7 @@ class SPLWallet extends StatelessWidget {
                       Expanded(
                         child: ButtonWidget(
                           onTap: () {},
-                          text: "ADDFUND".tr,
+                          text: "ADDFUND_TEXT".tr,
                           buttonColor: AppColors.buttonColorDarkGreen,
                           height: Dimensions.h30,
                           width: size.width / 2,

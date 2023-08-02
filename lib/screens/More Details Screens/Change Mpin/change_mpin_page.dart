@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import '../../../helper_files/dimentions.dart';
 import '../../../helper_files/ui_utils.dart';
 import 'controller/change_mpin_controller.dart';
 
+// ignore: must_be_immutable
 class ChangeMpinPage extends StatelessWidget {
   ChangeMpinPage({super.key});
 

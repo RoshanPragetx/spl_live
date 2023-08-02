@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:spllive/helper_files/app_colors.dart';
 import 'package:spllive/helper_files/constant_image.dart';
+// ignore: unused_import
 import 'package:spllive/helper_files/constant_variables.dart';
 import '../../components/password_field_with_icon.dart';
 import '../../components/simple_button_with_corner.dart';

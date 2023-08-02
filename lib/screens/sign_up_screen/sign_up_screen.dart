@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:country_list_pick/country_list_pick.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,7 +158,7 @@ class SignUpScreen extends StatelessWidget {
               showEnglishName: true,
               alphabetSelectedTextColor: AppColors.white,
               labelColor: AppColors.grey,
-              alphabetTextColor: Colors.green,
+              alphabetTextColor: AppColors.green,
             ),
             initialSelection: '+91',
             onChanged: (code) {

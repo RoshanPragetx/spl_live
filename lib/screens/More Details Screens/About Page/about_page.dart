@@ -9,6 +9,7 @@ import '../../../helper_files/dimentions.dart';
 import '../../../helper_files/ui_utils.dart';
 import 'controller/about_page_controller.dart';
 
+// ignore: must_be_immutable
 class AboutUsPage extends StatelessWidget {
   AboutUsPage({super.key});
   var controller = Get.put(AboutUsPageController());

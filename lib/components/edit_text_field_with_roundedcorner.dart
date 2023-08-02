@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:spllive/helper_files/app_colors.dart';
 
@@ -32,6 +34,7 @@ class RoundedCornerEditText extends StatelessWidget {
       autofocus: false,
       enabled: isEnabled,
       controller: controller,
+      // ignore: body_might_complete_normally_nullable
       validator: (value) {
         validateValue!(false, value.toString());
       },

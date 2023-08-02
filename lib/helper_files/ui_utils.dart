@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -10,8 +12,8 @@ import 'package:spllive/helper_files/dimentions.dart';
 
 class AppUtils {
   static bool isProgressVisible = false;
-  static SystemUiOverlayStyle toolBarStyleLight = const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
+  static SystemUiOverlayStyle toolBarStyleLight = SystemUiOverlayStyle(
+    statusBarColor: AppColors.transparent,
     // <-- SEE HERE
     statusBarIconBrightness: Brightness.light,
     //<-- For Android SEE HERE (dark icons)
@@ -19,8 +21,8 @@ class AppUtils {
   );
 
   //common method for dark toolbar theme
-  static SystemUiOverlayStyle toolBarStyleDark = const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
+  static SystemUiOverlayStyle toolBarStyleDark = SystemUiOverlayStyle(
+    statusBarColor: AppColors.transparent,
     // <-- SEE HERE
     statusBarIconBrightness: Brightness.dark,
     //<-- For Android SEE HERE (dark icons)
@@ -98,9 +100,9 @@ class AppUtils {
     var math;
     return AppBar(
       backgroundColor: AppColors.appbarColor,
-      title: const Center(
+      title: Center(
         child: Text(
-          "SPL",
+          "SPL".tr,
           // style: GoogleFonts.aclonica(
           //     color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),
         ),
@@ -166,7 +168,7 @@ class AppUtils {
           child: InkWell(
             onTap: onTapTelegram,
             child: Container(
-              width: 25,
+              width: Dimensions.w25,
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25)),
@@ -193,7 +195,7 @@ class AppUtils {
           child: InkWell(
             onTap: shareOntap,
             child: Container(
-              width: 25,
+              width: Dimensions.w25,
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25)),
@@ -277,7 +279,7 @@ class AppUtils {
       bodyText,
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
-      backgroundColor: Colors.red,
+      backgroundColor: AppColors.redColor,
       onTap: null,
     );
   }
@@ -290,7 +292,7 @@ class AppUtils {
       bodyText,
       snackPosition: SnackPosition.BOTTOM,
       isDismissible: true,
-      backgroundColor: Colors.green,
+      backgroundColor: AppColors.green,
       onTap: null,
     );
   }
@@ -306,11 +308,11 @@ class AppUtils {
             horizontal: Dimensions.w15, vertical: Dimensions.h220),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.all(Radius.circular(Dimensions.r18))),
           child: Center(
             child: Material(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.all(
                 Radius.circular(Dimensions.r18),
               ),
@@ -321,7 +323,7 @@ class AppUtils {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Rate SPL live App",
+                      "RATESPLLIVEAPP".tr,
                       style: CustomTextStyle.textPTsansMedium.copyWith(
                           color: AppColors.grey,
                           fontWeight: FontWeight.w600,
@@ -387,7 +389,7 @@ class AppUtils {
                             ),
                             child: Center(
                               child: Text(
-                                "CANCEL",
+                                "CANCEL_TEXT".tr,
                                 style:
                                     CustomTextStyle.textPTsansMedium.copyWith(
                                   color: AppColors.redColor,
@@ -421,7 +423,7 @@ class AppUtils {
                                     BorderRadius.circular(Dimensions.h5),
                                 color: AppColors.white),
                             child: Center(
-                              child: Text("SUBMIT",
+                              child: Text("SUBMIT".tr,
                                   style:
                                       CustomTextStyle.textPTsansMedium.copyWith(
                                     color: AppColors.appbarColor,

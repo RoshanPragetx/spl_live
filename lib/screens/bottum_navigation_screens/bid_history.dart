@@ -7,9 +7,11 @@ import '../../helper_files/constant_image.dart';
 import '../../helper_files/custom_text_style.dart';
 import '../../helper_files/dimentions.dart';
 import '../../helper_files/ui_utils.dart';
+// ignore: unused_import
 import '../../models/normal_market_bid_history_response_model.dart';
 import 'controller/bottum_navigation_controller.dart';
 
+// ignore: must_be_immutable
 class BidHistory extends StatelessWidget {
   BidHistory({
     super.key,
@@ -20,6 +22,7 @@ class BidHistory extends StatelessWidget {
   var homePageController = Get.put(HomePageController());
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
@@ -63,7 +66,7 @@ class BidHistory extends StatelessWidget {
               spreadRadius: 1,
               color: AppColors.grey,
               blurRadius: 10,
-              offset: Offset(7, 4),
+              offset: const Offset(7, 4),
             ),
           ],
           border: Border.all(width: 0.6),
@@ -79,7 +82,7 @@ class BidHistory extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Bid",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
@@ -110,7 +113,7 @@ class BidHistory extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Text("Coins"),
+                  const Text("Coins"),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -122,21 +125,21 @@ class BidHistory extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Text("10"),
-                  Expanded(child: SizedBox()),
-                  Text("Balance"),
+                  const Text("10"),
+                  const Expanded(child: SizedBox()),
+                  const Text("Balance"),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
                   Image.asset(
                     ConstantImage.ruppeeBlueIcon,
-                    height: 25,
-                    width: 25,
+                    height: Dimensions.h25,
+                    width: Dimensions.w25,
                   ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Text("50"),
+                  const Text("50"),
                 ],
               ),
             ),
@@ -150,7 +153,8 @@ class BidHistory extends StatelessWidget {
                   bottomRight: Radius.circular(8),
                 ),
               ),
-              child: Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
+              child:
+                  const Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
             ),
           ],
         ),

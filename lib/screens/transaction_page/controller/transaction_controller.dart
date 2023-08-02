@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:get/get.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../models/transaction_history_api_response_model.dart';

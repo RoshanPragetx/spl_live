@@ -90,7 +90,7 @@ class WelcomeScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Divider(
-            color: Colors.grey,
+            color: AppColors.grey,
             indent: Dimensions.w20,
             endIndent: Dimensions.w20,
             thickness: 2,
