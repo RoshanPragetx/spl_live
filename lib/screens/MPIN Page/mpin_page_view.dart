@@ -61,7 +61,16 @@ class MPINPageView extends StatelessWidget {
               ),
             ),
           ),
-          //verticalSpace,
+          verticalSpace,
+          Center(
+            child: SizedBox(
+              child: Icon(
+                Icons.lock_open_rounded,
+                size: 40,
+                color: AppColors.appbarColor,
+              ),
+            ),
+          ),
           // Padding(
           //   padding: EdgeInsets.symmetric(horizontal: Dimensions.w20),
           //   child: Center(

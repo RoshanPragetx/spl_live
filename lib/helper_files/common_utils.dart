@@ -26,11 +26,11 @@ class CommonUtils {
 
   String formatStringToDDMMMYYYYHHMMSSA(String date) {
     DateTime dateTime = DateTime.parse(date);
-
     String formattedDateTimeString =
         DateFormat('dd MMMM, yyyy, hh:mm:ss a').format(dateTime);
     return formattedDateTimeString;
   }
+
   String formatStringToDDMMYYYYHHMMA(String date) {
     DateTime dateTime = DateTime.parse(date);
 
@@ -61,6 +61,7 @@ class CommonUtils {
     final formattedTime = DateFormat("hh:mm a").format(parsedTime);
     return formattedTime;
   }
+
   String formatStringToHHMM(String time) {
     final parsedTime = DateFormat("HH:mm:ss").parse(time);
     final formattedTime = DateFormat("hh:mm").format(parsedTime);
@@ -119,5 +120,4 @@ class CommonUtils {
 
     return outputDate;
   }
-
 }

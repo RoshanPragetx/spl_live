@@ -27,7 +27,22 @@ class BidHistory extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        AppUtils().simpleAppbar(appBarTitle: appbarTitle),
+        AppUtils().simpleAppbar(
+          appBarTitle: "",
+          leadingWidht: Dimensions.w200,
+          leading: Container(
+            child: Row(
+              children: [
+                SizedBox(width: Dimensions.w15),
+                Text(
+                  appbarTitle,
+                  style: CustomTextStyle.textRobotoSansMedium
+                      .copyWith(fontSize: Dimensions.h20),
+                ),
+              ],
+            ),
+          ),
+        ),
         Expanded(
           child: bidHistoryList(),
         ),
@@ -140,11 +155,11 @@ class BidHistory extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Image.asset(
-                    ConstantImage.ruppeeBlueIcon,
-                    height: Dimensions.h25,
-                    width: Dimensions.w25,
-                  ),
+                  // Image.asset(
+                  //   ConstantImage.ruppeeBlueIcon,
+                  //   height: Dimensions.h25,
+                  //   width: Dimensions.w25,
+                  // ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -163,11 +178,11 @@ class BidHistory extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Image.asset(
-                    ConstantImage.ruppeeBlueIcon,
-                    height: Dimensions.h25,
-                    width: Dimensions.w25,
-                  ),
+                  // Image.asset(
+                  //   ConstantImage.ruppeeBlueIcon,
+                  //   height: 25,
+                  //   width: 25,
+                  // ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),

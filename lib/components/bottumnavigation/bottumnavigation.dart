@@ -39,40 +39,47 @@ class MyNavigationBar extends StatelessWidget {
             onTap: onTapHome,
             icon: ConstantImage.homeIcon,
             iconText: "Home",
-            textColor: currentIndex == 0
-                ? AppColors.appbarColor
-                : AppColors.iconColorMain,
-            color: currentIndex == 0 ? AppColors.appbarColor : Colors.grey,
+            textColor:
+                currentIndex == 0 ? AppColors.appbarColor : AppColors.black,
+            color: currentIndex == 0 ? AppColors.appbarColor : AppColors.black,
           ),
           AppUtils().nameIcons(
             width: size.width * 0.2,
             onTap: onTapBidHistory,
+            iconwidth: Dimensions.w20,
             icon: ConstantImage.bidHistoryListIcon,
             iconText: "Bid History",
-            textColor: currentIndex == 1
-                ? AppColors.appbarColor
-                : AppColors.iconColorMain,
-            color: currentIndex == 1 ? AppColors.appbarColor : Colors.grey,
+            textColor:
+                currentIndex == 1 ? AppColors.appbarColor : AppColors.black,
+            color: currentIndex == 1 ? AppColors.appbarColor : AppColors.black,
           ),
           AppUtils().nameIcons(
             width: size.width * 0.2,
             onTap: onTapWallet,
             icon: ConstantImage.walletAppbar,
             iconText: "Wallet",
-            textColor: currentIndex == 2
-                ? AppColors.appbarColor
-                : AppColors.iconColorMain,
-            color: currentIndex == 2 ? AppColors.appbarColor : Colors.grey,
+            textColor:
+                currentIndex == 2 ? AppColors.appbarColor : AppColors.black,
+            color: currentIndex == 2 ? AppColors.appbarColor : AppColors.black,
           ),
           AppUtils().nameIcons(
             width: size.width * 0.2,
             onTap: onTapPassbook,
-            icon: ConstantImage.passbookIcon,
+            iconwidth: Dimensions.w30,
+            icon: ConstantImage.passBookIcon,
             iconText: "Passbook",
-            textColor: currentIndex == 3
-                ? AppColors.appbarColor
-                : AppColors.iconColorMain,
-            color: currentIndex == 3 ? AppColors.appbarColor : Colors.grey,
+            textColor:
+                currentIndex == 3 ? AppColors.appbarColor : AppColors.black,
+            color: currentIndex == 3 ? AppColors.appbarColor : AppColors.black,
+          ),
+          AppUtils().nameIcons(
+            width: size.width * 0.2,
+            onTap: onTapMore,
+            icon: ConstantImage.moreIcon,
+            iconText: "More",
+            textColor:
+                currentIndex == 4 ? AppColors.appbarColor : AppColors.black,
+            color: currentIndex == 4 ? AppColors.appbarColor : AppColors.black,
           ),
           AppUtils().nameIcons(
             width: size.width * 0.2,

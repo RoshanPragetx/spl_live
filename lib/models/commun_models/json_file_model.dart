@@ -4,13 +4,20 @@ class JsonFileModel {
   List<ThreePana>? singlePana;
   List<ThreePana>? doublePana;
   List<String>? triplePana;
+  List<String>? allThreePana;
+  List<String>? allDoublePana;
+  List<String>? allSinglePana;
 
-  JsonFileModel(
-      {this.singleAnk,
-        this.jodi,
-        this.singlePana,
-        this.doublePana,
-        this.triplePana});
+  JsonFileModel({
+    this.singleAnk,
+    this.jodi,
+    this.singlePana,
+    this.doublePana,
+    this.triplePana,
+    this.allDoublePana,
+    this.allSinglePana,
+    this.allThreePana,
+  });
 
   JsonFileModel.fromJson(Map<String, dynamic> json) {
     singleAnk = json['single_digit'].cast<String>();
@@ -28,10 +35,13 @@ class JsonFileModel {
       });
     }
     triplePana = json['triple_pana'].cast<String>();
+    allSinglePana = json['all_single_pana'].cast<String>();
+    allDoublePana = json['all_double_pana'].cast<String>();
+    allThreePana = json['all_three_pana'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['single_digit'] = singleAnk;
     data['jodi_digit'] = jodi;
     if (singlePana != null) {
@@ -57,18 +67,18 @@ class ThreePana {
   List<String>? l8;
   List<String>? l9;
 
-
-  ThreePana(
-      {this.l0,
-        this.l1,
-        this.l2,
-        this.l3,
-        this.l4,
-        this.l5,
-        this.l6,
-        this.l7,
-        this.l8,
-        this.l9,});
+  ThreePana({
+    this.l0,
+    this.l1,
+    this.l2,
+    this.l3,
+    this.l4,
+    this.l5,
+    this.l6,
+    this.l7,
+    this.l8,
+    this.l9,
+  });
 
   ThreePana.fromJson(Map<String, dynamic> json) {
     l0 = json['0'].cast<String>();
@@ -84,7 +94,7 @@ class ThreePana {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['0'] = l0;
     data['1'] = l1;
     data['2'] = l2;

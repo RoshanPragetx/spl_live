@@ -280,6 +280,7 @@ class ApiService extends GetConnect {
   Future<dynamic> createStarLineMarketBid(body) async {
     AppUtils.showProgressDialog(isCancellable: false);
     await initApiService();
+    print("Starline body $body");
     final response = await post(
       ApiUtils.createStarLineMarketBid,
       body,
@@ -816,6 +817,54 @@ class ApiService extends GetConnect {
     } else {
       AppUtils.hideProgressDialog();
 
+      return response.body;
+    }
+  }
+
+  Future<dynamic> newGameModeApi(body, url) async {
+    AppUtils.showProgressDialog(isCancellable: false);
+    await initApiService();
+    final response = await post(
+      url,
+      body,
+      //  headers: headersWithToken,
+    );
+
+    if (response.status.hasError) {
+      AppUtils.hideProgressDialog();
+      if (response.status.code != null && response.status.code == 401) {
+        tokenExpired();
+      }
+      print(response.status.code.toString() + response.toString());
+      return response.body;
+    } else {
+      AppUtils.hideProgressDialog();
+      return response.body;
+    }
+  }
+
+  Future<dynamic> getPassBookData({
+    required String userId,
+    required bool isAll,
+    required String limit,
+    required String offset,
+  }) async {
+    // AppUtils.showProgressDialog(isCancellable: false);
+    await initApiService();
+    final response = await get(
+      "${ApiUtils.passBookApi}/$userId?isAll=$isAll&limit=$limit&offset=$offset",
+      //  "${ApiUtils.dailyStarlineMarketBidHistory}?id=$userId&limit=$limit&offset=$offset",
+      headers: headersWithToken,
+    );
+    if (response.status.hasError) {
+      if (response.status.code != null && response.status.code == 401) {
+        tokenExpired();
+      }
+      AppUtils.hideProgressDialog();
+
+      return Future.error(response.statusText!);
+    } else {
+      AppUtils.hideProgressDialog();
       return response.body;
     }
   }

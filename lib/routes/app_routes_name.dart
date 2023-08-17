@@ -64,9 +64,12 @@ class AppRoutName {
   /// NewGamemodePage
   static String newGameModePage = "/new_gamemode_page";
 
-  /// DigitBased Jodi Page
-  static String digitBasedPage = "/digit_basedjodi_page";
+  /// oddEvenGamePage
+  static String newOddEvenPage = "/new_game_page_odd_even";
 
-  /// OddEven Page
-  static String oddEvenPage = "/odd_even_page";
+  /// starlineBidPage
+  static String starlineBidpage = "/starline_bid_page";
+
+  /// starlineBidPage
+  static String newStarlineGames = "/new_starline_games";
 }

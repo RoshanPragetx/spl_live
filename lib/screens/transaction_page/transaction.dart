@@ -148,17 +148,17 @@ class TransactionPage extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Coins",
+                    "Points",
                     style: CustomTextStyle.textRobotoSansLight,
                   ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Image.asset(
-                    ConstantImage.ruppeeBlueIcon,
-                    height: Dimensions.h25,
-                    width: Dimensions.w25,
-                  ),
+                  // Image.asset(
+                  //   ConstantImage.ruppeeBlueIcon,
+                  //   height: Dimensions.h25,
+                  //   width: Dimensions.w25,
+                  // ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),
@@ -168,11 +168,11 @@ class TransactionPage extends StatelessWidget {
                   SizedBox(
                     width: Dimensions.w5,
                   ),
-                  Image.asset(
-                    ConstantImage.ruppeeBlueIcon,
-                    height: Dimensions.h25,
-                    width: Dimensions.w25,
-                  ),
+                  // Image.asset(
+                  //   ConstantImage.ruppeeBlueIcon,
+                  //   height: Dimensions.h25,
+                  //   width: Dimensions.w25,
+                  // ),
                   SizedBox(
                     width: Dimensions.w5,
                   ),

@@ -33,8 +33,8 @@ class WithdrawalPage extends StatelessWidget {
         appBarTitle: "My Wallet",
         leading: IconButton(
           onPressed: () {
-            homeController.pageWidget.value = 3;
-            homeController.currentIndex.value = 3;
+            homeController.pageWidget.value = 4;
+            homeController.currentIndex.value = 4;
           },
           icon: const Icon(Icons.arrow_back),
         ),

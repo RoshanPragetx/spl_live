@@ -32,15 +32,24 @@ class BidRequestModel {
 
 class Bids {
   int? gameId;
+  int? subGameId;
   String? bidNo;
   int? coins;
   String? remarks;
   String? gameModeName;
 
-  Bids({this.gameId, this.bidNo, this.coins, this.remarks,this.gameModeName});
+  Bids({
+    this.gameId,
+    this.bidNo,
+    this.coins,
+    this.remarks,
+    this.gameModeName,
+    this.subGameId,
+  });
 
   Bids.fromJson(Map<String, dynamic> json) {
     gameId = json['gameId'];
+    subGameId = json['subGameId'];
     bidNo = json['bidNo'];
     coins = json['coins'];
     remarks = json['remarks'];
@@ -50,6 +59,7 @@ class Bids {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['gameId'] = gameId;
+    data['subGameId'] = subGameId;
     data['bidNo'] = bidNo;
     data['coins'] = coins;
     data['remarks'] = remarks;
@@ -57,3 +67,17 @@ class Bids {
     return data;
   }
 }
+
+// //
+// let test = [1123,123,123,123,123,123,123,122,332]
+
+// let obj = {
+//   gameId = 1;
+//     subGameId = null;
+//     bidNo = test[i];
+//     coins = 1;
+//     remarks = "test remakred";
+//     gameModeName = "Single Ank";
+        
+// }
+

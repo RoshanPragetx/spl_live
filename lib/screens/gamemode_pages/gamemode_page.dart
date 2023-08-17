@@ -20,7 +20,7 @@ class GameModePage extends StatelessWidget {
   var walletController = Get.put(WalletController());
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppUtils().simpleAppbar(
@@ -66,86 +66,144 @@ class GameModePage extends StatelessWidget {
             //height: size.height,
             child: Column(
               children: [
-                controller.openBiddingOpen.value
-                    ? SizedBox(
-                        height: Dimensions.h10,
-                      )
-                    : Column(
-                        children: [
-                          Container(
-                            decoration:
-                                BoxDecoration(color: AppColors.redColor),
-                            height: Dimensions.h40,
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                "BIDDINGFOROPENISCLOSED".tr,
-                                style: CustomTextStyle.textPTsansMedium
-                                    .copyWith(
-                                        color: AppColors.white,
-                                        fontSize: Dimensions.h15),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: Dimensions.h5,
-                          ),
-                        ],
+                // controller.openBiddingOpen.value
+                //     ? SizedBox(
+                //         height: Dimensions.h10,
+                //       )
+                //     : Column(
+                //         children: [
+                //           Container(
+                //             decoration:
+                //                 BoxDecoration(color: AppColors.redColor),
+                //             height: Dimensions.h40,
+                //             width: double.infinity,
+                //             child: Center(
+                //               child: Text(
+                //                 "BIDDINGFOROPENISCLOSED".tr,
+                //                 style: CustomTextStyle.textPTsansMedium
+                //                     .copyWith(
+                //                         color: AppColors.white,
+                //                         fontSize: Dimensions.h15),
+                //               ),
+                //             ),
+                //           ),
+                //           SizedBox(
+                //             height: Dimensions.h5,
+                //           ),
+                //         ],
+                //       ),
+                // GameModeUtils().rowWidget(
+                //   marketName: controller.marketValue.value.market.toString(),
+                //   date: controller.removeTimeStampFromDateString(
+                //     controller.marketValue.value.date.toString(),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: Dimensions.h5,
+                // ),
+                // GameModeUtils().rowWidget2(
+                //   openBid: controller.marketValue.value.openTime.toString(),
+                //   closeBid: controller.marketValue.value.closeTime.toString(),
+                // ),
+                // Row(
+                //   children: [
+                //     radioButtonWidget(
+                //         onTapContainer: () {
+                //           if (controller.openBiddingOpen.value &&
+                //               controller.openCloseRadioValue.value != 0) {
+                //             controller.openCloseRadioValue.value = 0;
+                //             controller.callGetGameModes();
+                //           }
+                //         },
+                //         onChanged: (val) {
+                //           if (controller.openBiddingOpen.value) {
+                //             controller.openCloseRadioValue.value = val!;
+                //             controller.callGetGameModes();
+                //           }
+                //         },
+                //         opasity: controller.openBiddingOpen.value ? 1 : 0.5,
+                //         controller: controller,
+                //         radioButtonValue: 0,
+                //         buttonText: "OPENBID".tr),
+                //     const SizedBox(
+                //       width: 11,
+                //     ),
+                //     radioButtonWidget(
+                //         onTapContainer: () {
+                //           if (controller.openCloseRadioValue.value != 1) {
+                //             controller.openCloseRadioValue.value = 1;
+                //             controller.callGetGameModes();
+                //           }
+                //         },
+                //         onChanged: (val) {
+                //           controller.openCloseRadioValue.value = val!;
+                //           controller.callGetGameModes();
+                //         },
+                //         opasity: 1,
+                //         controller: controller,
+                //         radioButtonValue: 1,
+                //         buttonText: "CLOSEBID".tr)
+                //   ],
+                // ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Obx(
+                  () => Row(
+                    children: [
+                      openCloseMarket(
+                        textColor:
+                            controller.openCloseValue.value == "OPENBID".tr
+                                ? AppColors.white
+                                : AppColors.black,
+                        "${"OPENBID".tr.toUpperCase()} : ${controller.marketValue.value.openTime.toString()}",
+                        onTap: () {
+                          if (controller.openBiddingOpen.value &&
+                              controller.openCloseValue.value != "OPENBID".tr) {
+                            controller.openCloseValue.value = "OPENBID".tr;
+                            controller.callGetGameModes();
+                          }
+                          //                      controller.onTapOpenClose;
+                        },
+                        // if (controller.openBiddingOpen.value &&
+                        //     controller.openCloseRadioValue.value !=
+                        //         "OPENBID".tr) {
+                        //   controller.openCloseRadioValue.value = "OPENBID".tr;
+                        //   controller.callGetGameModes();
+                        // }
+
+                        containerColor:
+                            controller.openCloseValue.value == "OPENBID".tr
+                                ? AppColors.appbarColor
+                                : AppColors.openclose,
                       ),
-                GameModeUtils().rowWidget(
-                  marketName: controller.marketValue.value.market.toString(),
-                  date: controller.removeTimeStampFromDateString(
-                    controller.marketValue.value.date.toString(),
+                      openCloseMarket(
+                        "${"CLOSEBID".tr.toUpperCase()} : ${controller.marketValue.value.closeTime.toString()}",
+                        onTap: () {
+                          print("sfdasdsa");
+                          if (controller.openCloseValue.value !=
+                              "CLOSEBID".tr) {
+                            controller.openCloseValue.value = "CLOSEBID".tr;
+                            controller.callGetGameModes();
+                          }
+                          controller.onTapOpenClose;
+                        },
+                        containerColor:
+                            controller.openCloseValue.value == "CLOSEBID".tr
+                                ? AppColors.appbarColor
+                                : AppColors.openclose,
+                        textColor:
+                            controller.openCloseValue.value == "CLOSEBID".tr
+                                ? AppColors.white
+                                : AppColors.black,
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: Dimensions.h5,
+                const SizedBox(
+                  height: 10,
                 ),
-                GameModeUtils().rowWidget2(
-                  openBid: controller.marketValue.value.openTime.toString(),
-                  closeBid: controller.marketValue.value.closeTime.toString(),
-                ),
-                Row(
-                  children: [
-                    radioButtonWidget(
-                        onTapContainer: () {
-                          if (controller.openBiddingOpen.value &&
-                              controller.openCloseRadioValue.value != 0) {
-                            controller.openCloseRadioValue.value = 0;
-                            controller.callGetGameModes();
-                          }
-                        },
-                        onChanged: (val) {
-                          if (controller.openBiddingOpen.value) {
-                            controller.openCloseRadioValue.value = val!;
-                            controller.callGetGameModes();
-                          }
-                        },
-                        opasity: controller.openBiddingOpen.value ? 1 : 0.5,
-                        controller: controller,
-                        radioButtonValue: 0,
-                        buttonText: "OPENBID".tr),
-                    const SizedBox(
-                      width: 11,
-                    ),
-                    radioButtonWidget(
-                        onTapContainer: () {
-                          if (controller.openCloseRadioValue.value != 1) {
-                            controller.openCloseRadioValue.value = 1;
-                            controller.callGetGameModes();
-                          }
-                        },
-                        onChanged: (val) {
-                          controller.openCloseRadioValue.value = val!;
-                          controller.callGetGameModes();
-                        },
-                        opasity: 1,
-                        controller: controller,
-                        radioButtonValue: 1,
-                        buttonText: "CLOSEBID".tr)
-                  ],
-                ),
-                cardWidget(controller),
+                cardWidget(controller, size),
                 // controller.playmore == false
                 //     ? Container()
                 //     : Padding(
@@ -176,158 +234,287 @@ class GameModePage extends StatelessWidget {
     );
   }
 
-  Widget cardWidget(GameModePagesController controller) {
+  openCloseMarket(
+    String text, {
+    required Function() onTap,
+    Color? containerColor,
+    required Color textColor,
+  }) {
     return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.zero,
+            height: Dimensions.h35,
+            decoration: BoxDecoration(
+              color: containerColor,
+              boxShadow: [
+                BoxShadow(
+                  spreadRadius: 0.2,
+                  blurRadius: 0.8,
+                  color: AppColors.grey.withOpacity(0.6),
+                  offset: const Offset(0, 4),
+                )
+              ],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            // decoration: BoxDecoration(
+            //   color: containerColor,
+            //   borderRadius: BorderRadius.circular(10),
+            // ),
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    text,
+                    style: CustomTextStyle.textRobotoSansMedium
+                        .copyWith(color: textColor, fontSize: Dimensions.h10),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget cardWidget(GameModePagesController controller, Size size) {
+  return Expanded(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GridView.builder(
         // physics: const NeverScrollableScrollPhysics(),
         // shrinkWrap: true,
         itemCount: controller.gameModesList.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisExtent: Dimensions.h100,
-        ),
+            crossAxisCount: 2,
+            mainAxisExtent: Dimensions.h160,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 2),
         itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () => controller.onTapOfGameModeTile(index),
-            child: Card(
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: AppColors.blueAccent.withOpacity(0.7),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        //color: Colors.amber,
-                        width: double.infinity,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 90,
-                              child: Opacity(
-                                opacity: 0.3,
-                                // child: CachedNetworkImage(
-                                //   imageUrl: controller.gameModesList
-                                //       .elementAt(index)
-                                //       .image
-                                //       .toString(),
-                                //   height: Dimensions.h45,
-                                //   errorWidget: (context, url, error) =>
-                                //       const Icon(Icons.error),
-                                // ),
-                                child: Image.network(
-                                  controller.gameModesList
-                                      .elementAt(index)
-                                      .image
-                                      .toString(),
-                                  height: Dimensions.h45,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Icon(Icons.error);
-                                  },
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 60,
-                              child: Image.network(
-                                controller.gameModesList
-                                    .elementAt(index)
-                                    .image
-                                    .toString(),
-                                height: Dimensions.h45,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(Icons.error);
-                                },
-                              ),
-                            ),
-                            Positioned(
-                              left: 30,
-                              child: Opacity(
-                                  opacity: 0.3,
-                                  child: Image.network(
-                                    controller.gameModesList
-                                        .elementAt(index)
-                                        .image
-                                        .toString(),
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Icon(Icons.error);
-                                    },
-                                    height: Dimensions.h45,
-                                  )),
-                            ), // Bottom image
-                            Opacity(
-                              opacity: 0.0,
-                              child: Image.asset(
-                                ConstantImage.diceImage,
-                                height: 45,
-                              ),
-                            )
-                          ],
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+            child: InkWell(
+              onTap: () {
+                controller.onTapOfGameModeTile(index);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 1,
+                      blurRadius: 4,
+                      color: AppColors.grey.withOpacity(0.5),
+                      offset: const Offset(0, 0),
+                    )
+                  ],
+                  borderRadius: BorderRadius.circular(Dimensions.r15),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: Dimensions.w80,
+                      width: Dimensions.w80,
+                      decoration: BoxDecoration(
+                        color: AppColors.wpColor1,
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(17.0),
+                        child: Image.network(
+                          controller.gameModesList
+                              .elementAt(index)
+                              .image
+                              .toString(),
+                          height: Dimensions.h10,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.error);
+                          },
                         ),
                       ),
-                      Text(
-                        controller.gameModesList.elementAt(index).name ?? "",
-                        style: CustomTextStyle.textPTsansBold.copyWith(
-                          color: AppColors.black,
-                          fontSize: Dimensions.h15,
-                          height: 2,
-                          fontWeight: FontWeight.w500,
+                    ),
+                    // CircleAvatar(
+                    //     backgroundColor: AppColors.wpColor1,
+                    //     maxRadius: Dimensions.r35,
+                    //     backgroundImage:),
+                    SizedBox(
+                      height: Dimensions.h17,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: SizedBox(
+                        width: size.width,
+                        child: Center(
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: Text(
+                              controller.gameModesList.elementAt(index).name ??
+                                  "",
+                              style: CustomTextStyle.textRobotoSansBold
+                                  .copyWith(fontSize: Dimensions.h14),
+                            ),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
           );
         },
       ),
-    );
-  }
-}
-
-Widget radioButtonWidget(
-    {required GameModePagesController controller,
-    required int radioButtonValue,
-    required String buttonText,
-    required double opasity,
-    required Function(int?) onChanged,
-    required Function() onTapContainer}) {
-  return Expanded(
-    child: Opacity(
-      opacity: opasity,
-      child: GestureDetector(
-        onTap: onTapContainer,
-        child: SizedBox(
-          // color: Colors.amber,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Radio(
-                value: radioButtonValue,
-                fillColor: MaterialStatePropertyAll(
-                  controller.openCloseRadioValue.value == radioButtonValue
-                      ? AppColors.buttonColorDarkGreen
-                      : AppColors.appbarColor,
-                ),
-                activeColor: AppColors.buttonColorDarkGreen,
-                groupValue: controller.openCloseRadioValue.value,
-                onChanged: onChanged,
-              ),
-              Text(
-                buttonText,
-                style: CustomTextStyle.textRobotoSansMedium.copyWith(
-                  color:
-                      controller.openCloseRadioValue.value == radioButtonValue
-                          ? AppColors.buttonColorDarkGreen
-                          : AppColors.appbarColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     ),
   );
+  // return InkWell(
+  //   onTap: () => controller.onTapOfGameModeTile(index),
+  //   child: Card(
+  //     elevation: 5,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: Container(
+  //         color: AppColors.blueAccent.withOpacity(0.7),
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             SizedBox(
+  //               //color: Colors.amber,
+  //               width: double.infinity,
+  //               child: Stack(
+  //                 children: [
+  //                   Positioned(
+  //                     left: 90,
+  //                     child: Opacity(
+  //                       opacity: 0.3,
+  //                       // child: CachedNetworkImage(
+  //                       //   imageUrl: controller.gameModesList
+  //                       //       .elementAt(index)
+  //                       //       .image
+  //                       //       .toString(),
+  //                       //   height: Dimensions.h45,
+  //                       //   errorWidget: (context, url, error) =>
+  //                       //       const Icon(Icons.error),
+  //                       // ),
+  //                       child: Image.network(
+  //                         controller.gameModesList
+  //                             .elementAt(index)
+  //                             .image
+  //                             .toString(),
+  //                         height: Dimensions.h45,
+  //                         errorBuilder: (context, error, stackTrace) {
+  //                           return const Icon(Icons.error);
+  //                         },
+  //                       ),
+  //                     ),
+  //                   ),
+  //                   Positioned(
+  //                     left: 60,
+  //                     child: Image.network(
+  //                       controller.gameModesList
+  //                           .elementAt(index)
+  //                           .image
+  //                           .toString(),
+  //                       height: Dimensions.h45,
+  //                       errorBuilder: (context, error, stackTrace) {
+  //                         return const Icon(Icons.error);
+  //                       },
+  //                     ),
+  //                   ),
+  //                   Positioned(
+  //                     left: 30,
+  //                     child: Opacity(
+  //                         opacity: 0.3,
+  //                         child: Image.network(
+  //                           controller.gameModesList
+  //                               .elementAt(index)
+  //                               .image
+  //                               .toString(),
+  //                           errorBuilder: (context, error, stackTrace) {
+  //                             return const Icon(Icons.error);
+  //                           },
+  //                           height: Dimensions.h45,
+  //                         )),
+  //                   ), // Bottom image
+  //                   Opacity(
+  //                     opacity: 0.0,
+  //                     child: Image.asset(
+  //                       ConstantImage.diceImage,
+  //                       height: 45,
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //             Text(
+  //               controller.gameModesList.elementAt(index).name ?? "",
+  //               style: CustomTextStyle.textPTsansBold.copyWith(
+  //                 color: AppColors.black,
+  //                 fontSize: Dimensions.h15,
+  //                 height: 2,
+  //                 fontWeight: FontWeight.w500,
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   ),
+  // );
+  //     },
+  //   ),
+  // );
 }
+// }
+
+// Widget radioButtonWidget(
+//     {required GameModePagesController controller,
+//     required int radioButtonValue,
+//     required String buttonText,
+//     required double opasity,
+//     required Function(int?) onChanged,
+//     required Function() onTapContainer}) {
+//   return Expanded(
+//     child: Opacity(
+//       opacity: opasity,
+//       child: GestureDetector(
+//         onTap: onTapContainer,
+//         child: SizedBox(
+//           // color: Colors.amber,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Radio(
+//                 value: radioButtonValue,
+//                 fillColor: MaterialStatePropertyAll(
+//                   controller.openCloseRadioValue.value == radioButtonValue
+//                       ? AppColors.buttonColorDarkGreen
+//                       : AppColors.appbarColor,
+//                 ),
+//                 activeColor: AppColors.buttonColorDarkGreen,
+//                 groupValue: controller.openCloseRadioValue.value,
+//                 onChanged: onChanged,
+//               ),
+//               Text(
+//                 buttonText,
+//                 style: CustomTextStyle.textRobotoSansMedium.copyWith(
+//                   color:
+//                       controller.openCloseRadioValue.value == radioButtonValue
+//                           ? AppColors.buttonColorDarkGreen
+//                           : AppColors.appbarColor,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }

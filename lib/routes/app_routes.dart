@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:get/get.dart';
+import 'package:spllive/models/commun_models/starline_bid_request_model.dart';
 import 'package:spllive/screens/More%20Details%20Screens/About%20Page/about_page.dart';
 import 'package:spllive/screens/More%20Details%20Screens/Change%20Mpin/binding/change_mpin_page_binding.dart';
 import 'package:spllive/screens/More%20Details%20Screens/Notification%20Page/binding/notification_details_page_binding.dart';
@@ -12,6 +13,7 @@ import 'package:spllive/screens/Normal%20Market%20List/binding/normal_market_pag
 import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
 import 'package:spllive/screens/Sangam%20Page/binding/snagam_page_binding.dart';
 import 'package:spllive/screens/Sangam%20Page/controller/sangam_page_controller.dart';
+import 'package:spllive/screens/Starline%20Bid%20Page/bidings/starline_bids_bidings.dart';
 import 'package:spllive/screens/game_pages/game_pages.dart';
 import 'package:spllive/screens/gamemode_pages/gamemode_page.dart';
 import 'package:spllive/screens/sign_in_screen/bindings/sign_in_screen_binding.dart';
@@ -46,6 +48,8 @@ import '../screens/More Details Screens/Starline Terms Page/binding/starline_ter
 import '../screens/More Details Screens/Starline Terms Page/starline_terms_page.dart';
 import '../screens/More Details Screens/Withdrawal Page/binding/withdrawal_page_binding.dart';
 import '../screens/More Details Screens/Withdrawal Page/withdrawal_page.dart';
+import '../screens/Normal Game Pages/binding/normal_game_page_controller.dart';
+import '../screens/Normal Game Pages/normal_game_pages.dart';
 import '../screens/Reset Password Page/binding/reset_password_binding.dart';
 import '../screens/Reset Password Page/reset_password.dart';
 import '../screens/Sangam Page/sangampages.dart';
@@ -55,8 +59,12 @@ import '../screens/Set MPIN Page/binding/set_mpin_page_binding.dart';
 import '../screens/Set MPIN Page/set_mpin_page.dart';
 import '../screens/StarLine Game Mode Page/binding/starline_game_modes_page_binding.dart';
 import '../screens/StarLine Game Mode Page/starline_game_modes_page.dart';
+import '../screens/Starline Bid Page/starline_bids.dart';
 import '../screens/Starline Game Page/binding/starline_game_page_binding.dart';
 import '../screens/Starline Game Page/starline_game_page.dart';
+import '../screens/Starline New Game Page/bindings/starline_new_game_page_binding.dart';
+import '../screens/Starline New Game Page/controller/starline_new_game_page_controller.dart';
+import '../screens/Starline New Game Page/starline_new_game_page.dart';
 import '../screens/User Details Page/binding/user_details_page_binding.dart';
 import '../screens/User Details Page/user_details_page.dart';
 import '../screens/Verify OTP Page/binding/verify_otp_binding.dart';
@@ -376,7 +384,7 @@ class AppRoutes {
       name: AppRoutName.checkWithDrawalPage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => CheckWithdrawalPage(),
+      page: () => const CheckWithdrawalPage(),
       bindings: [CheckWithdrawalPageBinding()],
     ),
     GetPage(
@@ -393,23 +401,26 @@ class AppRoutes {
       page: () => NewGameModePage(),
       bindings: [NewGamemodePageBindings()],
     ),
-
-    // DigitBased Page
     GetPage(
-      name: AppRoutName.digitBasedPage,
+      name: AppRoutName.newOddEvenPage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => DigitBasedPage(),
-      bindings: [DigitBasedPageBinding()],
+      page: () => NormalGamePage(),
+      bindings: [NormalGamePageBindings()],
     ),
-
-    // OddEven Page
     GetPage(
-      name: AppRoutName.oddEvenPage,
+      name: AppRoutName.starlineBidpage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => OddEvenPage(),
-      bindings: [OddEvenPageBinding()],
+      page: () => StarlineBidsPage(),
+      bindings: [StarlineBidsBidings()],
+    ),
+    GetPage(
+      name: AppRoutName.newStarlineGames,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => StarLineNewGamePage(),
+      bindings: [StarlineNewGamePageBinding()],
     )
   ];
 }

@@ -46,7 +46,7 @@ class PasswordFieldWithIcon extends StatelessWidget {
           controller: controller,
           obscureText: !hidePassword,
           cursorColor: AppColors.black,
-          style: CustomTextStyle.textRobotoSlabMedium.copyWith(
+          style: CustomTextStyle.textRobotoSansMedium.copyWith(
             color: AppColors.black,
             fontWeight: FontWeight.normal,
             fontSize: Dimensions.h16,
@@ -74,10 +74,10 @@ class PasswordFieldWithIcon extends StatelessWidget {
             enabledBorder: decoration,
             errorMaxLines: 4,
             hintText: hintText,
-            hintStyle: CustomTextStyle.textPTsansMedium.copyWith(
+            hintStyle: CustomTextStyle.textRobotoSansLight.copyWith(
               color: AppColors.grey,
               fontSize: Dimensions.h14,
-              fontWeight: FontWeight.normal,
+              // fontWeight: FontWeight.w500,
             ),
           ),
         ),

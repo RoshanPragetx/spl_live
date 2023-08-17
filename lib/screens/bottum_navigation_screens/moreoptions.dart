@@ -27,28 +27,44 @@ class MoreOptions extends StatelessWidget {
     // ignore: sized_box_for_whitespace
     return Column(
       children: [
-        AppUtils().simpleAppbar(appBarTitle: "MORE".tr, actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 15),
-            child: InkWell(
-              onTap: () {
-                Share.share("http://spl.live");
-              },
-              child: Container(
-                width: Dimensions.w20,
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(Dimensions.r25),
-                ),
-                child: Icon(
-                  Icons.share,
-                  size: 13,
-                  color: AppColors.appbarColor,
-                ),
+        AppUtils().simpleAppbar(
+            appBarTitle: "",
+            leadingWidht: Dimensions.w200,
+            leading: Container(
+              child: Row(
+                children: [
+                  SizedBox(width: Dimensions.w15),
+                  Text(
+                    "MORE".tr,
+                    style: CustomTextStyle.textRobotoSansMedium
+                        .copyWith(fontSize: Dimensions.h20),
+                  ),
+                ],
               ),
             ),
-          ),
-        ]),
+            actions: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 17, horizontal: 15),
+                child: InkWell(
+                  onTap: () {
+                    Share.share("http://spl.live");
+                  },
+                  child: Container(
+                    width: Dimensions.w20,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Icon(
+                      Icons.share,
+                      size: 13,
+                      color: AppColors.appbarColor,
+                    ),
+                  ),
+                ),
+              ),
+            ]),
         Expanded(
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -100,9 +116,9 @@ class MoreOptions extends StatelessWidget {
                     onTap: () async {
                       await LocalStorage.write(
                           ConstantsVariables.withDrawal, true);
-                      homeController.pageWidget.value = 4;
-                      homeController.currentIndex.value = 4;
-                      Get.toNamed(AppRoutName.withdrawalpage);
+                      homeController.pageWidget.value = 5;
+                      homeController.currentIndex.value = 5;
+                      // Get.toNamed(AppRoutName.withdrawalpage);
                     },
                     iconData: ConstantImage.withDrawalIcon,
                     text: "WITHDRAWAL_TXT1".tr),

@@ -139,6 +139,8 @@ class SelectBidPageController extends GetxController {
             TextButton(
               onPressed: () {
                 createMarketBidApi();
+                requestModel.value.bids!.clear();
+                _calculateTotalAmount();
               },
               child: Text(
                 'OKAY',

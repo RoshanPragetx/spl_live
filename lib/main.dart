@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+<<<<<<< HEAD
 import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
 import 'package:spllive/test.dart';
 import 'package:spllive/test2.dart';
 import 'package:spllive/test3.dart';
 
+=======
+>>>>>>> 9e35d7009ea25600d60959f97872b79b2e54fde0
 import 'helper_files/constant_variables.dart';
 import 'localization/app_localization.dart';
 import 'routes/app_routes.dart';
@@ -16,9 +20,12 @@ import 'screens/initial_bindings.dart';
 import 'self_closing_page.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  Get.put(AppLifecycleController());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Allow only portrait orientation
+    DeviceOrientation.portraitDown,
+  ]);
+//  Get.put(AppLifecycleController());
   runApp(MyApp());
 }
 
@@ -27,18 +34,33 @@ final GlobalKey<NavigatorState> navigatorKey =
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
-  final AppLifecycleController _controller = Get.find<AppLifecycleController>();
-
+  var conrroller = Get.put(InactivityController());
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       builder: (context, child) {
-        return GetMaterialApp(
-          title: 'SPL app',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
+        return Listener(
+          onPointerSignal: conrroller.onUserInteraction,
+          onPointerDown: conrroller.onUserInteraction,
+          onPointerMove: conrroller.onUserInteraction,
+          onPointerUp: conrroller.onUserInteraction,
+          child: GetMaterialApp(
+            title: 'SPL app',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            defaultTransition: Transition.fadeIn,
+            debugShowCheckedModeBanner: false,
+            navigatorKey: navigatorKey,
+            transitionDuration: const Duration(milliseconds: 500),
+            translations: AppLocalization(),
+            locale: getLocale(),
+            initialBinding: InitialBindings(),
+            initialRoute: AppRoutName.splashScreen,
+            getPages: AppRoutes.pages,
           ),
+<<<<<<< HEAD
           defaultTransition: Transition.fadeIn,
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
@@ -49,6 +71,8 @@ class MyApp extends StatelessWidget {
           initialRoute: AppRoutName.oddEvenPage,
           getPages: AppRoutes.pages,
           // home: Gamemode(),
+=======
+>>>>>>> 9e35d7009ea25600d60959f97872b79b2e54fde0
         );
       },
     );
@@ -70,5 +94,23 @@ class MyApp extends StatelessWidget {
         locale = const Locale('en', 'US');
     }
     return locale;
+  }
+}
+
+class AppLifecycleObserver extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      print("hello world");
+      // App is in the foreground
+    } else if (state == AppLifecycleState.paused) {
+      print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+      // App is in the background
+    } else if (state == AppLifecycleState.inactive) {
+      print(
+          "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    }
   }
 }

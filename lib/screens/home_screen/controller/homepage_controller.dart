@@ -17,12 +17,14 @@ import '../../../helper_files/ui_utils.dart';
 import '../../../models/commun_models/user_details_model.dart';
 import '../../../models/daily_market_api_response_model.dart';
 import '../../../models/normal_market_bid_history_response_model.dart';
+import '../../../models/passbook_page_model.dart';
 import '../../../models/starline_chart_model.dart';
 import '../../../models/starline_daily_market_api_response.dart';
 import '../../../routes/app_routes_name.dart';
 import '../../Local Storage.dart';
 import '../../bottum_navigation_screens/bid_history.dart';
 import '../../bottum_navigation_screens/moreoptions.dart';
+import '../../bottum_navigation_screens/passbook_page.dart';
 import '../utils/home_screen_utils.dart';
 
 class HomePageController extends GetxController {
@@ -51,10 +53,14 @@ class HomePageController extends GetxController {
   UserDetailsModel userData = UserDetailsModel();
   RxList<ResultArr> marketHistoryList = <ResultArr>[].obs;
   RxList<ResultArr> starLineMarketHistoryList = <ResultArr>[].obs;
+  RxList<Rows> passBookModelData = <Rows>[].obs;
+  RxList<Rows> passBookModelData2 = <Rows>[].obs;
+  RxInt passbookCount = 0.obs;
   // RxList<NormalMarketHistoryModel> marketHistoryList =
   //     <NormalMarketHistoryModel>[].obs;
   RxBool isStarline2 = false.obs;
-  int offset = 0;
+  RxInt offset = 0.obs;
+
   @override
   void onInit() {
     setboolData();
@@ -340,6 +346,9 @@ class HomePageController extends GetxController {
                                   position = 2;
                                   widgetContainer.value = position;
                                   isStarline.value = false;
+                                  launch(
+                                    "https://wa.me/+917769826748/?text=hi",
+                                  );
                                 },
                               ),
                               spaceBeetween,
@@ -395,13 +404,11 @@ class HomePageController extends GetxController {
       case 2:
         return SPLWallet();
       case 3:
-        return Container();
-
+        return PassBook();
       case 4:
         return const MoreOptions();
-      // case 4:
-      //   return WithdrawalPage();
-
+      case 5:
+        return WithdrawalPage();
       default:
         return SafeArea(
           child: SizedBox(
@@ -531,9 +538,10 @@ class HomePageController extends GetxController {
 
   void onTapOfStarlineMarket(StarlineMarketData market) {
     if (market.isBidOpen ?? false) {
-      Get.toNamed(AppRoutName.starLineGameModesPage, arguments: {
-        "marketData": market,
-      });
+      Get.toNamed(
+        AppRoutName.starLineGameModesPage,
+        arguments: market,
+      );
     } else {
       AppUtils.showErrorSnackBar(
         bodyText: "Bidding is Closed!!!!",
@@ -634,7 +642,7 @@ class HomePageController extends GetxController {
         .getBidHistoryByUserId(
             userId: userData.id.toString(),
             limit: "10",
-            offset: offset.toString(),
+            offset: offset.value.toString(),
             isStarline: isStarline.value)
         .then((value) async {
       debugPrint("Get Market Api Response :- $value");
@@ -653,5 +661,66 @@ class HomePageController extends GetxController {
         );
       }
     });
+  }
+
+  final int itemLimit = 10;
+
+  void getPassBookData({required bool lazyLoad, required String offset}) {
+    print("@@@@@@@@@@@@@@@@:-  ${offset.toString()}");
+    ApiService()
+        .getPassBookData(
+      userId: userData.id.toString(),
+      isAll: true,
+      limit: itemLimit.toString(),
+      offset: offset.toString(),
+    )
+        .then((value) async {
+      debugPrint(" Get passBook Data @@@@@@@@@@@@@@@@:- $value");
+      print("@@@@@@@@@@@@@@@@:-   ${offset.toString()}");
+      if (value['status']) {
+        print(value['status']);
+        if (value['data'] != null) {
+          PassbookModel model = PassbookModel.fromJson(value);
+          passbookCount.value = int.parse(model.data!.count!.toString());
+          passBookModelData.value = model.data?.rows ?? <Rows>[];
+          passBookModelData.refresh();
+          // passBookList.value = model.data ?? <Data>[];
+        }
+      } else {
+        AppUtils.showErrorSnackBar(
+          bodyText: value['message'] ?? "",
+        );
+      }
+    });
+  }
+
+  int calculateTotalPages() {
+    return (passbookCount.value / itemLimit).ceil();
+  }
+
+  void nextPage() {
+    if (offset.value < calculateTotalPages()) {
+      print("offset.value ${offset.value}");
+      passBookModelData.clear();
+      offset.value++;
+      print("offset.value ${offset.value}");
+      getPassBookData(lazyLoad: false, offset: offset.value.toString());
+      print("offset.value ${offset.value}");
+      passBookModelData.refresh();
+      update();
+    }
+  }
+
+  void prevPage() {
+    if (offset.value > 0) {
+      print("offset.value ${offset.value}");
+      passBookModelData.clear();
+      offset.value--;
+      print("offset.value ${offset.value}");
+      getPassBookData(lazyLoad: false, offset: offset.value.toString());
+      print("offset.value ${offset.value}");
+      passBookModelData.refresh();
+      update();
+    }
   }
 }

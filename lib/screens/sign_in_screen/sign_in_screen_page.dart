@@ -165,6 +165,10 @@ class SignInScreen extends StatelessWidget {
                 });
               }
             },
+            hintTextStyle: CustomTextStyle.textRobotoSansLight.copyWith(
+              color: AppColors.grey,
+              fontSize: Dimensions.h14,
+            ),
             maxLines: 1,
             focusNode: controller.focusNode1,
             minLines: 1,

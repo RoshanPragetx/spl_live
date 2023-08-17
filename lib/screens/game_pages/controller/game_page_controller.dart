@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import 'package:spllive/routes/app_routes_name.dart';
 import '../../../helper_files/constant_variables.dart';
@@ -14,26 +15,25 @@ import '../../../models/game_modes_api_response_model.dart';
 import '../../Local Storage.dart';
 
 class GamePageController extends GetxController {
-  // RxList<String> filteredItems = RxList<String>();
+  //RxList<String> filteredItems = RxList<String>();
   RxInt containerWidget = 0.obs;
-  var coinController = TextEditingController();
-  var searchController = TextEditingController();
+  TextEditingController coinController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   RxBool isEnable = false.obs;
   RxBool showNumbersLine = false.obs;
   GameMode gameMode = GameMode();
   List<String> matches = <String>[].obs;
   bool enteredDigitsIsValidate = false;
-
   var biddingType = "".obs;
   var marketName = "".obs;
   var marketTime = "".obs;
-  RxString totalAmount = "00".obs;
+  RxString totalAmount = "0".obs;
   var marketId = 0;
   RxBool isBulkMode = false.obs;
   RxBool validCoinsEntered = false.obs;
   String addedNormalBidValue = "";
   RxInt panaControllerLength = 2.obs;
-
+  RxInt totalBid = 0.obs;
   int selectedIndexOfDigitRow = 0;
 
   var argument = Get.arguments;
@@ -63,6 +63,7 @@ class GamePageController extends GetxController {
     DigitListModelOffline(value: "9", isSelected: false),
   ].obs;
   Timer? _debounce;
+
   @override
   void onInit() {
     super.onInit();
@@ -80,6 +81,8 @@ class GamePageController extends GetxController {
     });
   }
 
+  // onchangeBulk(String val) {}
+
   Future<void> loadJsonFile() async {
     final String response =
         await rootBundle.loadString('assets/JSON File/digit_file.json');
@@ -96,7 +99,7 @@ class GamePageController extends GetxController {
     isBulkMode.value = argument['isBulkMode'];
     await loadJsonFile();
     switch (gameMode.name) {
-      case "Single Digit":
+      case "Single Ank Bulk":
         showNumbersLine.value = false;
         enteredDigitsIsValidate = true;
         panaControllerLength.value = 1;
@@ -106,7 +109,7 @@ class GamePageController extends GetxController {
         }
         digitList.value = singleAnkList;
         break;
-      case "Jodi Digit":
+      case "Jodi Bulk":
         showNumbersLine.value = false;
         suggestionList.value = jsonModel.jodi!;
         panaControllerLength.value = 2;
@@ -115,7 +118,7 @@ class GamePageController extends GetxController {
         }
         digitList.value = jodiList;
         break;
-      case "Single Pana":
+      case "Single Pana Bulk":
         digitRow.first.isSelected = true;
         showNumbersLine.value = true;
         panaControllerLength.value = 3;
@@ -125,7 +128,7 @@ class GamePageController extends GetxController {
         }
         digitList.value = singlePanaList;
         break;
-      case "Double Pana":
+      case "Double Pana Bulk":
         digitRow.first.isSelected = true;
         showNumbersLine.value = true;
         panaControllerLength.value = 3;
@@ -159,9 +162,8 @@ class GamePageController extends GetxController {
     if (validCoinsEntered.value) {
       if (digitList[index].isSelected == false) {
         onTapOfDigitTile(index);
-        digitList[index].isSelected = true;
+        // digitList[index].isSelected = true;
       } else {
-        digitList[index].isSelected = false;
         onLongPressDigitTile(index);
       }
     }
@@ -211,15 +213,17 @@ class GamePageController extends GetxController {
           ),
         );
       }
-      print(digitList[index].isSelected);
       _calculateTotalAmount();
     } else {
       // digitList[index].coins = 0;
-      // digitList[index].isSelected = false;
-      // digitList.refresh();
-      // selectedBidsList
-      //     .removeWhere((element) => element.bidNo == digitList[index].value);
-      // _calculateTotalAmount();
+      validCoinsEntered.value = false;
+      digitList.refresh();
+      digitList[index].isSelected = false;
+      isEnable.value = false;
+      digitList.refresh();
+      selectedBidsList
+          .removeWhere((element) => element.bidNo == digitList[index].value);
+      _calculateTotalAmount();
       // print("Enable Value:${isEnable.value}");
       AppUtils.showErrorSnackBar(bodyText: "Please enter coins!");
     }
@@ -248,8 +252,8 @@ class GamePageController extends GetxController {
     }
     digitRow[index].isSelected = true;
     digitRow.refresh();
-
-    if (gameMode.name == "Single Pana") {
+    if (gameMode.name!.toUpperCase() == "SINGLE PANA BULK") {
+      print(jsonModel.singlePana!.single.l0);
       panaSwitchCase(jsonModel.singlePana!.single, index);
     } else {
       panaSwitchCase(jsonModel.doublePana!.single, index);
@@ -347,7 +351,8 @@ class GamePageController extends GetxController {
       digitList.clear();
       searchController.clear();
       coinController.clear();
-      totalAmount.value = "00";
+      totalAmount.value = "0";
+      totalBid.value == "0";
       getArguments();
     } else {
       AppUtils.showErrorSnackBar(
@@ -356,76 +361,3 @@ class GamePageController extends GetxController {
     }
   }
 }
-
-// void onTapOfDigitTile(int index) {
-//   if (coinController.text.isNotEmpty) {
-//     if (isBulkMode.value) {
-//       if (!validCoinsEntered.value) {
-//         AppUtils.showErrorSnackBar(bodyText: "Please enter valid coins");
-//         return;
-//       }
-//       int tempCoins = int.parse("${digitList[index].coins}");
-//       digitList[index].coins = tempCoins + int.parse(coinController.text);
-//       digitList[index].isSelected = true;
-//       digitList.refresh();
-//       if (selectedBidsList.isNotEmpty) {
-//         var tempBid = selectedBidsList
-//             .where((element) => element.bidNo == digitList[index].value)
-//             .toList();
-//         if (tempBid.isNotEmpty) {
-//           for (var element in selectedBidsList) {
-//             if (element.bidNo == digitList[index].value) {
-//               element.coins = digitList[index].coins;
-//             }
-//           }
-//         } else {
-//           selectedBidsList.add(
-//             Bids(
-//               bidNo: digitList[index].value,
-//               coins: int.parse(coinController.text),
-//               gameId: gameMode.id,
-//               gameModeName: gameMode.name,
-//               remarks:
-//                   "You invested At ${marketName.value} on ${digitList[index].value} (${gameMode.name})",
-//             ),
-//           );
-//         }
-//       } else {
-//         selectedBidsList.add(
-//           Bids(
-//             bidNo: digitList[index].value,
-//             coins: int.parse(coinController.text),
-//             gameId: gameMode.id,
-//             gameModeName: gameMode.name,
-//             remarks:
-//                 "You invested At ${marketName.value} on ${digitList[index].value} (${gameMode.name})",
-//           ),
-//         );
-//       }
-//     } else {
-//       digitList[index].isSelected = digitList[index].isSelected! ? false : true;
-//       digitList.refresh();
-//       if (digitList[index].isSelected == true) {
-//         selectedBidsList.add(
-//           Bids(
-//             bidNo: digitList[index].value,
-//             coins: int.parse(coinController.text),
-//             gameId: gameMode.id,
-//             gameModeName: gameMode.name,
-//             remarks:
-//                 "You invested At ${marketName.value} on ${digitList[index].value} (${gameMode.name})",
-//           ),
-//         );
-//       } else {
-//         selectedBidsList
-//             .removeWhere((element) => element.bidNo == digitList[index].value);
-//       }
-//     }
-
-//     _calculateTotalAmount();
-//   } else {
-//     AppUtils.showErrorSnackBar(bodyText: "Please enter coins!");
-//   }
-// }
-
-// }

@@ -56,6 +56,7 @@ class AppUtils {
       required String iconText,
       required double width,
       Color? textColor,
+      double? iconwidth,
       Color? color}) {
     return InkWell(
       onTap: onTap,
@@ -67,7 +68,7 @@ class AppUtils {
           children: [
             SizedBox(
               height: Dimensions.w15,
-              width: Dimensions.w15,
+              width: iconwidth ?? Dimensions.w15,
               child: SvgPicture.asset(
                 icon,
                 color: color ?? AppColors.grey,

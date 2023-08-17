@@ -76,8 +76,8 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
           focusNode: focusNode,
           maxLines: maxLines,
           minLines: minLines,
-          onTapOutside: onTapOutside,
-          onEditingComplete: onEditingComplete,
+          //onTapOutside: onTapOutside,
+          //  onEditingComplete: onEditingComplete,
           keyboardType: keyboardType,
           inputFormatters: formatter,
           cursorColor: AppColors.black,
@@ -89,11 +89,10 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
               ),
           textAlign: textAlign ?? TextAlign.start,
           decoration: InputDecoration(
-            contentPadding: contentPadding == null
-                ? imagePath.isEmpty
+            contentPadding: contentPadding ??
+                (imagePath.isEmpty
                     ? EdgeInsets.symmetric(horizontal: Dimensions.w12)
-                    : EdgeInsets.zero
-                : contentPadding,
+                    : EdgeInsets.zero),
             focusColor: AppColors.appbarColor,
             filled: true,
             fillColor: AppColors.grey.withOpacity(0.2),
@@ -107,7 +106,7 @@ class RoundedCornerEditTextWithIcon extends StatelessWidget {
             hintText: hintText,
             hintStyle: hintTextStyle ??
                 CustomTextStyle.textRobotoSansLight.copyWith(
-                  color: hintTextColor ?? AppColors.grey,
+                  color: hintTextColor ?? AppColors.black.withOpacity(0.65),
                   fontSize: Dimensions.h15,
                   // fontWeight: FontWeight.bold,
                 ),

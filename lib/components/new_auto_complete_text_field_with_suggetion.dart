@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../helper_files/app_colors.dart';
 import '../helper_files/custom_text_style.dart';
@@ -19,11 +20,19 @@ class AutoTextFieldWithSuggetion extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.onChanged,
-    this.textAlign,
+    this.containerBackColor,
+    required this.imagePath,
+    this.keyboardType,
+    this.isBulkMode = true,
+    this.validateValue,
+    this.autofocus,
+    this.enable,
   });
 
   final FutureOr<Iterable<String>> Function(TextEditingValue) optionsBuilder;
   final double height;
+
+  Color? containerBackColor;
   final TextEditingController controller;
   final FocusNode? focusNode;
   Function(String)? onChanged;
@@ -31,7 +40,12 @@ class AutoTextFieldWithSuggetion extends StatelessWidget {
   final double containerWidth;
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
-  TextAlign? textAlign;
+  final String imagePath;
+  final TextInputType? keyboardType;
+  Function(bool, String)? validateValue;
+  bool? isBulkMode;
+  bool? autofocus;
+  bool? enable;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +55,13 @@ class AutoTextFieldWithSuggetion extends StatelessWidget {
     );
     return Container(
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             offset: const Offset(0, 4),
             blurRadius: 3,
             spreadRadius: 0.2,
-            color: AppColors.grey.withOpacity(0.4),
+            color: AppColors.grey.withOpacity(0.7),
           ),
         ],
       ),
@@ -67,14 +82,45 @@ class AutoTextFieldWithSuggetion extends StatelessWidget {
             controller: controller,
             focusNode: focusNode,
             maxLength: maxLength,
-            keyboardType: TextInputType.number,
-            onChanged: onChanged,
-            textAlign: textAlign ?? TextAlign.start,
+            autofocus: autofocus ?? false,
+            keyboardType: keyboardType,
+            enabled: enable ?? false,
+            onChanged: (value) {
+              onChanged;
+              validateValue!(false, value);
+            },
+            onFieldSubmitted: (String value) {
+              if (isBulkMode ?? false) {
+                textEditingController.clear();
+              } else {
+                onFieldSubmitted;
+              }
+            },
+            textAlign: TextAlign.start,
             inputFormatters: inputFormatters,
-            style: CustomTextStyle.textRobotoSansBold
-                .copyWith(color: AppColors.appbarColor),
+            style: CustomTextStyle.textRobotoSansMedium
+                .copyWith(color: AppColors.black),
             decoration: InputDecoration(
-              hintStyle: CustomTextStyle.textRobotoSansBold.copyWith(
+              prefixIcon: imagePath.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            // color: AppColors.containerBackColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: Dimensions.h2, bottom: Dimensions.h2),
+                          child: SvgPicture.asset(
+                            imagePath,
+                            color: AppColors.black,
+                            height: 5,
+                          ),
+                        ),
+                      ),
+                    )
+                  : null,
+              hintStyle: CustomTextStyle.textRobotoSansMedium.copyWith(
                 color: AppColors.black.withOpacity(0.65),
                 fontSize: Dimensions.h15,
               ),

@@ -36,46 +36,47 @@ class StarLineGameModesPageController extends GetxController {
   void onInit() async {
     super.onInit();
     // This code will be executed after 3 secondsa
-    getBool();
+    // getBool();
     // print(getBidData);
-    Timer(
-      const Duration(seconds: 1),
-      () {
-        if (!getBidData) {
-          marketData.value = arguments['marketData'];
-        }
-        checkBiddingStatus();
-        callGetGameModes();
-      },
-    );
+    // Timer(
+    //   const Duration(seconds: 1),
+    //   () {
+    //     if (!getBidData) {
+    //       marketData.value = arguments['marketData'];
+    //     }
+    marketData.value = arguments;
+    checkBiddingStatus();
+    callGetGameModes();
+    // },
+    // );
   }
 
   @override
-  onClose() async {
-    await LocalStorage.write(ConstantsVariables.boolData, false);
+  onClose() {
+    // await LocalStorage.write(ConstantsVariables.boolData, false);
   }
 
-  Future<void> getArguments() async {
-    gameMode.value = arguments['gameMode'];
-    marketData.value = arguments['marketData'];
-    requestModel.value.bids = arguments['bidsList'];
-    requestModel.refresh();
-    _calculateTotalAmount();
-    requestModel.value.dailyStarlineMarketId = marketData.value.id;
-    var data = await LocalStorage.read(ConstantsVariables.userData);
-    UserDetailsModel userData = UserDetailsModel.fromJson(data);
-    requestModel.value.userId = userData.id;
-  }
+  // Future<void> getArguments() async {
+  //   gameMode.value = arguments['gameMode'];
+  //   marketData.value = arguments['marketData'];
+  //   // requestModel.value.bids = arguments['bidsList'];
+  //   // requestModel.refresh();
+  //   //  _calculateTotalAmount();
+  //   // requestModel.value.dailyStarlineMarketId = marketData.value.id;
+  //   var data = await LocalStorage.read(ConstantsVariables.userData);
+  //   UserDetailsModel userData = UserDetailsModel.fromJson(data);
+  //   //requestModel.value.userId = userData.id;
+  // }
 
-  Future<void> getBool() async {
-    getBidData = await LocalStorage.read(ConstantsVariables.boolData);
-    print(count++);
-    print(getBidData);
-    if (getBidData) {
-      getArguments();
-    }
-    update();
-  }
+  // Future<void> getBool() async {
+  //   getBidData = await LocalStorage.read(ConstantsVariables.boolData);
+  //   print(count++);
+  //   print(getBidData);
+  //   if (getBidData) {
+  //     getArguments();
+  //   }
+  //   update();
+  // }
 
   void _calculateTotalAmount() {
     int tempTotal = 0;
@@ -122,19 +123,27 @@ class StarLineGameModesPageController extends GetxController {
 
   void onTapOfGameModeTile(int index) async {
     await LocalStorage.write(ConstantsVariables.boolData, getBidData);
-    Get.offAndToNamed(AppRoutName.starLineGamePage, arguments: {
-      "gameMode": gameModesList[index],
-      "marketData": marketData.value,
-      "getBidData": getBidData,
-      "getBIdType": gameModesList[index].name,
-    });
+    if (gameModesList[index].name!.contains("Bulk")) {
+      Get.toNamed(AppRoutName.starLineGamePage, arguments: {
+        "gameMode": gameModesList[index],
+        "marketData": marketData.value,
+        "getBidData": getBidData,
+        "getBIdType": gameModesList[index].name,
+      });
+    } else {
+      Get.toNamed(AppRoutName.newStarlineGames, arguments: {
+        "gameMode": gameModesList[index],
+        "marketData": marketData.value,
+        "getBidData": getBidData,
+        "getBIdType": gameModesList[index].name,
+      });
+    }
   }
 
   void onDeleteBids(int index) {
     requestModel.value.bids!.remove(requestModel.value.bids![index]);
     requestModel.refresh();
     _calculateTotalAmount();
-
     if (requestModel.value.bids!.isEmpty) {
       Get.back();
       Get.back();

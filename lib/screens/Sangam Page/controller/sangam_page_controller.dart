@@ -19,7 +19,7 @@ class SangamPageController extends GetxController {
   String bidType = "Open";
   Rx<GameMode> gameMode = GameMode().obs;
   Rx<MarketData> marketData = MarketData().obs;
-  RxString totalAmount = "00".obs;
+  // RxString totalAmount = "00".obs;
   RxString openText = "OPENDIGIT".tr.obs;
   RxString closeText = "CLOSEPANA".tr.obs;
   RxString openFieldHint = "ENTERDIGIT".tr.obs;
@@ -103,12 +103,18 @@ class SangamPageController extends GetxController {
     });
   }
 
-  void onDeleteSangamBid(int index) {
-    addedSangamList.remove(addedSangamList[index]);
-    addedSangamList.refresh();
-    totalBiddingAmount.value =
-        (int.parse(coinsController.text.toString()) * addedSangamList.length)
-            .toString();
+  // void onDeleteSangamBid(int index) {
+  //   addedSangamList.remove(addedSangamList[index]);
+  //   addedSangamList.refresh();
+  //   totalBiddingAmount.value =
+  //       (int.parse(coinsController.text.toString()) * addedSangamList.length)
+  //           .toString();
+  // }
+
+  void onDeleteBids(int index) {
+    requestModel.value.bids = addedSangamList;
+    requestModel.value.bids!.remove(addedSangamList[index]);
+    requestModel.refresh();
   }
 
   void validateEnteredOpenDigit(String value) {
@@ -125,10 +131,10 @@ class SangamPageController extends GetxController {
     //  enteredCloseDigitsIsValidate = true;
     closeValue = value;
     print("closeValue$closeValue");
-    if (enteredOpenDigitsIsValidate) {
-      halfSangamPanaSwitchCase(
-          jsonModel.singlePana!.single, int.parse(openValue));
-    }
+    // if (enteredOpenDigitsIsValidate) {
+    //   halfSangamPanaSwitchCase(
+    //       jsonModel.singlePana!.single, int.parse(openValue));
+    // }
   }
 
   void onTapOfSaveButton() {
@@ -239,11 +245,5 @@ class SangamPageController extends GetxController {
         bodyText: "Please Enter Valid Points!",
       );
     }
-  }
-
-  void onDeleteBids(int index) {
-    requestModel.value.bids = addedSangamList;
-    requestModel.value.bids!.remove(addedSangamList[index]);
-    requestModel.refresh();
   }
 }
