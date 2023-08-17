@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 
-import 'helper_files/app_colors.dart';
-import 'helper_files/custom_text_style.dart';
-import 'helper_files/dimentions.dart';
+import '../helper_files/app_colors.dart';
+import '../helper_files/custom_text_style.dart';
 
 void main() {
-  runApp(GetMaterialApp(
-    home: Bid(),
+  runApp(const GetMaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: MarketBid(),
   ));
 }
 
-class Bid extends StatelessWidget {
-  const Bid({super.key});
+class MarketBid extends StatelessWidget {
+  const MarketBid({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppUtils().simpleAppbar(appBarTitle: "Your Market"),
+        appBar: AppUtils().simpleAppbar(appBarTitle: "Bid For SUPREME DAY"),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
           child: Container(

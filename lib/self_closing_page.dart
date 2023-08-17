@@ -56,7 +56,7 @@ class InactivityController extends GetxController {
   //   super.onClose();
   // }
   Timer? _inactivityTimer;
-  final Duration _inactivityDuration = const Duration(seconds: 180);
+  final Duration _inactivityDuration = const Duration(minutes: 50);
 
   @override
   void onInit() {

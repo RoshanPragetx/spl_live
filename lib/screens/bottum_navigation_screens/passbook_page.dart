@@ -10,7 +10,6 @@ import '../../helper_files/custom_text_style.dart';
 import '../../helper_files/dimentions.dart';
 import '../home_screen/controller/homepage_controller.dart';
 import 'controller/bottum_navigation_controller.dart';
-import 'package:spllive/models/passbook_page_model.dart';
 
 class PassBook extends StatelessWidget {
   PassBook({super.key});

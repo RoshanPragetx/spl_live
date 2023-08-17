@@ -25,6 +25,8 @@ import '../screens/Forgot Password/binding/forgot_password_page_binding.dart';
 import '../screens/Forgot Password/forgot_password_page.dart';
 import '../screens/MPIN Page/binding/mpin_page_binding.dart';
 import '../screens/MPIN Page/mpin_page_view.dart';
+import '../screens/Market Bid History/binding/market_bid_history_binding.dart';
+import '../screens/Market Bid History/market_bid_history_page.dart';
 import '../screens/More Details Screens/About Page/binding/about_page_biding.dart';
 import '../screens/More Details Screens/Change Mpin/change_mpin_page.dart';
 import '../screens/More Details Screens/Change Password/bidding/change_password_bidings.dart';
@@ -421,6 +423,14 @@ class AppRoutes {
       transitionDuration: const Duration(milliseconds: 300),
       page: () => StarLineNewGamePage(),
       bindings: [StarlineNewGamePageBinding()],
+    ),
+
+    GetPage(
+      name: AppRoutName.marketbidHistory,
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(milliseconds: 300),
+      page: () => MarketBidHistory(),
+      bindings: [MarketBidHistoryPageBindings()],
     )
   ];
 }

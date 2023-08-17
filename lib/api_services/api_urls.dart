@@ -47,7 +47,10 @@ class ApiUtils {
   static String setDeviceDetails = '$baseURL/auth/setDeviceDetails';
   static String setMPIN = '$baseURL/auth/mPin/set';
   static String getBalance = '$baseURL/wallet/getBalance';
-  static String normalMarketBidHistory = '$baseURL/bid/getByUserId';
+  // static String normalMarketBidHistory = '$baseURL/bid/getBidHistory';
+
+  // Market bid
+  static String marketbidHistory = '$baseURL/bid/getBidHistory';
   static String starlineMarketBidHistory = '$baseURL/bid/starline/getByUserId';
   static String changeMPIN = "$baseURL/auth/mPin/change";
   static String webStarLinechar = "$baseURL/web/starlineChart";
@@ -62,4 +65,12 @@ class ApiUtils {
   static String choicePanaSPDP = "$baseURL/gameMode/getChoicePanaSPDPTP";
   static String digitsBasedJodi = "$baseURL/gameMode/digitBasedJodi";
   static String passBookApi = "$baseURL/user/getUserPassbookDetails";
+
+  // Market Bid history
+  static String marketday =
+      '$baseURL/bid/getBidHistoryByDailyMarketId?dailyMarketId';
 }
+
+
+
+// =$userId&limit=10&offset=0

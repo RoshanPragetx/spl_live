@@ -219,7 +219,7 @@ class AppUtils {
         height: Dimensions.w50,
         width: Dimensions.w50,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(Dimensions.r50),
           color: AppColors.white.withOpacity(0.25),
           boxShadow: [
             BoxShadow(

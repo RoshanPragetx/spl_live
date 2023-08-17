@@ -120,4 +120,13 @@ class CommonUtils {
 
     return outputDate;
   }
+
+  String convertUtcToIst(String utcTimestamp) {
+    DateTime utcDateTime = DateTime.parse(utcTimestamp);
+    DateTime istDateTime =
+        utcDateTime.add(const Duration(hours: 5, minutes: 30));
+    String formattedDate = DateFormat('MMM dd, yyyy').format(istDateTime);
+    String formattedTime = DateFormat('hh:mm a').format(istDateTime);
+    return '$formattedDate $formattedTime';
+  }
 }

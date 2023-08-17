@@ -6,7 +6,6 @@ import 'package:spllive/routes/app_routes_name.dart';
 
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
-import '../../../routes/app_routes.dart';
 import '../../Local Storage.dart';
 
 class VerifyOTPController extends GetxController {

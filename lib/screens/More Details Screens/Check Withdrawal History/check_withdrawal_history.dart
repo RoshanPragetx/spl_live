@@ -85,10 +85,10 @@ class CheckWithdrawalPage extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: Dimensions.h5),
       child: Container(
         decoration: BoxDecoration(
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               spreadRadius: 1,
-              color: Colors.grey,
+              color: AppColors.grey,
               blurRadius: 10,
               offset: Offset(7, 4),
             ),

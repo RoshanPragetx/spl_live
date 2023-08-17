@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/common_utils.dart';
-import 'package:spllive/helper_files/constant_image.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/helper_files/dimentions.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
@@ -101,7 +100,7 @@ class TransactionPage extends StatelessWidget {
           ],
           border: Border.all(width: 0.6),
           color: containerColor,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(Dimensions.r8),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

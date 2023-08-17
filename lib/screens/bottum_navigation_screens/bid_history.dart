@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/app_colors.dart';
+import 'package:spllive/helper_files/constant_image.dart';
 import 'package:spllive/screens/home_screen/controller/homepage_controller.dart';
 
 import '../../helper_files/common_utils.dart';
-import '../../helper_files/constant_image.dart';
 import '../../helper_files/custom_text_style.dart';
 import '../../helper_files/dimentions.dart';
 import '../../helper_files/ui_utils.dart';
@@ -19,8 +20,11 @@ class BidHistory extends StatelessWidget {
     required this.appbarTitle,
   });
   final String appbarTitle;
+
   var controller = Get.put(MoreListController());
+
   var homePageController = Get.put(HomePageController());
+
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
@@ -52,7 +56,7 @@ class BidHistory extends StatelessWidget {
 
   bidHistoryList() {
     return Obx(
-      () => controller.marketHistoryList.isEmpty
+      () => homePageController.marketbidhistory.isEmpty
           ? Center(
               child: Text(
                 "NOHISTORYAVAILABLEFORLAST7DAYS".tr,
@@ -65,21 +69,35 @@ class BidHistory extends StatelessWidget {
           : ListView.builder(
               padding:
                   EdgeInsets.symmetric(vertical: 5, horizontal: Dimensions.h10),
-              itemCount: controller.marketHistoryList.length,
+              itemCount: homePageController.marketbidhistory.length,
               itemBuilder: (context, index) {
                 // var data = controller.marketHistoryList.elementAt(index);
                 // print(")))))))))))))))))))))))))))))))))))))))))))))))))) $data");
                 return listveiwTransaction(
-                  ballance:
-                      controller.marketHistoryList[index].balance.toString(),
-                  coins: controller.marketHistoryList[index].coins.toString(),
+                  index: index,
+                  ballance: homePageController
+                      .marketbidhistory[index].totalWonAmount
+                      .toString(),
+                  coins: homePageController
+                      .marketbidhistory[index].totalBidAmount
+                      .toString(),
                   closeTime: CommonUtils().formatStringToHHMMA(
-                      controller.marketHistoryList[index].closeTime ?? ""),
+                      homePageController.marketbidhistory[index].closeTime ??
+                          ""),
+                  // homePageController.marketbidhistory[index].closeTime ??
+                  //     "",
                   openTime: CommonUtils().formatStringToHHMMA(
-                      controller.marketHistoryList[index].openTime ?? ""),
-                  bidNumber: controller.marketHistoryList[index].bidNo ?? "",
+                      '${homePageController.marketbidhistory[index].openTime ?? ""}'),
+                  // homePageController.marketbidhistory[index].openTime ?? "",
+                  bidNumber:
+                      '***-**-***${homePageController.marketbidhistory[index].openResult ?? ""}',
+
+                  marketname:
+                      homePageController.marketbidhistory[index].marketName ??
+                          "",
                   marketName:
-                      controller.marketHistoryList[index].marketName ?? "",
+                      homePageController.marketbidhistory[index].marketName ??
+                          "",
                 );
               },
             ),
@@ -93,122 +111,148 @@ class BidHistory extends StatelessWidget {
     required String closeTime,
     required String coins,
     required String ballance,
+    required index,
+    required marketname,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: Dimensions.h5),
-      child: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              spreadRadius: 1,
-              color: AppColors.grey,
-              blurRadius: 10,
-              offset: const Offset(7, 4),
-            ),
-          ],
-          border: Border.all(width: 0.6),
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    marketName,
-                    style: CustomTextStyle.textRobotoSansBold
-                        .copyWith(fontSize: Dimensions.h14),
-                  ),
-                  Text(
-                    // "446-47-359",
-                    bidNumber,
-                    style: CustomTextStyle.textRobotoSansBold,
-                  ),
-                ],
+      child: InkWell(
+        // onTap: () {
+        //   Get.to(
+        //     MarketBidHistory(
+        //       marketId:
+        //           homePageController.marketbidhistory[index].id.toString() ??
+        //               "",
+        //       marketname: homePageController.marketbidhistory[index].marketName
+        //               .toString() ??
+        //           "",
+        //     ),
+        //   );
+        //   // arguments: homePageController.marketbidhistory[index]);
+        // },
+        child: Container(
+          height: Dimensions.h100,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                spreadRadius: 1,
+                color: AppColors.grey,
+                blurRadius: 10,
+                offset: const Offset(7, 4),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "$openTime - $closeTime",
-                    style: CustomTextStyle.textRobotoSansLight,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    "COINS",
-                    style: CustomTextStyle.textRobotoSansLight,
-                  ),
-                  SizedBox(
-                    width: Dimensions.w5,
-                  ),
-                  // Image.asset(
-                  //   ConstantImage.ruppeeBlueIcon,
-                  //   height: Dimensions.h25,
-                  //   width: Dimensions.w25,
-                  // ),
-                  SizedBox(
-                    width: Dimensions.w5,
-                  ),
-                  Text(
-                    coins,
-                    style: CustomTextStyle.textRobotoSansLight.copyWith(
-                      fontSize: Dimensions.h14,
-                      color: AppColors.balanceCoinsColor,
+            ],
+            border: Border.all(width: 0.4),
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      marketName,
+                      style: CustomTextStyle.textRobotoSansBold
+                          .copyWith(fontSize: Dimensions.h14),
                     ),
-                  ),
-                  const Expanded(child: SizedBox()),
-                  // Text(
-                  //   "Balance",
-                  //   style: CustomTextStyle.textRobotoSansLight,
-                  // ),
-                  SizedBox(
-                    width: Dimensions.w5,
-                  ),
-                  // Image.asset(
-                  //   ConstantImage.ruppeeBlueIcon,
-                  //   height: 25,
-                  //   width: 25,
-                  // ),
-                  SizedBox(
-                    width: Dimensions.w5,
-                  ),
-                  Text(
-                    ballance,
-                    style: CustomTextStyle.textRobotoSansLight.copyWith(
-                      fontSize: Dimensions.h14,
-                      color: AppColors.balanceCoinsColor,
-                    ),
-                  ),
-                ],
+                    bidNumber == "" || bidNumber == null
+                        ? SvgPicture.asset(ConstantImage.openStarsSvg,
+                            height: Dimensions.h50)
+                        : Text(
+                            // "446-47-359",
+                            "$bidNumber",
+                            style: CustomTextStyle.textRobotoSansBold,
+                          ),
+                  ],
+                ),
               ),
-            ),
-            // Container(
-            //   height: 40,
-            //   width: double.infinity,
-            //   decoration: const BoxDecoration(
-            //     color: Color.fromARGB(255, 188, 185, 185),
-            //     borderRadius: BorderRadius.only(
-            //       bottomLeft: Radius.circular(8),
-            //       bottomRight: Radius.circular(8),
-            //     ),
-            //   ),
-            //   child: Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
-            // ),
-          ],
+              SizedBox(
+                height: Dimensions.h10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "$openTime - $closeTime",
+                      style: CustomTextStyle.textRobotoSansLight,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: Dimensions.h8,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      "COINS",
+                      style: CustomTextStyle.textRobotoSansLight,
+                    ),
+                    SizedBox(
+                      width: Dimensions.w5,
+                    ),
+                    // Image.asset(
+                    //   ConstantImage.ruppeeBlueIcon,
+                    //   height: Dimensions.h25,
+                    //   width: Dimensions.w25,
+                    // ),
+                    SizedBox(
+                      width: Dimensions.w5,
+                    ),
+                    Text(
+                      coins,
+                      style: CustomTextStyle.textRobotoSansLight.copyWith(
+                        fontSize: Dimensions.h14,
+                        color: AppColors.balanceCoinsColor,
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    // Text(
+                    //   "Balance",
+                    //   style: CustomTextStyle.textRobotoSansLight,
+                    // ),
+                    SizedBox(
+                      width: Dimensions.w5,
+                    ),
+                    // Image.asset(
+                    //   ConstantImage.ruppeeBlueIcon,
+                    //   height: 25,
+                    //   width: 25,
+                    // ),
+
+                    Text(
+                      ballance,
+                      style: CustomTextStyle.textRobotoSansLight.copyWith(
+                        fontSize: Dimensions.h14,
+                        color: AppColors.balanceCoinsColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Container(
+              //   height: 40,
+              //   width: double.infinity,
+              //   decoration: const BoxDecoration(
+              //     color: Color.fromARGB(255, 188, 185, 185),
+              //     borderRadius: BorderRadius.only(
+              //       bottomLeft: Radius.circular(8),
+              //       bottomRight: Radius.circular(8),
+              //     ),
+              //   ),
+              //   child: Center(child: Text("Time: 29 June,2023, 5:26:11 PM")),
+              // ),
+            ],
+          ),
         ),
       ),
     );

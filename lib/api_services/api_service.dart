@@ -1,10 +1,13 @@
 // ignore_for_file: duplicate_import
 
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import 'package:spllive/routes/app_routes_name.dart';
 import '../helper_files/constant_variables.dart';
 import '../screens/Local Storage.dart';
+import '../screens/Market Bid History/model/bid_model.dart';
 import 'api_urls.dart';
 import 'network_info.dart';
 import 'package:get/get.dart';
@@ -711,7 +714,7 @@ class ApiService extends GetConnect {
     AppUtils.showProgressDialog(isCancellable: false);
     await initApiService();
     final response = await get(
-      "${isStarline ? ApiUtils.starlineMarketBidHistory : ApiUtils.normalMarketBidHistory}?id=$userId&limit=$limit&offset=$offset",
+      "${isStarline ? ApiUtils.starlineMarketBidHistory : ApiUtils.marketbidHistory}?id=$userId&limit=$limit&offset=$offset",
       headers: headersWithToken,
     );
     if (response.status.hasError) {
@@ -866,6 +869,55 @@ class ApiService extends GetConnect {
     } else {
       AppUtils.hideProgressDialog();
       return response.body;
+    }
+  }
+
+  Future<dynamic> BidHistoryByUserId({
+    required String userId,
+  }) async {
+    print("${ApiUtils.marketbidHistory}/$userId");
+    AppUtils.showProgressDialog(isCancellable: false);
+    await initApiService();
+    final response = await get(
+      "${ApiUtils.marketbidHistory}/$userId",
+      headers: headersWithToken,
+    );
+    if (response.status.hasError) {
+      if (response.status.code != null && response.status.code == 401) {
+        tokenExpired();
+      }
+      AppUtils.hideProgressDialog();
+
+      return Future.error(response.statusText!);
+    } else {
+      AppUtils.hideProgressDialog();
+
+      return response.body;
+    }
+  }
+
+  Future<dynamic> markettime({
+    required String marketId,
+  }) async {
+    print("${ApiUtils.marketday}=$marketId&limit=10&offset=0");
+    AppUtils.showProgressDialog(isCancellable: false);
+    await initApiService();
+    final response = await get(
+      "${ApiUtils.marketday}=$marketId&limit=10&offset=0",
+      headers: headersWithToken,
+    );
+    if (response.status.hasError) {
+      if (response.status.code != null && response.status.code == 401) {
+        tokenExpired();
+      }
+      AppUtils.hideProgressDialog();
+
+      return Future.error(response.statusText!);
+    } else if (response.statusCode == 200) {
+      AppUtils.hideProgressDialog();
+
+      print("Response Bid History${response.body}");
+      return BidModel.fromJson(response.body ?? {});
     }
   }
 }

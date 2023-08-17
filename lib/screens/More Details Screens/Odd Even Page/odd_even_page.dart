@@ -164,6 +164,7 @@ class OddEvenPage extends StatelessWidget {
                       hintText: "POINTS_TEXT".tr,
                       containerWidth: double.infinity,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      imagePath: '',
                     ),
                   ),
                 ),

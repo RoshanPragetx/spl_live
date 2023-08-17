@@ -3,14 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-<<<<<<< HEAD
-import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
-import 'package:spllive/test.dart';
-import 'package:spllive/test2.dart';
-import 'package:spllive/test3.dart';
-
-=======
->>>>>>> 9e35d7009ea25600d60959f97872b79b2e54fde0
 import 'helper_files/constant_variables.dart';
 import 'localization/app_localization.dart';
 import 'routes/app_routes.dart';
@@ -60,19 +52,6 @@ class MyApp extends StatelessWidget {
             initialRoute: AppRoutName.splashScreen,
             getPages: AppRoutes.pages,
           ),
-<<<<<<< HEAD
-          defaultTransition: Transition.fadeIn,
-          debugShowCheckedModeBanner: false,
-          navigatorKey: navigatorKey,
-          transitionDuration: const Duration(milliseconds: 500),
-          translations: AppLocalization(),
-          locale: getLocale(),
-          initialBinding: InitialBindings(),
-          initialRoute: AppRoutName.oddEvenPage,
-          getPages: AppRoutes.pages,
-          // home: Gamemode(),
-=======
->>>>>>> 9e35d7009ea25600d60959f97872b79b2e54fde0
         );
       },
     );

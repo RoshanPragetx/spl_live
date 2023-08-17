@@ -14,6 +14,7 @@ import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../helper_files/dimentions.dart';
 import '../../../helper_files/ui_utils.dart';
+import '../../../models/commun_models/market_bid_history_model.dart';
 import '../../../models/commun_models/user_details_model.dart';
 import '../../../models/daily_market_api_response_model.dart';
 import '../../../models/normal_market_bid_history_response_model.dart';
@@ -55,6 +56,7 @@ class HomePageController extends GetxController {
   RxList<ResultArr> starLineMarketHistoryList = <ResultArr>[].obs;
   RxList<Rows> passBookModelData = <Rows>[].obs;
   RxList<Rows> passBookModelData2 = <Rows>[].obs;
+  RxList<MarketData2> marketbidhistory = <MarketData2>[].obs;
   RxInt passbookCount = 0.obs;
   // RxList<NormalMarketHistoryModel> marketHistoryList =
   //     <NormalMarketHistoryModel>[].obs;
@@ -77,6 +79,8 @@ class HomePageController extends GetxController {
   }
 
   void callMarketsApi() {
+    MarketBidsByUserId(lazyLoad: false);
+    // getUserData();
     getDailyMarkets();
     getStarLineMarkets();
   }
@@ -722,5 +726,34 @@ class HomePageController extends GetxController {
       passBookModelData.refresh();
       update();
     }
+  }
+
+  void MarketBidsByUserId({required bool lazyLoad}) {
+    ApiService()
+        .BidHistoryByUserId(
+      // userId: userData.id.toString(),
+      userId: "18",
+    )
+        .then(
+      (value) async {
+        debugPrint(
+            "Bid History Details Response :- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@s $value");
+        print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+        print("kkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+        if (value['status']) {
+          if (value['data'] != null) {
+            MarkethistoryModel model = MarkethistoryModel.fromJson(value);
+            lazyLoad
+                ? marketbidhistory.addAll(model.data ?? <MarketData2>[])
+                : marketbidhistory.value = model.data ?? <MarketData2>[];
+          }
+        } else {
+          print("1123456");
+          AppUtils.showErrorSnackBar(
+            bodyText: value['message'] ?? "",
+          );
+        }
+      },
+    );
   }
 }
