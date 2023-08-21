@@ -344,6 +344,7 @@ class NewGamemodePageController extends GetxController {
               headerText: "SUCCESSMESSAGE".tr);
           final walletController = Get.find<WalletController>();
           walletController.getUserBalance();
+          walletController.walletBalance.refresh();
         }
       } else {
         AppUtils.showErrorSnackBar(

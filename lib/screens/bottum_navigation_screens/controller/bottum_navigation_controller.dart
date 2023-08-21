@@ -1,20 +1,16 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import 'package:spllive/routes/app_routes_name.dart';
-import 'package:spllive/screens/Market%20Bid%20History/market_bid_history_page.dart';
 
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../models/commun_models/market_bid_history_model.dart';
 import '../../../models/commun_models/user_details_model.dart';
+// import '../../../models/get_feedback_by_id_api_response_model.dart';
 import '../../../models/get_feedback_by_id_api_response_model.dart';
-import '../../../models/normal_market_bid_history_response_model.dart';
 import '../../Local Storage.dart';
 
 class MoreListController extends GetxController {
@@ -32,7 +28,7 @@ class MoreListController extends GetxController {
     getUserData();
     //scrollController.addListener(_scrollListner);
 
-    // getUserBalance();
+    getUserBalance();
     super.onInit();
   }
 
@@ -96,19 +92,19 @@ class MoreListController extends GetxController {
   //   );
   // }
 
-  // void getUserBalance() {
-  //   ApiService().getBalance().then((value) async {
-  //     debugPrint("Forgot MPIN Api Response :- $value");
-  //     if (value['status']) {
-  //       var tempBalance = value['data']['Amount'] ?? 00;
-  //       walletBalance.value = tempBalance.toString();
-  //     } else {
-  //       AppUtils.showErrorSnackBar(
-  //         bodyText: value['message'] ?? "",
-  //       );
-  //     }
-  //   });
-  // }
+  void getUserBalance() {
+    ApiService().getBalance().then((value) async {
+      debugPrint("Forgot MPIN Api Response :- $value");
+      if (value['status']) {
+        var tempBalance = value['data']['Amount'] ?? 00;
+        walletBalance.value = tempBalance.toString();
+      } else {
+        AppUtils.showErrorSnackBar(
+          bodyText: value['message'] ?? "",
+        );
+      }
+    });
+  }
 
   // Rate Controller
   void onTapOfRateUs() async {
@@ -180,7 +176,7 @@ class MoreListController extends GetxController {
 
   void MarketBidsByUserId({required bool lazyLoad}) {
     ApiService()
-        .BidHistoryByUserId(
+        .bidHistoryByUserId(
       // userId: userData.id.toString(),
       userId: "18",
     )

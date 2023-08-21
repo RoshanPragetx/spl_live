@@ -12,18 +12,24 @@ class SplashController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     checkLogin();
+    super.onInit();
   }
 
   Future<void> checkLogin() async {
     bool alreadyLoggedIn = await getStoredUserData();
     bool isActive =
         await LocalStorage.read(ConstantsVariables.isActive) ?? false;
+
     print(isActive);
     bool isVerified =
         await LocalStorage.read(ConstantsVariables.isVerified) ?? false;
+    bool hasMPIN =
+        await LocalStorage.read(ConstantsVariables.isMpinSet) ?? false;
     //print(LocalStorage.read(ConstantsVariables.authToken.));
+
+    await Future.delayed(const Duration(seconds: 2));
+
     if (alreadyLoggedIn) {
       if (!isActive && !isVerified) {
         Future.delayed(const Duration(seconds: 2), () {
@@ -34,10 +40,13 @@ class SplashController extends GetxController {
           Get.offAllNamed(AppRoutName.userDetailsPage);
         });
       } else {
-        Future.delayed(const Duration(seconds: 2), () {
+        if (hasMPIN) {
           Get.offAllNamed(AppRoutName.mPINPage,
               arguments: {"id": _userDetailsModel.id});
-        });
+        } else {
+          Get.offAllNamed(AppRoutName.signInPage,
+              arguments: {"id": _userDetailsModel.id});
+        }
       }
     } else {
       Future.delayed(const Duration(seconds: 2), () {

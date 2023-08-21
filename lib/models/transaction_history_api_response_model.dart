@@ -56,9 +56,9 @@ class Data {
 
   Data.fromJson(dynamic json) {
     _count = json['count'];
-    if (json['resultArr'] != null) {
+    if (json['rows'] != null) {
       _resultArr = [];
-      json['resultArr'].forEach((v) {
+      json['rows'].forEach((v) {
         _resultArr?.add(ResultArr.fromJson(v));
       });
     } else {
@@ -82,7 +82,7 @@ class Data {
     final map = <String, dynamic>{};
     map['count'] = _count;
     if (_resultArr != null) {
-      map['resultArr'] = _resultArr?.map((v) => v.toJson()).toList();
+      map['rows'] = _resultArr?.map((v) => v.toJson()).toList();
     }
     return map;
   }

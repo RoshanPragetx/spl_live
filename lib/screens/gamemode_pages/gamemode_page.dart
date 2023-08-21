@@ -9,9 +9,7 @@ import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/helper_files/dimentions.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import 'package:spllive/screens/gamemode_pages/controller/game_pages_controller.dart';
-import '../../components/simple_button_with_corner.dart';
 import '../../routes/app_routes_name.dart';
-import 'utils/game_mode_utils.dart';
 
 // ignore: must_be_immutable
 class GameModePage extends StatelessWidget {
@@ -20,14 +18,19 @@ class GameModePage extends StatelessWidget {
   var walletController = Get.put(WalletController());
   @override
   Widget build(BuildContext context) {
+    controller.checkBids();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppUtils().simpleAppbar(
         appBarTitle: "GAMEMODES_TEXT".tr,
+        leading: IconButton(
+          onPressed: () => controller.onBackButton(),
+          icon: const Icon(Icons.arrow_back),
+        ),
         actions: [
           InkWell(
-            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            // onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
             child: Row(
               children: [
                 SizedBox(

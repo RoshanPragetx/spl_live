@@ -73,6 +73,6 @@ class AppRoutName {
   /// starlineBidPage
   static String newStarlineGames = "/new_starline_games";
 
-  /// marketbidPage
-  static String marketbidHistory = "/market_bid_history";
+  /// newBidHistorypage
+  static String newBidHistorypage = "/bid_history_page_new";
 }

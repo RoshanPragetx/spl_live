@@ -81,7 +81,6 @@ class PassBook extends StatelessWidget {
                 pageWidget(
                   "previous",
                   onTap: () {
-                    print("previous");
                     homeController.prevPage();
                   },
                 ),
@@ -91,7 +90,6 @@ class PassBook extends StatelessWidget {
                 pageWidget(
                   "NEXT",
                   onTap: () {
-                    print("next");
                     homeController.nextPage();
                   },
                 ),
@@ -130,10 +128,11 @@ class PassBook extends StatelessWidget {
 
   table() {
     print(homeController.passBookModelData.toJson());
+
     return Obx(
       () => DataTable(
         headingRowHeight: Dimensions.h45,
-        dataRowHeight: Dimensions.h45,
+        dataRowHeight: Dimensions.h35,
         horizontalMargin: 0,
         decoration: BoxDecoration(color: AppColors.white),
         // columnSpacing: 30,
@@ -144,7 +143,7 @@ class PassBook extends StatelessWidget {
           ),
           dataColumns(
             text: "Particulers",
-            width: Dimensions.w300,
+            width: 370,
           ),
           dataColumns(
             text: "Previous Amount",
@@ -159,38 +158,41 @@ class PassBook extends StatelessWidget {
           homeController.passBookModelData.length,
           (index) {
             var data = homeController.passBookModelData.elementAt(index);
+            // print(
+            //     "***********20***************${CommonUtils().formatStringToHHMMA(data.marketTime ?? "")}");
+            // print("*********27*****************${data.marketTime}");
             return DataRow(cells: [
               dataCells(
                 width: Dimensions.w150,
                 textColor: AppColors.black,
-                text: CommonUtils().formatStringToDDMMYYYYHHMMA(
+                text: CommonUtils().convertUtcToIst(
                   data.createdAt.toString(),
                 ),
               ),
               dataCells(
-                  width: Dimensions.w300,
+                  width: 370,
                   textColor: AppColors.black,
                   text: data.marketName == null
-                      ? "${data.transactionType ?? ""} (${data.marketTime ?? ""}) : ${data.id ?? ""}"
-                      : "${data.transactionType ?? ""} (${data.marketOpenTime ?? ""} : ${data.marketName ?? ""} : ${data.bidType ?? ""} ) : ${data.id ?? ""}"),
+                      ? data.transactionType == "Withdraw" ||
+                              data.transactionType == "Deposit"
+                          ? "${data.remarks}"
+                          : "${data.transactionType ?? ""} ( ${CommonUtils().formatStringToHHMMA(data.marketTime ?? "")} : ${data.modeName ?? ""} ) : ${data.bidNo} "
+                      : "${data.transactionType ?? ""} ( ${data.marketName ?? ""} :  ${data.modeName ?? ""} : ${data.bidType.toUpperCase() ?? ""} ) : ${data.bidNo ?? ""}"),
               dataCells(
                 width: Dimensions.w150,
                 textColor: AppColors.black,
                 text: data.previousAmount.toString(),
               ),
               dataCells(
-                width: Dimensions.w150,
-                textColor: data.createdAt == "" ||
-                        data.createdAt == "null" ||
-                        data.createdAt == null
-                    ? AppColors.black
-                    : AppColors.redColor,
-                text: data.createdAt == "" ||
-                        data.createdAt == "null" ||
-                        data.createdAt == null
-                    ? data.createdAt.toString()
-                    : "-${data.debit.toString()}",
-              ),
+                  width: Dimensions.w150,
+                  textColor: data.credit == "" ||
+                          data.credit == "null" ||
+                          data.credit == null
+                      ? AppColors.redColor
+                      : AppColors.green,
+                  text: data.credit == "" || data.credit == null
+                      ? "-${data.debit.toString()}"
+                      : "+${data.credit.toString()}"),
               dataCells(
                 width: Dimensions.w150,
                 textColor: AppColors.black,
@@ -240,7 +242,7 @@ class PassBook extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(2.0),
         child: Container(
-          height: Dimensions.h45,
+          height: Dimensions.h30,
           width: width,
           decoration: BoxDecoration(
             color: AppColors.white,

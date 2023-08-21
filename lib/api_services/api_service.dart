@@ -171,10 +171,11 @@ class ApiService extends GetConnect {
   }
 
   Future<dynamic> getBankDetails(String userId) async {
+    print("${ApiUtils.getBankDetails}/$userId");
     AppUtils.showProgressDialog(isCancellable: false);
     await initApiService();
     final response = await get(
-      ApiUtils.getBankDetails + userId,
+      "${ApiUtils.getBankDetails}/$userId",
       headers: headersWithToken,
     );
     if (response.status.hasError) {
@@ -340,6 +341,8 @@ class ApiService extends GetConnect {
       "${ApiUtils.getDailyStarLineMarkets}",
       headers: headersWithToken,
     );
+    print(
+        "#################################################### ${response.body}");
     if (response.status.hasError) {
       AppUtils.hideProgressDialog();
       if (response.status.code != null && response.status.code == 401) {
@@ -382,7 +385,7 @@ class ApiService extends GetConnect {
 
     await initApiService();
     final response = await get(
-      "${ApiUtils.getTransactionHistory}?id=$userId&limit=10&offset=$offset",
+      "${ApiUtils.getTransactionHistory}?id=$userId&limit=100&offset=$offset",
       headers: headersWithToken,
     );
     if (response.status.hasError) {
@@ -419,16 +422,20 @@ class ApiService extends GetConnect {
     }
   }
 
-  Future<dynamic> getWithdrawalHistoryByUserId({required int userId}) async {
+  Future<dynamic> getWithdrawalHistoryByUserId({required int? userId}) async {
     Future.delayed(const Duration(milliseconds: 2), () {
       AppUtils.showProgressDialog(isCancellable: false);
     });
 
     await initApiService();
+    print("================================");
+    print("${ApiUtils.getWithdrawalHistoryByUserId}$userId");
+    print(headersWithToken);
     final response = await get(
       "${ApiUtils.getWithdrawalHistoryByUserId}$userId",
       headers: headersWithToken,
     );
+
     if (response.status.hasError) {
       AppUtils.hideProgressDialog();
       if (response.status.code != null && response.status.code == 401) {
@@ -852,6 +859,8 @@ class ApiService extends GetConnect {
     required String limit,
     required String offset,
   }) async {
+    print(
+        "${ApiUtils.passBookApi}/$userId?isAll=$isAll&limit=$limit&offset=$offset");
     // AppUtils.showProgressDialog(isCancellable: false);
     await initApiService();
     final response = await get(
@@ -872,14 +881,53 @@ class ApiService extends GetConnect {
     }
   }
 
-  Future<dynamic> BidHistoryByUserId({
+  Future<dynamic> bidHistoryByUserId({
     required String userId,
   }) async {
+    print(
+        "==== Jevin  bhai from service =======================================");
     print("${ApiUtils.marketbidHistory}/$userId");
     AppUtils.showProgressDialog(isCancellable: false);
     await initApiService();
+    // final response = await get(
+    //   "${ApiUtils.marketbidHistory}/$userId",
+    //   headers: headersWithToken,
+    // );
     final response = await get(
-      "${ApiUtils.marketbidHistory}/$userId",
+      "${ApiUtils.bidHistory}?id=$userId&limit=100&offset=0",
+      headers: headersWithToken,
+    );
+
+    if (response.status.hasError) {
+      if (response.status.code != null && response.status.code == 401) {
+        tokenExpired();
+      }
+      AppUtils.hideProgressDialog();
+
+      return Future.error(response.statusText!);
+    } else {
+      AppUtils.hideProgressDialog();
+      print(
+          "================================ API Call Response =================================");
+      print(response.body);
+      return response.body;
+    }
+  }
+
+  Future<dynamic> getNewMarketBidlistData({
+    required String dailyMarketId,
+    required String limit,
+    required String offset,
+    required String bidType,
+  }) async {
+    print(
+        "${ApiUtils.marketBidNewLists}?dailyMarketId=$dailyMarketId&limit=$limit&offset=$offset&bidType=$bidType");
+    // AppUtils.showProgressDialog(isCancellable: false);
+    await initApiService();
+
+    final response = await get(
+      "${ApiUtils.marketBidNewLists}?dailyMarketId=$dailyMarketId&limit=$limit&offset=$offset&bidType=$bidType",
+      //  "${ApiUtils.dailyStarlineMarketBidHistory}?id=$userId&limit=$limit&offset=$offset",
       headers: headersWithToken,
     );
     if (response.status.hasError) {
@@ -891,33 +939,7 @@ class ApiService extends GetConnect {
       return Future.error(response.statusText!);
     } else {
       AppUtils.hideProgressDialog();
-
       return response.body;
-    }
-  }
-
-  Future<dynamic> markettime({
-    required String marketId,
-  }) async {
-    print("${ApiUtils.marketday}=$marketId&limit=10&offset=0");
-    AppUtils.showProgressDialog(isCancellable: false);
-    await initApiService();
-    final response = await get(
-      "${ApiUtils.marketday}=$marketId&limit=10&offset=0",
-      headers: headersWithToken,
-    );
-    if (response.status.hasError) {
-      if (response.status.code != null && response.status.code == 401) {
-        tokenExpired();
-      }
-      AppUtils.hideProgressDialog();
-
-      return Future.error(response.statusText!);
-    } else if (response.statusCode == 200) {
-      AppUtils.hideProgressDialog();
-
-      print("Response Bid History${response.body}");
-      return BidModel.fromJson(response.body ?? {});
     }
   }
 }

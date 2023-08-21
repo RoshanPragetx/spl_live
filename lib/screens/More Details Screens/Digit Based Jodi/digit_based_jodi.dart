@@ -34,7 +34,7 @@ class DigitBasedPage extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            // onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
             child: Row(
               children: [
                 SizedBox(

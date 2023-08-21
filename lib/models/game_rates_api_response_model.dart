@@ -3,8 +3,7 @@ class MarketRatesApiResponseModel {
   bool? status;
   List<Data>? data;
 
-  MarketRatesApiResponseModel(
-      {this.message, this.status, this.data});
+  MarketRatesApiResponseModel({this.message, this.status, this.data});
 
   MarketRatesApiResponseModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
@@ -31,20 +30,20 @@ class MarketRatesApiResponseModel {
 class Data {
   int? id;
   String? name;
-  int? baseRate;
-  int? rate;
+  dynamic baseRate;
+  dynamic rate;
   bool? isActive;
   String? createdAt;
   String? updatedAt;
 
   Data(
       {this.id,
-        this.name,
-        this.baseRate,
-        this.rate,
-        this.isActive,
-        this.createdAt,
-        this.updatedAt});
+      this.name,
+      this.baseRate,
+      this.rate,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

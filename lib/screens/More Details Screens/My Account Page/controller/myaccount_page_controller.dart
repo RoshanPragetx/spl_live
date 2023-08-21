@@ -9,11 +9,11 @@ import '../../../../models/commun_models/user_details_model.dart';
 import '../../../Local Storage.dart';
 
 class MyAccountPageController extends GetxController {
-  // var bankNameController = TextEditingController();
-  // var accHolderNameController = TextEditingController();
-  // var accNoController = TextEditingController();
-  // var ifscCodeController = TextEditingController();
-  // UserDetailsModel userDetailsModel = UserDetailsModel();
+  var bankNameController = TextEditingController();
+  var accHolderNameController = TextEditingController();
+  var accNoController = TextEditingController();
+  var ifscCodeController = TextEditingController();
+  UserDetailsModel userDetailsModel = UserDetailsModel();
   RxBool isEditDetails = false.obs;
   RxString accountName = "".obs;
   RxString bankName = "".obs;
@@ -30,7 +30,6 @@ class MyAccountPageController extends GetxController {
 
   Future<void> fetchStoredUserDetailsAndGetBankDetailsByUserId() async {
     var data = await LocalStorage.read(ConstantsVariables.userData);
-    debugPrint("data : $data");
     UserDetailsModel userData = UserDetailsModel.fromJson(data);
     userId = userData.id == null ? "" : userData.id.toString();
     if (userId.isNotEmpty) {
@@ -42,19 +41,18 @@ class MyAccountPageController extends GetxController {
     }
   }
 
-  // void onTapOfEditDetails() {
-  //   if (isEditDetails.value) {
-  //     callEditBankDetailsApi();
-  //   } else {
-  //     AppUtils.showErrorSnackBar(
-  //       bodyText: "CONTACTADMINTOEDITDETAILS".tr,
-  //     );
-  //   }
-  // }
+  void onTapOfEditDetails() async {
+    if (isEditDetails.value) {
+      callEditBankDetailsApi();
+    } else {
+      AppUtils.showErrorSnackBar(
+        bodyText: "CONTACTADMINTOEDITDETAILS".tr,
+      );
+    }
+  }
 
   void callGetBankDetails(String userId) async {
     ApiService().getBankDetails(userId).then((value) async {
-      debugPrint("Change password Api Response :- $value");
       if (value['status']) {
         BankDetailsResponseModel model =
             BankDetailsResponseModel.fromJson(value);
@@ -62,16 +60,17 @@ class MyAccountPageController extends GetxController {
           AppUtils.showSuccessSnackBar(
               bodyText: model.message, headerText: "SUCCESSMESSAGE".tr);
         }
+
         isEditDetails.value = model.data!.isEditPermission ?? false;
         accountName.value = model.data!.accountHolderName ?? "";
         bankName.value = model.data!.bankName ?? "";
         accountNumber.value = model.data!.accountNumber ?? "";
         ifcsCode.value = model.data!.iFSCCode ?? "";
-        // bankNameController.text = model.data!.bankName ?? "Null From API";
-        // accHolderNameController.text =
-        //     model.data!.accountHolderName ?? "Null From API";
-        // accNoController.text = model.data!.accountNumber ?? "Null From API";
-        // ifscCodeController.text = model.data!.iFSCCode ?? "Null From API";
+        bankNameController.text = model.data!.bankName ?? "Null From API";
+        accHolderNameController.text =
+            model.data!.accountHolderName ?? "Null From API";
+        accNoController.text = model.data!.accountNumber ?? "Null From API";
+        ifscCodeController.text = model.data!.iFSCCode ?? "Null From API";
         // gPayNumberController.text = model.data!.gpayNumber ?? "Null From API";
         // paytmNumberController.text = model.data!.paytmNumber ?? "Null From API";
         // bhimUpiController.text = model.data!.bhimUPI ?? "Null From API";
@@ -85,39 +84,50 @@ class MyAccountPageController extends GetxController {
     });
   }
 
-  // void callEditBankDetailsApi() async {
-  //   ApiService()
-  //       .editBankDetails(await ediBankDetailsBody())
-  //       .then((value) async {
-  //     debugPrint("Edi bank details Api Response :- $value");
-  //     if (value['status']) {
-  //       isEditDetails.value = false;
-  //       AppUtils.showSuccessSnackBar(
-  //           bodyText: value['message'] ?? "", headerText: "SUCCESSMESSAGE".tr);
-  //     } else {
-  //       isEditDetails.value = true;
-  //       AppUtils.showErrorSnackBar(
-  //         bodyText: value['message'] ?? "",
-  //       );
-  //     }
-  //   });
-  // }
+  void callEditBankDetailsApi() async {
+    ApiService()
+        .editBankDetails(await ediBankDetailsBody())
+        .then((value) async {
+      debugPrint("Edi bank details Api Response :- $value");
+      if (value['status']) {
+        BankDetailsResponseModel model =
+            BankDetailsResponseModel.fromJson(value);
+        isEditDetails.value = false;
+        bankNameController.text = model.data!.bankName ?? "Null From API";
+        accHolderNameController.text =
+            model.data!.accountHolderName ?? "Null From API";
+        accNoController.text = model.data!.accountNumber ?? "Null From API";
+        ifscCodeController.text = model.data!.iFSCCode ?? "Null From API";
+        bankId = model.data!.id ?? 0;
 
-  // Future<Map> ediBankDetailsBody() async {
-  //   var ediBankDetailsBody = {
-  //     "userId": int.parse(userId),
-  //     "bankName": bankNameController.text,
-  //     "accountHolderName": accHolderNameController.text,
-  //     "accountNumber": accNoController.text,
-  //     "IFSCCode": ifscCodeController.text,
-  //     // "gpayNumber": gPayNumberController.text,
-  //     // "paytmNumber": paytmNumberController.text,
-  //     // "bhimUPI": bhimUpiController.text,
-  //   };
+        AppUtils.showSuccessSnackBar(
+            bodyText: value['message'] ?? "", headerText: "SUCCESSMESSAGE".tr);
+      } else {
+        isEditDetails.value = true;
+        AppUtils.showErrorSnackBar(
+          bodyText: value['message'] ?? "",
+        );
+      }
+    });
+  }
 
-  //   ediBankDetailsBody.addIf(bankId != 0, "id", bankId);
+  Future<Map> ediBankDetailsBody() async {
+    var ediBankDetailsBody = {
+      "id": bankId,
+      "userId": int.parse(userId),
+      "bankName": bankNameController.text,
+      "accountHolderName": accHolderNameController.text,
+      "accountNumber": accNoController.text,
+      "IFSCCode": ifscCodeController.text,
+      // "gpayNumber": gPayNumberController.text,
+      // "paytmNumber": paytmNumberController.text,
+      // "bhimUPI": bhimUpiController.text,
+    };
 
-  //   debugPrint(ediBankDetailsBody.toString());
-  //   return ediBankDetailsBody;
-  // }
+    ediBankDetailsBody.addIf(bankId != 0, "id", bankId);
+
+    debugPrint(ediBankDetailsBody.toString());
+    print(ediBankDetailsBody);
+    return ediBankDetailsBody;
+  }
 }

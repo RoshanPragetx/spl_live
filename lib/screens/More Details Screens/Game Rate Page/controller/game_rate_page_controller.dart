@@ -25,7 +25,7 @@ class GameRatePageController extends GetxController {
     ApiService()
         .getGameRates(forStarlineGameModes: forStarlineGameModes)
         .then((value) async {
-      print("Get withdrawal time Api Response :- $value");
+      print("Get GameRate Api Response :- $value");
       if (value['status']) {
         if (forStarlineGameModes) {
           starlineMarketModel.value =

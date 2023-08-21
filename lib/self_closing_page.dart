@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/constant_image.dart';
@@ -15,46 +13,6 @@ import 'models/commun_models/user_details_model.dart';
 import 'routes/app_routes_name.dart';
 
 class InactivityController extends GetxController {
-  // Adjust the duration as needed
-  // RxBool isActive = true.obs; // Whether the user is active
-  // void _startTimer() {
-  //   Future.delayed(const Duration(seconds: 215), () {
-  //     if (isActive.value) {
-  //       isActive.value = false;
-  //       _showExitDialog();
-  //     }
-  //   });
-  // }
-
-  // void resetTimer() {
-  //   isActive.value = true;
-  //   _startTimer();
-  // }
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   WidgetsBinding.instance.addObserver(this);
-  //   // _startTimer();
-  //   // ever(isActive, (value) {
-  //   //   if (value) {
-  //   //     _startTimer();
-  //   //   }
-  //   // });
-  // }
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   super.didChangeAppLifecycleState(state);
-  //   print("================================");
-  //   print(state);
-  // }
-
-  // @override
-  // void onClose() {
-  //   WidgetsBinding.instance.removeObserver(this);
-  //   super.onClose();
-  // }
   Timer? _inactivityTimer;
   final Duration _inactivityDuration = const Duration(minutes: 50);
 
@@ -124,8 +82,8 @@ class InactivityController extends GetxController {
         ],
       ),
       actions: [
-        TextButton(
-          onPressed: () async {
+        InkWell(
+          onTap: () async {
             bool alreadyLoggedIn = await getStoredUserData();
             bool isActive =
                 await LocalStorage.read(ConstantsVariables.isActive) ?? false;
@@ -134,15 +92,24 @@ class InactivityController extends GetxController {
                 await LocalStorage.read(ConstantsVariables.isVerified) ?? false;
             if (alreadyLoggedIn) {
               if (isActive && isVerified) {
-                Get.offAllNamed(AppRoutName.mPINPage,
-                    arguments: {"id": _userDetailsModel.id});
+                Get.offAllNamed(
+                  AppRoutName.mPINPage,
+                  arguments: {"id": _userDetailsModel.id},
+                );
               }
             }
           },
-          child: Text(
-            'OK',
-            style: CustomTextStyle.textRobotoSansBold.copyWith(
-              color: AppColors.appbarColor,
+          child: Container(
+            color: AppColors.appbarColor,
+            height: Dimensions.h40,
+            width: Dimensions.w200,
+            child: Center(
+              child: Text(
+                'OK',
+                style: CustomTextStyle.textRobotoSansBold.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
             ),
           ),
         ),

@@ -31,7 +31,7 @@ class StarLineNewGamePage extends StatelessWidget {
         appBarTitle: "${controller.marketData.value.time}",
         actions: [
           InkWell(
-            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            // onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
             child: Row(
               children: [
                 SizedBox(

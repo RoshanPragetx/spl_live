@@ -2,21 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:spllive/helper_files/app_colors.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/screens/More%20Details%20Screens/Withdrawal%20Page/withdrawal_page.dart';
 import 'package:spllive/screens/bottum_navigation_screens/spl_wallet.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../api_services/api_service.dart';
+import '../../../helper_files/common_utils.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../helper_files/dimentions.dart';
 import '../../../helper_files/ui_utils.dart';
-import '../../../models/commun_models/market_bid_history_model.dart';
+import '../../../models/bid_history_model_new.dart';
+import '../../../models/commun_models/bid_request_model.dart';
+import '../../../models/commun_models/starline_bid_request_model.dart';
 import '../../../models/commun_models/user_details_model.dart';
 import '../../../models/daily_market_api_response_model.dart';
+import '../../../models/market_bid_history.dart';
 import '../../../models/normal_market_bid_history_response_model.dart';
 import '../../../models/passbook_page_model.dart';
 import '../../../models/starline_chart_model.dart';
@@ -56,13 +60,22 @@ class HomePageController extends GetxController {
   RxList<ResultArr> starLineMarketHistoryList = <ResultArr>[].obs;
   RxList<Rows> passBookModelData = <Rows>[].obs;
   RxList<Rows> passBookModelData2 = <Rows>[].obs;
-  RxList<MarketData2> marketbidhistory = <MarketData2>[].obs;
   RxInt passbookCount = 0.obs;
   // RxList<NormalMarketHistoryModel> marketHistoryList =
   //     <NormalMarketHistoryModel>[].obs;
   RxBool isStarline2 = false.obs;
   RxInt offset = 0.obs;
+  RxList<Bids> selectedBidsList = <Bids>[].obs;
+  RxList<StarLineBids> bidList = <StarLineBids>[].obs;
+  RxList<BidHistoryNew> marketbidhistory = <BidHistoryNew>[].obs;
+  RxList<MarketBidHistory> marketbidhistory1 = <MarketBidHistory>[].obs;
+  RxList<dynamic> result = [].obs;
 
+  Rx<Bidhistorymodel> bidMarketModel = Bidhistorymodel().obs;
+
+  Rx<MarketBidHistory> marketBidHistory = MarketBidHistory().obs;
+  RxList<MarketBidHistoryList> marketBidHistoryList =
+      <MarketBidHistoryList>[].obs;
   @override
   void onInit() {
     setboolData();
@@ -70,16 +83,19 @@ class HomePageController extends GetxController {
     getDailyStarLineMarkets();
     callGetStarLineChart();
     getUserData();
+    print("====================================$userData++++++++++++++");
     super.onInit();
   }
 
   void setboolData() async {
     await LocalStorage.write(ConstantsVariables.boolData, false);
-    // await LocalStorage.write(ConstantsVariables.withDrawal, false);
+    await LocalStorage.write(ConstantsVariables.playMore, true);
+    await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
+    await LocalStorage.write(ConstantsVariables.starlineBidsList, bidList);
   }
 
   void callMarketsApi() {
-    MarketBidsByUserId(lazyLoad: false);
+    // marketBidsByUserId(lazyLoad: false);
     // getUserData();
     getDailyMarkets();
     getStarLineMarkets();
@@ -104,11 +120,23 @@ class HomePageController extends GetxController {
   //   offset = 0;
   //   getMarketBidsByUserId(lazyLoad: false);
   // }
+  ontapOfBidData() {
+    Get.toNamed(AppRoutName.newBidHistorypage);
+  }
 
   Future<void> getUserData() async {
     var data = await LocalStorage.read(ConstantsVariables.userData);
     userData = UserDetailsModel.fromJson(data);
     getMarketBidsByUserId(lazyLoad: false);
+  }
+
+  onTapOficonButton() {
+    if (pageWidget.value == 1 && currentIndex.value == 1) {
+      marketBidsByUserId(lazyLoad: false);
+    } else if (pageWidget.value == 2 && currentIndex.value == 2) {
+    } else if (pageWidget.value == 3 && currentIndex.value == 3) {
+      getPassBookData(lazyLoad: false, offset: offset.value.toString());
+    } else if (pageWidget.value == 1 && currentIndex.value == 1) {}
   }
 
   void getStarLineMarkets() async {
@@ -609,10 +637,20 @@ class HomePageController extends GetxController {
       for (int i = result; i > 0; i = (i / 10).floor()) {
         sum += (i % 10);
       }
+      print("$result - ${sum % 10}");
       return "$result - ${sum % 10}";
     } else {
       return "***-*";
     }
+  }
+
+  reverse(String originalString) {
+    String reversedString = '';
+
+    for (int i = originalString.length - 1; i >= 0; i--) {
+      reversedString += originalString[i];
+    }
+    return reversedString;
   }
 
   Future<void> onSwipeRefresh() async {
@@ -667,7 +705,7 @@ class HomePageController extends GetxController {
     });
   }
 
-  final int itemLimit = 10;
+  final int itemLimit = 13;
 
   void getPassBookData({required bool lazyLoad, required String offset}) {
     print("@@@@@@@@@@@@@@@@:-  ${offset.toString()}");
@@ -688,7 +726,6 @@ class HomePageController extends GetxController {
           passbookCount.value = int.parse(model.data!.count!.toString());
           passBookModelData.value = model.data?.rows ?? <Rows>[];
           passBookModelData.refresh();
-          // passBookList.value = model.data ?? <Data>[];
         }
       } else {
         AppUtils.showErrorSnackBar(
@@ -699,56 +736,66 @@ class HomePageController extends GetxController {
   }
 
   int calculateTotalPages() {
-    return (passbookCount.value / itemLimit).ceil();
+    return (passbookCount.value / itemLimit).ceil() - 1;
   }
+
+  var num = 0;
 
   void nextPage() {
     if (offset.value < calculateTotalPages()) {
-      print("offset.value ${offset.value}");
+      ///  print("offset.value ${offset.value}");
       passBookModelData.clear();
       offset.value++;
-      print("offset.value ${offset.value}");
-      getPassBookData(lazyLoad: false, offset: offset.value.toString());
-      print("offset.value ${offset.value}");
-      passBookModelData.refresh();
+
+      num = num + itemLimit;
+      print("nextpage $num");
+      //  print("offset.value ${offset.value}");
+      getPassBookData(lazyLoad: false, offset: num.toString());
+      //  print("offset.value ${offset.value}");
+      // passBookModelData.refresh();
       update();
     }
   }
 
   void prevPage() {
     if (offset.value > 0) {
-      print("offset.value ${offset.value}");
       passBookModelData.clear();
       offset.value--;
-      print("offset.value ${offset.value}");
-      getPassBookData(lazyLoad: false, offset: offset.value.toString());
-      print("offset.value ${offset.value}");
+      num = num - itemLimit;
+      print("prevPage : $num");
+      //print("offset.value ${offset.value}");
+      getPassBookData(lazyLoad: false, offset: num.toString());
+      // print("offset.value ${offset.value}");
       passBookModelData.refresh();
       update();
     }
+    print("prevPage : $num");
   }
 
-  void MarketBidsByUserId({required bool lazyLoad}) {
+  void marketBidsByUserId({required bool lazyLoad}) {
     ApiService()
-        .BidHistoryByUserId(
-      // userId: userData.id.toString(),
-      userId: "18",
+        .bidHistoryByUserId(
+      userId: userData.id.toString(),
     )
         .then(
       (value) async {
-        debugPrint(
-            "Bid History Details Response :- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@s $value");
-        print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-        print("kkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+        print("Get Bid History New List  :- $value");
         if (value['status']) {
           if (value['data'] != null) {
-            MarkethistoryModel model = MarkethistoryModel.fromJson(value);
+            MarketBidHistory model = MarketBidHistory.fromJson(value['data']);
+            print(
+                "================================  model data =================================");
+            print(model.toJson());
             lazyLoad
-                ? marketbidhistory.addAll(model.data ?? <MarketData2>[])
-                : marketbidhistory.value = model.data ?? <MarketData2>[];
+                ? marketBidHistoryList
+                    .addAll(model.rows ?? <MarketBidHistoryList>[])
+                : marketBidHistoryList.value =
+                    model.rows ?? <MarketBidHistoryList>[];
           }
+
+          print("================== Final List ======================");
+          print(marketBidHistoryList.toJson());
         } else {
-          print("1123456");
           AppUtils.showErrorSnackBar(
             bodyText: value['message'] ?? "",
           );
@@ -756,4 +803,33 @@ class HomePageController extends GetxController {
       },
     );
   }
+
+  // void MarketBidsByUserId({required bool lazyLoad}) {
+  //   ApiService()
+  //       .BidHistoryByUserId(
+  //     // userId: userData.id.toString(),
+  //     userId: "18",
+  //   )
+  //       .then(
+  //     (value) async {
+  //       debugPrint(
+  //           "Bid History Details Response :- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@s $value");
+  //       print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+  //       print("kkkkkkkkkkkkkjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+  //       if (value['status']) {
+  //         if (value['data'] != null) {
+  //           MarkethistoryModel model = MarkethistoryModel.fromJson(value);
+  //           lazyLoad
+  //               ? marketbidhistory.addAll(model.data ?? <MarketData2>[])
+  //               : marketbidhistory.value = model.data ?? <MarketData2>[];
+  //         }
+  //       } else {
+  //         print("1123456");
+  //         AppUtils.showErrorSnackBar(
+  //           bodyText: value['message'] ?? "",
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 }

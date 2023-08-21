@@ -1,18 +1,18 @@
 class BankDetailsResponseModel {
   String? message;
-  Data? data;
+  BankData? data;
   bool? status;
 
   BankDetailsResponseModel({this.message, this.data, this.status});
 
   BankDetailsResponseModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? BankData.fromJson(json['data']) : null;
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
@@ -22,7 +22,7 @@ class BankDetailsResponseModel {
   }
 }
 
-class Data {
+class BankData {
   int? id;
   int? userId;
   String? bankName;
@@ -36,21 +36,21 @@ class Data {
   String? createdAt;
   String? updatedAt;
 
-  Data(
+  BankData(
       {this.id,
-        this.userId,
-        this.bankName,
-        this.accountHolderName,
-        this.accountNumber,
-        this.iFSCCode,
-        this.gpayNumber,
-        this.paytmNumber,
-        this.bhimUPI,
-        this.isEditPermission,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.bankName,
+      this.accountHolderName,
+      this.accountNumber,
+      this.iFSCCode,
+      this.gpayNumber,
+      this.paytmNumber,
+      this.bhimUPI,
+      this.isEditPermission,
+      this.createdAt,
+      this.updatedAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  BankData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['UserId'];
     bankName = json['BankName'];
@@ -66,7 +66,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['UserId'] = userId;
     data['BankName'] = bankName;

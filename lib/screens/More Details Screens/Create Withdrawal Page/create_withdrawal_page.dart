@@ -26,82 +26,87 @@ class CreatewithDrawalPage extends StatelessWidget {
     return Scaffold(
       appBar: AppUtils().simpleAppbar(
         appBarTitle: "Request Admin",
-        leading: Container(),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(left: Dimensions.h10),
-            child: IconButton(
-                onPressed: () {
-                  Get.offAndToNamed(AppRoutName.withdrawalpage);
-                },
-                icon: const Icon(Icons.close)),
-          ),
-        ],
+        //leading: Container(),
+        // actions: [
+        //   Padding(
+        //     padding: EdgeInsets.only(left: Dimensions.h10),
+        //     child: IconButton(
+        //         onPressed: () {
+        //           Get.offAndToNamed(AppRoutName.withdrawalpage);
+        //         },
+        //         icon: const Icon(Icons.close)),
+        //   ),
+        // ],
       ),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Dimensions.h5),
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: RoundedCornerEditTextWithIcon(
-                        height: Dimensions.h40,
-                        controller: controller.amountText,
-                        keyboardType: TextInputType.phone,
-                        hintText: "Enter Amount",
-                        imagePath: "",
-                        maxLines: 1,
-                        minLines: 1,
-                        isEnabled: true,
-                        maxLength: 10,
-                        formatter: [FilteringTextInputFormatter.digitsOnly],
+            child: Obx(
+              () => Column(
+                children: [
+                  verticalSpace,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RoundedCornerEditTextWithIcon(
+                          height: Dimensions.h40,
+                          controller: controller.amountTextController,
+                          keyboardType: TextInputType.phone,
+                          hintText: "Enter Amount",
+                          imagePath: "",
+                          maxLines: 1,
+                          minLines: 1,
+                          isEnabled: true,
+                          maxLength: 10,
+                          formatter: [FilteringTextInputFormatter.digitsOnly],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                verticalSpace,
-                listTileDetails(
-                  text: "Bank:",
-                  value: "",
-                ),
-                listTileDetails(
-                  text: "Acc Name:",
-                  value: "",
-                ),
-                listTileDetails(
-                  text: "Acc No.:",
-                  value: "",
-                ),
-                listTileDetails(
-                  text: "IFSC Code:",
-                  value: "",
-                ),
-                verticalSpace,
-                verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                  child: RoundedCornerButton(
-                    text: "CONTINUE".tr,
-                    color: AppColors.appbarColor,
-                    borderColor: AppColors.appbarColor,
-                    fontSize: Dimensions.h15,
-                    fontWeight: FontWeight.w500,
-                    fontColor: AppColors.white,
-                    letterSpacing: 0,
-                    borderRadius: Dimensions.r25,
-                    borderWidth: 1,
-                    textStyle: CustomTextStyle.textRobotoSlabBold,
-                    onTap: () {},
-                    height: Dimensions.h35,
-                    width: double.infinity,
+                    ],
                   ),
-                ),
-              ],
+                  verticalSpace,
+                  listTileDetails(
+                    text: "Bank:",
+                    value: controller.bankName.value,
+                  ),
+                  listTileDetails(
+                    text: "Acc Name:",
+                    value: controller.accountName.value,
+                  ),
+                  listTileDetails(
+                    text: "Acc No.:",
+                    value: controller.accountNumber.value,
+                  ),
+                  listTileDetails(
+                    text: "IFSC Code:",
+                    value: controller.ifcsCode.value,
+                  ),
+                  verticalSpace,
+                  verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: RoundedCornerButton(
+                      text: "CONTINUE".tr,
+                      color: AppColors.appbarColor,
+                      borderColor: AppColors.appbarColor,
+                      fontSize: Dimensions.h15,
+                      fontWeight: FontWeight.w500,
+                      fontColor: AppColors.white,
+                      letterSpacing: 0,
+                      borderRadius: Dimensions.r25,
+                      borderWidth: 1,
+                      textStyle: CustomTextStyle.textRobotoSlabBold,
+                      onTap: () {
+                        controller.createWithdrawalRequest();
+                        Get.toNamed(AppRoutName.withdrawalpage);
+                      },
+                      height: Dimensions.h35,
+                      width: double.infinity,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

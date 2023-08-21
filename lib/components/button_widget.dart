@@ -3,14 +3,15 @@ import 'package:spllive/helper_files/app_colors.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
 
 class ButtonWidget extends StatelessWidget {
-  const ButtonWidget(
-      {super.key,
-      required this.text,
-      required this.buttonColor,
-      required this.height,
-      required this.width,
-      this.radius,
-      required this.onTap});
+  const ButtonWidget({
+    super.key,
+    required this.text,
+    required this.buttonColor,
+    required this.height,
+    required this.width,
+    this.radius,
+    required this.onTap,
+  });
   final String text;
   final Color buttonColor;
   final double height, width;

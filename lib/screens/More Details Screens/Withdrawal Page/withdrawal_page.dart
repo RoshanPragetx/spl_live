@@ -16,6 +16,7 @@ import '../../../helper_files/dimentions.dart';
 import '../../../helper_files/ui_utils.dart';
 import '../../../routes/app_routes_name.dart';
 import '../../Local Storage.dart';
+import '../Check Withdrawal History/controller/check_withdrawal_history_controller.dart';
 
 class WithdrawalPage extends StatelessWidget {
   WithdrawalPage({super.key});
@@ -35,12 +36,13 @@ class WithdrawalPage extends StatelessWidget {
           onPressed: () {
             homeController.pageWidget.value = 4;
             homeController.currentIndex.value = 4;
+            Get.toNamed(AppRoutName.dashBoardPage);
           },
           icon: const Icon(Icons.arrow_back),
         ),
         actions: [
           InkWell(
-            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            // onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
             child: Row(
               children: [
                 SizedBox(
@@ -129,6 +131,7 @@ class WithdrawalPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: RoundedCornerButton(
+                      // CHANGE TEXT TO CREATE WITHDRAWAL REQUEST
                       text: "CHECKWITHDRAWAL".tr,
                       color: AppColors.buttonColorDarkGreen,
                       borderColor: AppColors.buttonColorDarkGreen,
@@ -140,7 +143,7 @@ class WithdrawalPage extends StatelessWidget {
                       borderWidth: 0,
                       textStyle: CustomTextStyle.textRobotoSansLight,
                       onTap: () {
-                        Get.offAndToNamed(AppRoutName.createWithDrawalPage);
+                        Get.toNamed(AppRoutName.createWithDrawalPage);
                       },
                       height: Dimensions.h30,
                       width: Dimensions.w200,
@@ -175,6 +178,9 @@ class WithdrawalPage extends StatelessWidget {
                       borderWidth: 0,
                       textStyle: CustomTextStyle.textRobotoSansLight,
                       onTap: () {
+                        // checkWithdrawalPageController.get(lazyLoad: false);
+                        print(
+                            "====== My Wallet screen ====== Check withdrawalPageController ======");
                         Get.offAndToNamed(AppRoutName.checkWithDrawalPage);
                       },
                       height: Dimensions.h30,

@@ -12,8 +12,8 @@ import 'package:spllive/helper_files/dimentions.dart';
 
 class AppUtils {
   static bool isProgressVisible = false;
-  static SystemUiOverlayStyle toolBarStyleLight = SystemUiOverlayStyle(
-    statusBarColor: AppColors.transparent,
+  static SystemUiOverlayStyle toolBarStyleLight = const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
     // <-- SEE HERE
     statusBarIconBrightness: Brightness.light,
     //<-- For Android SEE HERE (dark icons)
@@ -21,8 +21,8 @@ class AppUtils {
   );
 
   //common method for dark toolbar theme
-  static SystemUiOverlayStyle toolBarStyleDark = SystemUiOverlayStyle(
-    statusBarColor: AppColors.transparent,
+  static SystemUiOverlayStyle toolBarStyleDark = const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
     // <-- SEE HERE
     statusBarIconBrightness: Brightness.dark,
     //<-- For Android SEE HERE (dark icons)
@@ -33,11 +33,13 @@ class AppUtils {
       {required String appBarTitle,
       List<Widget>? actions,
       Widget? leading,
-      double? leadingWidht}) {
+      double? leadingWidht,
+      bool? centerTitle}) {
     return AppBar(
       backgroundColor: AppColors.appbarColor,
       shadowColor: AppColors.white,
       elevation: 0,
+      centerTitle: centerTitle,
       leading: leading,
       leadingWidth: leadingWidht,
       title: Text(
@@ -117,7 +119,7 @@ class AppUtils {
             ),
             Expanded(
               child: InkWell(
-                onTap: onTapTranction,
+                // onTap: onTapTranction,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: SvgPicture.asset(
@@ -196,7 +198,7 @@ class AppUtils {
           child: InkWell(
             onTap: shareOntap,
             child: Container(
-              width: Dimensions.w25,
+              width: 20,
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(25)),

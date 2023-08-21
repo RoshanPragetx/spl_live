@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
-import 'package:spllive/models/starline_chart_model.dart';
 import 'package:spllive/routes/app_routes_name.dart';
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../models/commun_models/user_details_model.dart';
-import '../../../routes/app_routes.dart';
 import '../../Local Storage.dart';
 import '../model/user_details_model.dart';
 
@@ -22,27 +19,71 @@ class SetMPINPageController extends GetxController {
   UserDetailsModel userData = UserDetailsModel();
   Timer? cursorTimer;
   bool _fromLoginPage = false;
+  UserDetailsModel _userDetailsModel = UserDetailsModel();
 
   @override
   void onInit() {
     getArguments();
+    // checkLogin();
     //getUserData();
     super.onInit();
   }
 
   @override
-  void dispose() {
+  void dispose() async {
+    await LocalStorage.write(ConstantsVariables.isActive, false);
+    await LocalStorage.write(ConstantsVariables.isVerified, false);
     focusNode1.dispose();
     focusNode2.dispose();
     super.dispose();
   }
 
-  // Future<void> getUserData() async {
-  //   var data = await LocalStorage.read(ConstantsVariables.userData);
-  //   userData = UserDetailsModel.fromJson(data);
-  //   // getMarketBidsByUserId(lazyLoad: false);
-  //   print("userDetails :---$data");
-  // }
+  Future<void> checkLogin() async {
+    bool alreadyLoggedIn = await getStoredUserData();
+    bool isActive =
+        await LocalStorage.read(ConstantsVariables.isActive) ?? false;
+
+    print(isActive);
+    bool isVerified =
+        await LocalStorage.read(ConstantsVariables.isVerified) ?? false;
+    //print(LocalStorage.read(ConstantsVariables.authToken.));
+    await Future.delayed(
+      const Duration(seconds: 2),
+    );
+    print("++++++++++ Get isverified ++++++++$isVerified========");
+
+    print("++++++++++ Get isActive +++++++$isActive========");
+
+    if (alreadyLoggedIn) {
+      if (!isActive && !isVerified) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.offAllNamed(AppRoutName.mPINPage);
+        });
+      }
+      // } else if (isVerified && !isActive) {
+      //   Future.delayed(const Duration(seconds: 2), () {
+      //     Get.offAllNamed(AppRoutName.userDetailsPage);
+      //   });
+      // } else {
+      //   Future.delayed(const Duration(seconds: 2), () {
+      //     Get.offAllNamed(AppRoutName.signInPage,
+      //         arguments: {"id": _userDetailsModel.id});
+      //   });
+      // }
+    } else {
+      Future.delayed(const Duration(seconds: 2), () {
+        // Get.offAllNamed(AppRoutes.dashboardPage);
+        Get.offAllNamed(AppRoutName.walcomeScreen);
+      });
+    }
+  }
+
+  Future<void> getUserData() async {
+    var data = await LocalStorage.read(ConstantsVariables.userData);
+    userData = UserDetailsModel.fromJson(data);
+    // getMarketBidsByUserId(lazyLoad: false);
+    print("userDetails :---$data");
+  }
 
   void getArguments() {
     print("000000000000000000000$arguments");
@@ -84,6 +125,8 @@ class SetMPINPageController extends GetxController {
   }
 
   void callSetUserDetailsApi() async {
+    bool isActive =
+        await LocalStorage.read(ConstantsVariables.isActive) ?? false;
     ApiService().setUserDetails(await userDetailsBody()).then((value) async {
       debugPrint("Set User Details Api Response :- $value");
       if (value != null && value['status']) {
@@ -96,11 +139,12 @@ class SetMPINPageController extends GetxController {
           String authToken = userData['Token'] ?? "Null From API";
           bool isActive = userData['IsActive'] ?? false;
           bool isVerified = userData['IsVerified'] ?? false;
-          // bool isMpinSet =  userData['IsMPinSet'] ?? false;
+
+          bool isMpinSet = userData['IsMPinSet'] ?? false;
           await LocalStorage.write(ConstantsVariables.authToken, authToken);
           await LocalStorage.write(ConstantsVariables.isActive, isActive);
           await LocalStorage.write(ConstantsVariables.isVerified, isVerified);
-          // await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
+          await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
           await LocalStorage.write(ConstantsVariables.userData, userData);
         } else {
           AppUtils.showErrorSnackBar(bodyText: "Something went wrong!!!");
@@ -138,11 +182,11 @@ class SetMPINPageController extends GetxController {
           String authToken = userData['Token'] ?? "Null From API";
           bool isActive = userData['IsActive'] ?? false;
           bool isVerified = userData['IsVerified'] ?? false;
-          // bool isMpinSet =  userData['IsMPinSet'] ?? false;
+          bool isMpinSet = userData['IsMPinSet'] ?? false;
           await LocalStorage.write(ConstantsVariables.authToken, authToken);
           await LocalStorage.write(ConstantsVariables.isActive, isActive);
           await LocalStorage.write(ConstantsVariables.isVerified, isVerified);
-          // await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
+          await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
           await LocalStorage.write(ConstantsVariables.userData, userData);
         } else {
           AppUtils.showErrorSnackBar(bodyText: "Something went wrong!!!");
@@ -161,5 +205,18 @@ class SetMPINPageController extends GetxController {
       "mPin": mpin.value,
     };
     return userDetailsBody;
+  }
+
+  Future<bool> getStoredUserData() async {
+    String? authToken = await LocalStorage.read(ConstantsVariables.authToken);
+    var userData = await LocalStorage.read(ConstantsVariables.userData);
+    if (authToken != null && authToken.isNotEmpty) {
+      if (userData != null) {
+        _userDetailsModel = UserDetailsModel.fromJson(userData);
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -10,12 +10,11 @@ import 'package:spllive/helper_files/app_colors.dart';
 import 'package:spllive/helper_files/custom_text_style.dart';
 import 'package:spllive/helper_files/dimentions.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
+import 'package:spllive/models/daily_market_api_response_model.dart';
 import '../../../api_services/api_service.dart';
 import '../../../helper_files/common_utils.dart';
 import '../../../helper_files/constant_variables.dart';
 import '../../../models/commun_models/starline_bid_request_model.dart';
-import '../../../models/commun_models/user_details_model.dart';
-import '../../../models/daily_market_api_response_model.dart';
 import '../../../models/starline_daily_market_api_response.dart';
 import '../../../models/starline_game_modes_api_response_model.dart';
 import '../../../routes/app_routes_name.dart';
@@ -32,6 +31,8 @@ class StarLineGameModesPageController extends GetxController {
   RxString totalAmount = "00".obs;
   bool getBidData = false;
   num count = 0;
+  // var argument = Get.arguments;
+  // RxList<StarLineBids> selectedBidsList = <StarLineBids>[].obs;
   @override
   void onInit() async {
     super.onInit();
@@ -47,15 +48,24 @@ class StarLineGameModesPageController extends GetxController {
     marketData.value = arguments;
     checkBiddingStatus();
     callGetGameModes();
+    getBidListData();
     // },
     // );
   }
 
-  @override
-  onClose() {
-    // await LocalStorage.write(ConstantsVariables.boolData, false);
+  getBidListData() async {
+    // selectedBidsList = argument['bidsList'];
+    //  print("==**************** ============ $selectedBidsList ==============");
+    var a = await LocalStorage.read(ConstantsVariables.starlineBidsList);
+    print("==**************** ============ $a ==============");
   }
 
+  onBackButton() async {
+    Get.offAndToNamed(AppRoutName.dashBoardPage);
+    requestModel.value.bids?.clear();
+    await LocalStorage.write(
+        ConstantsVariables.starlineBidsList, requestModel.value.bids);
+  }
   // Future<void> getArguments() async {
   //   gameMode.value = arguments['gameMode'];
   //   marketData.value = arguments['marketData'];

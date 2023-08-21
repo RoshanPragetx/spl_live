@@ -4,9 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../helper_files/constant_variables.dart';
 import '../../../../models/commun_models/user_details_model.dart';
-import '../../../Local Storage.dart';
 
 class MyProfilePageController extends GetxController {
   UserDetailsModel userDetailsModel = UserDetailsModel();

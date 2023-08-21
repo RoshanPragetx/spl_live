@@ -1,7 +1,6 @@
 // ignore_for_file: unused_import
 
 import 'package:get/get.dart';
-import 'package:spllive/models/commun_models/starline_bid_request_model.dart';
 import 'package:spllive/screens/More%20Details%20Screens/About%20Page/about_page.dart';
 import 'package:spllive/screens/More%20Details%20Screens/Change%20Mpin/binding/change_mpin_page_binding.dart';
 import 'package:spllive/screens/More%20Details%20Screens/Notification%20Page/binding/notification_details_page_binding.dart';
@@ -9,10 +8,7 @@ import 'package:spllive/screens/More%20Details%20Screens/myProfile/binding/mypro
 import 'package:spllive/screens/More%20Details%20Screens/myProfile/myprofile_page.dart';
 import 'package:spllive/screens/New%20GameModes/binding/new_gamemode_page_bindings.dart';
 import 'package:spllive/screens/New%20GameModes/new_gamemodes_page.dart';
-import 'package:spllive/screens/Normal%20Market%20List/binding/normal_market_page_binding.dart';
-import 'package:spllive/screens/Normal%20Market%20List/normal_market_page.dart';
 import 'package:spllive/screens/Sangam%20Page/binding/snagam_page_binding.dart';
-import 'package:spllive/screens/Sangam%20Page/controller/sangam_page_controller.dart';
 import 'package:spllive/screens/Starline%20Bid%20Page/bidings/starline_bids_bidings.dart';
 import 'package:spllive/screens/game_pages/game_pages.dart';
 import 'package:spllive/screens/gamemode_pages/gamemode_page.dart';
@@ -71,6 +67,8 @@ import '../screens/User Details Page/binding/user_details_page_binding.dart';
 import '../screens/User Details Page/user_details_page.dart';
 import '../screens/Verify OTP Page/binding/verify_otp_binding.dart';
 import '../screens/Verify OTP Page/verify_otp.dart';
+import '../screens/bid History Page Details/bid_history_page_details.dart';
+import '../screens/bid History Page Details/bindings/bid_history_page_details_binding.dart';
 import '../screens/game_pages/bindings/game_mode_page_binding.dart';
 import '../screens/gamemode_pages/bindings/game_mode_page_binding.dart';
 import '../screens/home_screen/binding/home_screen_binding.dart';
@@ -386,16 +384,16 @@ class AppRoutes {
       name: AppRoutName.checkWithDrawalPage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => const CheckWithdrawalPage(),
+      page: () => CheckWithdrawalPage(),
       bindings: [CheckWithdrawalPageBinding()],
     ),
-    GetPage(
-      name: AppRoutName.normalMarketPage,
-      transition: Transition.fadeIn,
-      transitionDuration: const Duration(milliseconds: 300),
-      page: () => NormalMarketPage(),
-      bindings: [NormalMarketPageBinding()],
-    ),
+    // GetPage(
+    //   name: AppRoutName.normalMarketPage,
+    //   transition: Transition.fadeIn,
+    //   transitionDuration: const Duration(milliseconds: 300),
+    //   page: () => NormalMarketPage(),
+    //   bindings: [NormalMarketPageBinding()],
+    // ),
     GetPage(
       name: AppRoutName.newGameModePage,
       transition: Transition.fadeIn,
@@ -424,13 +422,12 @@ class AppRoutes {
       page: () => StarLineNewGamePage(),
       bindings: [StarlineNewGamePageBinding()],
     ),
-
     GetPage(
-      name: AppRoutName.marketbidHistory,
+      name: AppRoutName.newBidHistorypage,
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 300),
-      page: () => MarketBidHistory(),
-      bindings: [MarketBidHistoryPageBindings()],
+      page: () => BidHistoryDetailsNewPage(),
+      bindings: [BidHistoryPageDetailsBinding()],
     )
   ];
 }

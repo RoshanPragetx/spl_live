@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 import '../../../api_services/api_service.dart';
-import '../../../api_services/api_urls.dart';
-import '../../../helper_files/ui_utils.dart';
 import '../model/bid_model.dart';
 
 class MarketBidHistoryController extends GetxController {
@@ -16,16 +12,16 @@ class MarketBidHistoryController extends GetxController {
   ApiService apiService = ApiService();
   Rx<BidModel> bidModel = BidModel().obs;
 
-  Future<void> markettime({
-    required String marketId,
-  }) async {
-    var data = await apiService.markettime(marketId: marketId);
+  // Future<void> markettime({
+  //   required String marketId,
+  // }) async {
+  //   var data = await apiService.markettime(marketId: marketId);
 
-    bidModel.value = data;
-    print(bidModel.value.data?.rows?.first.balance);
-    print(bidModel.value.data?.rows?.first.bidNo);
-    print("dk");
-  }
+  //   bidModel.value = data;
+  //   print(bidModel.value.data?.rows?.first.balance);
+  //   print(bidModel.value.data?.rows?.first.bidNo);
+  //   print("dk");
+  // }
 
   onTapOpenClose() {
     if (openBiddingOpen.value && openCloseValue.value != "OPENBID".tr) {

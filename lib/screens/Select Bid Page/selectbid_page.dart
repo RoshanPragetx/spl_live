@@ -19,6 +19,7 @@ class SelectedBidsPage extends StatelessWidget {
   // var controller = Get.put(SelectBidPageController());
   @override
   Widget build(BuildContext context) {
+    // controller.newBidListreaddata();
     return Obx(
       () => Scaffold(
         appBar: AppUtils().simpleAppbar(
@@ -137,7 +138,6 @@ class SelectedBidsPage extends StatelessWidget {
                           textStyle: CustomTextStyle.textRobotoSansMedium,
                           onTap: () {
                             controller.showConfirmationDialog(context);
-                            controller.requestModel.value.bids!.clear();
                           },
                           //onTap: () {},
                           height: Dimensions.h30,

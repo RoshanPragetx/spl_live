@@ -21,7 +21,9 @@ class ChangepasswordPageController extends GetxController {
   TextEditingController confirmPassword = TextEditingController();
   UserDetailsModel userDetailsModel = UserDetailsModel();
   RxBool value = true.obs;
-
+  // final FocusNode oldMPASSWORDFocusNode = FocusNode();
+  // final FocusNode newMPASSWORDFocusNode = FocusNode();
+  // final FocusNode reEnterPASSWORDFocusNode = FocusNode();
   RxBool loading = false.obs;
   RxBool isObscureOldPassword = true.obs;
   RxBool isObscureNewPassword = true.obs;
@@ -59,15 +61,17 @@ class ChangepasswordPageController extends GetxController {
 
   onChanged3(String value) {
     if (value.isEmpty) {
-      confirmPasswordMessage.value = "";
+      confirmPasswordMessage.value = "Password is required";
     } else if (value.length < 6) {
-      confirmPasswordMessage.value =
-          "Password cannot be less than 6 characters";
+      confirmPasswordMessage.value = "";
+
+      // Password cannot be less than 6 characters
     } else if (value == newPassword.text) {
       isValidate.value = true;
-      confirmPasswordMessage.value = "";
+      confirmPasswordMessage.value = "Password Matched";
     } else if (value != newPassword.text) {
       isValidate.value = false;
+      confirmPasswordMessage.value = "Password does Not Matched";
     } else {
       confirmPasswordMessage.value = "";
     }
@@ -76,6 +80,9 @@ class ChangepasswordPageController extends GetxController {
   @override
   void dispose() {
     // oldPassword.dispose();
+    // oldMPASSWORDFocusNode.dispose();
+    // newMPASSWORDFocusNode.dispose();
+    // reEnterPASSWORDFocusNode.dispose();
     newPassword.dispose();
     confirmPassword.dispose();
     super.dispose();

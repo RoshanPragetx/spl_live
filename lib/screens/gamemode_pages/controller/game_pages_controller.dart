@@ -29,8 +29,10 @@ class GameModePagesController extends GetxController {
   // var biddingType = "".obs;
   // var gameName = "".obs;
   // var marketName = "".obs;
+  RxList<Bids> selectedBidsList = <Bids>[].obs;
   RxList<GameMode> gameModesList = <GameMode>[].obs;
   Rx<BidRequestModel> requestModel = BidRequestModel().obs;
+
   var digitRow = [
     DigitListModelOffline(value: "0", isSelected: false),
     DigitListModelOffline(value: "1", isSelected: false),
@@ -57,12 +59,13 @@ class GameModePagesController extends GetxController {
     checkBiddingStatus();
     callGetGameModes();
     getArguments();
+    checkBids();
     super.onInit();
   }
 
   @override
   void onClose() async {
-    await LocalStorage.write(ConstantsVariables.playMore, false);
+    await LocalStorage.write(ConstantsVariables.playMore, true);
     super.onClose();
   }
 
@@ -95,6 +98,12 @@ class GameModePagesController extends GetxController {
     }
   }
 
+  onBackButton() async {
+    Get.offAndToNamed(AppRoutName.dashBoardPage);
+    selectedBidsList.clear();
+    await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
+  }
+
   void callGetGameModes() async {
     ApiService()
         .getGameModes(
@@ -123,16 +132,34 @@ class GameModePagesController extends GetxController {
     print(playmore);
   }
 
+  void checkBids() async {
+    var hh = await LocalStorage.read(ConstantsVariables.playMore);
+    print("read PlayMore  $hh");
+    if (!hh) {
+      var bidList = await LocalStorage.read(ConstantsVariables.bidsList);
+      // selectedBidsList.value = bidList as List<Bids>;
+      print(
+          " bidList on GameModes page ${bidList.toString()}  -----------------");
+    } else {
+      print("THre is no Play More");
+    }
+    // requestModel.refresh();
+    // print("${requestModel.value.bids.toString()}  + +++++++");
+  }
+
   void onTapOfGameModeTile(int index) {
     if (gameModesList[index].name!.contains("Sangam")) {
       Get.toNamed(AppRoutName.sangamPages, arguments: {
         "gameMode": gameModesList[index],
         "marketData": marketValue.value,
         "gameModeList": gameModeList,
+        "bidsList": selectedBidsList,
+        "gameName": gameModesList[index].name,
+        "totalAmount": totalAmount.value,
       });
-      print(gameModesList[index].name.toString());
     } else if (gameModesList[index].name!.contains("Bulk") ||
         gameModesList[index].name!.contains("jodi")) {
+      print(selectedBidsList);
       Get.toNamed(AppRoutName.singleAnkPage, arguments: {
         "gameMode": gameModesList[index],
         "marketName": marketValue.value.market ?? "",
@@ -143,8 +170,10 @@ class GameModePagesController extends GetxController {
         "biddingType": openCloseValue.value == "OPENBID".tr ? "Open" : "Close",
         "isBulkMode": true,
         "gameModeList": gameModeList,
+        "bidsList": selectedBidsList,
+        "gameName": gameModesList[index].name,
+        "totalAmount": totalAmount.value,
       });
-      print(gameModesList[index].name.toString());
     } else if (gameModesList[index].name!.contains("Choice") ||
         gameModesList[index].name!.contains("Digits Based Jodi") ||
         gameModesList[index].name!.contains("Odd Even")) {
@@ -158,8 +187,12 @@ class GameModePagesController extends GetxController {
         "biddingType": openCloseValue.value == "OPENBID".tr ? "Open" : "Close",
         "isBulkMode": false,
         "gameModeList": gameModeList,
+        "bidsList": selectedBidsList,
+        "gameName": gameModesList[index].name,
+        "totalAmount": totalAmount.value,
       });
     } else {
+      print(selectedBidsList);
       Get.toNamed(AppRoutName.newGameModePage, arguments: {
         "gameMode": gameModesList[index],
         "marketName": marketValue.value.market ?? "",
@@ -170,10 +203,16 @@ class GameModePagesController extends GetxController {
         "biddingType": openCloseValue.value == "OPENBID".tr ? "Open" : "Close",
         "isBulkMode": false,
         "gameModeList": gameModeList,
+        "bidsList": selectedBidsList,
+        "gameName": gameModesList[index].name,
+        "totalAmount": totalAmount.value,
       });
     }
   }
 
+  var biddingType = "".obs;
+  RxString totalAmount = "0".obs;
+  var marketName = "".obs;
   Future<void> getArguments() async {
     //biddingType.value = arguments["biddingType"];
     // marketName.value = arguments["marketName"];
@@ -181,10 +220,12 @@ class GameModePagesController extends GetxController {
     // requestModel.value.bids = arguments["bidsList"];
     // checkBidsList();
     var data = await LocalStorage.read(ConstantsVariables.userData);
-    // playmore = await LocalStorage.read(ConstantsVariables.playMore);
-    // print("playmore $playmore");
+    playmore = await LocalStorage.read(ConstantsVariables.playMore);
+    print("playmore $playmore");
     UserDetailsModel userData = UserDetailsModel.fromJson(data);
     requestModel.value.userId = userData.id;
+    selectedBidsList = await LocalStorage.read(ConstantsVariables.bidsList);
+    print("@#@@#@#@@#$selectedBidsList");
     // requestModel.value.bidType = arguments["biddingType"];
     // requestModel.value.dailyMarketId = arguments["marketId"];
     requestModel.refresh();

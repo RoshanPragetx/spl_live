@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -122,12 +120,12 @@ class MoreOptions extends StatelessWidget {
                     },
                     iconData: ConstantImage.withDrawalIcon,
                     text: "WITHDRAWAL_TXT1".tr),
-                listItems(
-                    onTap: () {
-                      Get.toNamed(AppRoutName.transactionPage);
-                    },
-                    iconData: ConstantImage.addFundIcon,
-                    text: "TRANSACTIONHISTORY".tr),
+                // listItems(
+                //     onTap: () {
+                //       Get.toNamed(AppRoutName.transactionPage);
+                //     },
+                //     iconData: ConstantImage.addFundIcon,
+                //     text: "TRANSACTIONHISTORY".tr),
                 listItems(
                     onTap: () {
                       Get.toNamed(AppRoutName.feedBackPage);

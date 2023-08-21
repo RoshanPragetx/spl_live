@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 import '../api_services/api_service.dart';
-import '../helper_files/constant_variables.dart';
-import '../screens/Local Storage.dart';
 
 class WalletController extends GetxController {
   RxString walletBalance = "00".obs;

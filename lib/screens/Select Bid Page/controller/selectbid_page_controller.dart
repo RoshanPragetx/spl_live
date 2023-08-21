@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
 
 import '../../../Custom Controllers/wallet_controller.dart';
@@ -16,7 +17,7 @@ import '../../Local Storage.dart';
 class SelectBidPageController extends GetxController {
   var arguments = Get.arguments;
 
-  RxString totalAmount = "00".obs;
+  RxString totalAmount = "0".obs;
   var biddingType = "".obs;
   var gameName = "".obs;
   var marketName = "".obs;
@@ -31,17 +32,11 @@ class SelectBidPageController extends GetxController {
     getArguments();
   }
 
-  @override
-  void onClose() {
-    requestModel.value.bids?.clear();
-  }
-
   Future<void> getArguments() async {
     biddingType.value = arguments["biddingType"];
     marketName.value = arguments["marketName"];
     totalAmount.value = arguments["totalAmount"];
     requestModel.value.bids = arguments["bidsList"];
-    // checkBidsList();
     var data = await LocalStorage.read(ConstantsVariables.userData);
     UserDetailsModel userData = UserDetailsModel.fromJson(data);
     requestModel.value.userId = userData.id;
@@ -50,9 +45,15 @@ class SelectBidPageController extends GetxController {
     print("remodelDailyMarketId: ${requestModel.value.toJson()}");
     requestModel.refresh();
     gameName.value = arguments["gameName"];
-    // await LocalStorage.write(ConstantsVariables.playMore, true);
-    // var hh = await LocalStorage.read(ConstantsVariables.playMore);
-    // print("playMore $hh");
+    await LocalStorage.write(ConstantsVariables.playMore, false);
+    var hh = await LocalStorage.read(ConstantsVariables.playMore);
+    print("playMore $hh");
+    newBidListreaddata();
+  }
+
+  newBidListreaddata() async {
+    var newBidList = await LocalStorage.read(ConstantsVariables.bidsList);
+    print("Bid List : ${newBidList}");
   }
 
   void onDeleteBids(int index) {
@@ -100,13 +101,24 @@ class SelectBidPageController extends GetxController {
             bodyText: value['message'] ?? "",
           );
         }
+        requestModel.value.bids!.clear();
+        _calculateTotalAmount();
         walletController.getUserBalance();
+        walletController.walletBalance.refresh();
       },
     );
   }
 
   void playMore() async {
-    Get.toNamed(AppRoutName.gameModePage);
+    Get.offAndToNamed(AppRoutName.gameModePage, arguments: {
+      "biddingType": biddingType.value,
+      "marketName": marketName.value,
+      "totalAmount": totalAmount.value,
+      "bidsList": requestModel.value.bids,
+      "gameName": gameName.value,
+      "marketId": requestModel.value.dailyMarketId,
+    });
+    getArguments();
   }
 
   void showConfirmationDialog(BuildContext context) {
@@ -139,8 +151,7 @@ class SelectBidPageController extends GetxController {
             TextButton(
               onPressed: () {
                 createMarketBidApi();
-                requestModel.value.bids!.clear();
-                _calculateTotalAmount();
+                // requestModel.value.bids!.clear();
               },
               child: Text(
                 'OKAY',

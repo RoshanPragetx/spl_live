@@ -114,8 +114,7 @@ class SPLWallet extends StatelessWidget {
                           onTap: () {
                             homeController.pageWidget.value = 5;
                             homeController.currentIndex.value = 5;
-                            homeController.pageWidget.value = 4;
-                            homeController.currentIndex.value = 4;
+
                             Get.toNamed(AppRoutName.withdrawalpage);
                           },
                           text: "WITHDRAWAL_TXT".tr,

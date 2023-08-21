@@ -14,7 +14,6 @@ import '../../helper_files/app_colors.dart';
 import '../../helper_files/constant_image.dart';
 import '../../helper_files/dimentions.dart';
 import '../../helper_files/ui_utils.dart';
-import '../../routes/app_routes_name.dart';
 
 // ignore: must_be_immutable
 class NewGameModePage extends StatelessWidget {
@@ -33,7 +32,7 @@ class NewGameModePage extends StatelessWidget {
         appBarTitle: controller.marketName.toString(),
         actions: [
           InkWell(
-            onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
+            // onTap: () => Get.offAndToNamed(AppRoutName.transactionPage),
             child: Row(
               children: [
                 SizedBox(

@@ -37,7 +37,8 @@ class GamePageController extends GetxController {
   int selectedIndexOfDigitRow = 0;
 
   var argument = Get.arguments;
-  var selectedBidsList = <Bids>[].obs;
+  RxList<Bids> selectedBidsList = <Bids>[].obs;
+  RxList<Bids> bidsList = <Bids>[].obs;
   JsonFileModel jsonModel = JsonFileModel();
 
   var digitList = <DigitListModelOffline>[].obs;
@@ -91,6 +92,10 @@ class GamePageController extends GetxController {
   }
 
   Future<void> getArguments() async {
+    bidsList = await LocalStorage.read(ConstantsVariables.bidsList);
+    print("BidList  on bulkgame Page : ------ $bidsList");
+    var a = await LocalStorage.read(ConstantsVariables.playMore);
+    print("plamore on game page: $a");
     gameMode = argument['gameMode'];
     biddingType.value = argument['biddingType'];
     marketName.value = argument['marketName'];
@@ -339,21 +344,52 @@ class GamePageController extends GetxController {
 
   Future<void> onTapOfSaveButton() async {
     if (selectedBidsList.isNotEmpty) {
-      await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
-      Get.offAndToNamed(AppRoutName.selectedBidsPage, arguments: {
-        "bidsList": selectedBidsList,
-        "biddingType": biddingType.value,
-        "gameName": gameMode.name,
-        "marketName": marketName.value,
-        "marketId": marketId,
-        "totalAmount": totalAmount.value,
-      });
-      digitList.clear();
-      searchController.clear();
-      coinController.clear();
-      totalAmount.value = "0";
-      totalBid.value == "0";
-      getArguments();
+      if (bidsList.isNotEmpty) {
+        for (var i = 0; i < bidsList.length; i++) {
+          print("${bidsList[i]}\n");
+          // selectedBidsList.add(bidsList[i]);
+          var existingIndex = selectedBidsList.indexOf(bidsList[i]);
+          print("existingIndex  $existingIndex");
+          selectedBidsList.add(bidsList[i]);
+        }
+        print(selectedBidsList.length);
+        print("%%%%%%%%%%%%%%%%%%%%%%%%% ${selectedBidsList}");
+        await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
+        print(
+            "----------------------------------------------------------------");
+        Get.offAndToNamed(AppRoutName.selectedBidsPage, arguments: {
+          "bidsList": selectedBidsList,
+          "biddingType": biddingType.value,
+          "gameName": gameMode.name,
+          "marketName": marketName.value,
+          "marketId": marketId,
+          "totalAmount": totalAmount.value,
+        });
+        digitList.clear();
+        searchController.clear();
+        coinController.clear();
+        totalAmount.value = "0";
+        totalBid.value == "0";
+        getArguments();
+      } else {
+        print("********************* ${selectedBidsList.length}");
+        await LocalStorage.write(ConstantsVariables.bidsList, selectedBidsList);
+        Get.offAndToNamed(AppRoutName.selectedBidsPage, arguments: {
+          "bidsList": selectedBidsList,
+          "biddingType": biddingType.value,
+          "gameName": gameMode.name,
+          "marketName": marketName.value,
+          "marketId": marketId,
+          "totalAmount": totalAmount.value,
+        });
+        print(selectedBidsList.runtimeType);
+        digitList.clear();
+        searchController.clear();
+        coinController.clear();
+        totalAmount.value = "0";
+        totalBid.value == "0";
+        getArguments();
+      }
     } else {
       AppUtils.showErrorSnackBar(
         bodyText: "Please add some bids!",

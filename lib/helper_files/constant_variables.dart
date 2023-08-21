@@ -3,6 +3,7 @@ class ConstantsVariables {
 
   static const String userData = "user_data";
   static const String bidsList = "bids_list";
+  static const String starlineBidsList = "starline_bid_list";
   static const String biddingType = "bidding_type";
   static const String marketName = "market_name";
   static const String isActive = "is_active";

@@ -26,7 +26,7 @@ class _MarketBidHistoryState extends State<MarketBidHistory> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      markethistory.markettime(marketId: widget.marketId ?? "");
+      // markethistory.markettime(marketId: widget.marketId ?? "");
     });
 
     super.initState();

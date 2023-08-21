@@ -68,11 +68,7 @@ class SingleAnkPage extends StatelessWidget {
                         height: Dimensions.h10,
                       ),
                       Row(
-                        mainAxisAlignment: controller.gameMode.name!
-                                .toUpperCase()
-                                .contains("JODI")
-                            ? MainAxisAlignment.center
-                            : MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "${controller.gameMode.name}".toUpperCase(),
@@ -90,11 +86,7 @@ class SingleAnkPage extends StatelessWidget {
                             //     fontSize: Dimensions.h18),
                           ),
                           Text(
-                            controller.gameMode.name!
-                                    .toUpperCase()
-                                    .contains("JODI")
-                                ? ""
-                                : controller.biddingType.value.toUpperCase(),
+                            controller.biddingType.value.toUpperCase(),
                             style: CustomTextStyle.textRobotoSansBold.copyWith(
                                 color: AppColors.appbarColor,
                                 fontSize: Dimensions.h18),
@@ -190,7 +182,8 @@ class SingleAnkPage extends StatelessWidget {
                                 hintText: "Enter Points",
                                 imagePath: "",
                                 textAlign: TextAlign.center,
-                                contentPadding: EdgeInsets.only(right: 40),
+                                contentPadding:
+                                    const EdgeInsets.only(right: 40),
                                 containerBackColor: AppColors.transparent,
                                 height: Dimensions.h35,
                                 keyboardType: TextInputType.number,

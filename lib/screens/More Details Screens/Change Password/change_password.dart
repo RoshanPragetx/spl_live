@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spllive/components/button_widget.dart';
 import 'package:spllive/helper_files/ui_utils.dart';
-
 import '../../../components/edit_text_password.dart';
 import '../../../helper_files/app_colors.dart';
 import '../../../helper_files/custom_text_style.dart';
@@ -18,6 +17,7 @@ class ChangePasswordPage extends StatelessWidget {
 
   // ignore: unused_field
   final _formKey = GlobalKey<FormState>();
+  var verticalSpace = SizedBox(height: Dimensions.h11);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class ChangePasswordPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppUtils().simpleAppbar(appBarTitle: "Change Password"),
+      backgroundColor: AppColors.white,
       body: Form(
         key: _formKey,
         child: Padding(
@@ -50,12 +51,13 @@ class ChangePasswordPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: Dimensions.h11,
-                      ),
+                      verticalSpace,
                       Obx(
                         () => EdittextFieldwithvalidation(
+                          // focusNode: controller.oldMPASSWORDFocusNode,
                           controller: controller.oldPassword,
+                          keyboardType: TextInputType.text,
+                          autofocus: true,
                           hintText: "OLDPASSWORD".tr,
                           obscureText: controller.isObscureOldPassword.value,
                           onChanged: (value) {
@@ -63,6 +65,8 @@ class ChangePasswordPage extends StatelessWidget {
                           },
                           validator: (value) {
                             if (value!.isEmpty) {
+                              // controller.oldMPASSWORDFocusNode.unfocus();
+                              // controller.newMPASSWORDFocusNode.requestFocus();
                               return 'Password is required';
                             }
                             return null;
@@ -93,22 +97,25 @@ class ChangePasswordPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(
-                        height: Dimensions.h11,
-                      ),
+                      verticalSpace,
                       Obx(
                         () => EdittextFieldwithvalidation(
+                          // focusNode: controller.newMPASSWORDFocusNode,
                           controller: controller.newPassword,
                           hintText: "NEWPASSWORD".tr,
+
                           obscureText: controller.isObscureNewPassword.value,
                           onChanged: (value) {
                             controller.onChanged2(value);
                           },
                           validator: (value) {
+                            // controller.newMPASSWORDFocusNode.unfocus();
+                            // controller.reEnterPASSWORDFocusNode.requestFocus();
                             if (value!.isEmpty) {
                               return 'Password is required';
                             } else if (value.length < 6) {
-                              return 'Password Cannot be less than 6 characters';
+                              return 'dk';
+                              // Password Cannot be less than 6 characters
                             }
                             return null;
                           },
@@ -154,11 +161,17 @@ class ChangePasswordPage extends StatelessWidget {
                     ),
                     Obx(
                       () => EdittextFieldwithvalidation(
+                        // focusNode: controller.reEnterPASSWORDFocusNode,
                         controller: controller.confirmPassword,
                         hintText: "ENTERCONFIRMPASSWORD".tr,
                         obscureText: controller.isObscureConfirmPassword.value,
                         onChanged: (value) {
                           controller.onChanged3(value);
+
+                          if (controller.newPassword.value.text.length ==
+                              controller.confirmPassword.text.length) {
+                            FocusScope.of(context).unfocus();
+                          }
                         },
                         // validator: (value) {
                         //   if (value!.isEmpty) {
@@ -188,16 +201,16 @@ class ChangePasswordPage extends StatelessWidget {
                     SizedBox(
                       height: Dimensions.h5,
                     ),
-                    Padding(
-                      padding: EdgeInsets.all(Dimensions.r8),
-                      child: Text(
-                        "PASSWORDTEXT".tr,
-                        style: CustomTextStyle.textPTsansMedium.copyWith(
-                          color: AppColors.redColor,
-                          fontSize: Dimensions.h10,
-                        ),
-                      ),
-                    )
+                    // Padding(
+                    //   padding: EdgeInsets.all(Dimensions.r8),
+                    //   child: Text(
+                    //     "PASSWORDTEXT".tr,
+                    //     style: CustomTextStyle.textPTsansMedium.copyWith(
+                    //       color: AppColors.redColor,
+                    //       fontSize: Dimensions.h10,
+                    //     ),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -210,6 +223,7 @@ class ChangePasswordPage extends StatelessWidget {
                       child: ButtonWidget(
                         onTap: () {
                           controller.onTapConfirmPass();
+                          // FocusScope.of(context).unfocus();
                         },
                         text: "SUBMIT",
                         buttonColor: AppColors.grey,
@@ -223,6 +237,7 @@ class ChangePasswordPage extends StatelessWidget {
                       child: ButtonWidget(
                         onTap: () {
                           controller.onTapConfirmPass();
+                          // FocusScope.of(context).unfocus();
                         },
                         text: "SUBMIT",
                         buttonColor: AppColors.appbarColor,
@@ -230,7 +245,7 @@ class ChangePasswordPage extends StatelessWidget {
                         width: size.width / 1.2,
                         radius: Dimensions.h20,
                       ),
-                    )
+                    ),
             ],
           ),
         ),

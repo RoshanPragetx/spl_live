@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:get/get.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:spllive/helper_files/app_colors.dart';
+import 'package:spllive/routes/app_routes_name.dart';
 
 import '../../components/simple_button_with_corner.dart';
 import '../../helper_files/constant_image.dart';
@@ -24,16 +22,22 @@ class SetMPINPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppColors.white,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildOtpAndMpinForm(context),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.toNamed(AppRoutName.mPINPage);
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppColors.white,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildOtpAndMpinForm(context),
+            ],
+          ),
         ),
       ),
     );

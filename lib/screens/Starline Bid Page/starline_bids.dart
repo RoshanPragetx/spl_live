@@ -11,6 +11,7 @@ import '../../helper_files/dimentions.dart';
 import '../../helper_files/ui_utils.dart';
 import 'controller/starline_bids_controller.dart';
 
+// ignore: must_be_immutable
 class StarlineBidsPage extends StatelessWidget {
   StarlineBidsPage({super.key});
   var controller = Get.put(StarlineBidsController());
@@ -18,6 +19,7 @@ class StarlineBidsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // print(controller.requestModel.value.bids!.length);
+    controller.showData();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppUtils().simpleAppbar(
@@ -47,188 +49,119 @@ class StarlineBidsPage extends StatelessWidget {
       body: Container(
         height: size.height,
         width: size.width,
-        child: Column(
-          children: [
-            Obx(
-              () => controller.requestModel.value.bids != null &&
-                      controller.requestModel.value.bids!.isNotEmpty
-                  ? Column(
-                      children: [
-                        SizedBox(
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount:
-                                controller.requestModel.value.bids?.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(),
-                                      borderRadius:
-                                          BorderRadius.circular(Dimensions.h5)),
-                                  child: ListTile(
-                                    dense: true,
-                                    visualDensity:
-                                        const VisualDensity(vertical: -2),
-                                    title: Text(
-                                      "Single Digit - Open  ",
-                                      style: CustomTextStyle.textRobotoSansLight
-                                          .copyWith(fontSize: Dimensions.h12),
-                                    ),
-                                    subtitle: Text(
-                                      "Bid no.: ${controller.requestModel.value.bids?.elementAt(index).starlineGameId}, Coins :${controller.requestModel.value.bids?.elementAt(index).coins}",
-                                      style: CustomTextStyle.textRobotoSansLight
-                                          .copyWith(fontSize: Dimensions.h12),
-                                    ),
-                                    trailing: InkWell(
-                                      onTap: () {
-                                        controller.onDeleteBids(index);
-                                      },
-                                      child: Container(
-                                        color: AppColors.transparent,
-                                        height: Dimensions.h30,
-                                        width: Dimensions.w30,
-                                        child: SvgPicture.asset(
-                                          ConstantImage.trashIcon,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+        child: Obx(
+          () => controller.requestModel.value.bids != null &&
+                  controller.requestModel.value.bids!.isNotEmpty
+              ? SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(children: [
+                    SizedBox(
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.requestModel.value.bids?.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius:
+                                      BorderRadius.circular(Dimensions.h5)),
+                              child: ListTile(
+                                dense: true,
+                                visualDensity:
+                                    const VisualDensity(vertical: -2),
+                                title: Text(
+                                  "Single Digit - Open  ",
+                                  style: CustomTextStyle.textRobotoSansLight
+                                      .copyWith(fontSize: Dimensions.h12),
+                                ),
+                                subtitle: Text(
+                                  "Bid no.: ${controller.requestModel.value.bids![index].bidNo}, Coins :${controller.requestModel.value.bids?.elementAt(index).coins}",
+                                  style: CustomTextStyle.textRobotoSansLight
+                                      .copyWith(fontSize: Dimensions.h12),
+                                ),
+                                trailing: InkWell(
+                                  onTap: () {
+                                    controller.onDeleteBids(index);
+                                  },
+                                  child: Container(
+                                    color: AppColors.transparent,
+                                    height: Dimensions.h30,
+                                    width: Dimensions.w30,
+                                    child: SvgPicture.asset(
+                                      ConstantImage.trashIcon,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-                              );
-                            },
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimensions.w5),
+                            child: RoundedCornerButton(
+                              text: "PLAYMORE".tr,
+                              color: AppColors.white,
+                              borderColor: AppColors.redColor,
+                              fontSize: Dimensions.h14,
+                              fontWeight: FontWeight.w500,
+                              fontColor: AppColors.redColor,
+                              letterSpacing: 0,
+                              borderRadius: Dimensions.r5,
+                              borderWidth: 2,
+                              textStyle: CustomTextStyle.textRobotoSansMedium,
+                              onTap: () => controller.playMore(),
+                              height: Dimensions.h30,
+                              width: double.infinity,
+                            ),
                           ),
                         ),
-                        // Row(
-                        //   children: [
-                        //     RoundedCornerButton(
-                        //       text: "SUBMIT".tr,
-                        //       color: AppColors.appbarColor,
-                        //       borderColor: AppColors.appbarColor,
-                        //       fontSize: Dimensions.h12,
-                        //       fontWeight: FontWeight.w600,
-                        //       fontColor: AppColors.white,
-                        //       letterSpacing: 1,
-                        //       borderRadius: Dimensions.r5,
-                        //       borderWidth: 0.2,
-                        //       textStyle: CustomTextStyle.textPTsansMedium,
-                        //       onTap: () {
-                        //         controller.showConfirmationDialog(context);
-                        //       },
-                        //       // onTap: () =>
-                        //       //     controller.createMarketBidApi(),
-                        //       height: Dimensions.h40,
-                        //       width: size.width / 1.8,
-                        //     ),
-                        //     Padding(
-                        //       padding: EdgeInsets.only(left: Dimensions.h10),
-                        //       child: Container(
-                        //         height: Dimensions.h40,
-                        //         width: size.width / 3,
-                        //         color: AppColors.grey.withOpacity(0.2),
-                        //         child: Row(
-                        //           mainAxisAlignment: MainAxisAlignment.start,
-                        //           children: [
-                        //             SizedBox(
-                        //               width: Dimensions.w11,
-                        //             ),
-                        //             Container(
-                        //               height: Dimensions.h30,
-                        //               width: Dimensions.w30,
-                        //               decoration: BoxDecoration(
-                        //                   color: AppColors.appbarColor,
-                        //                   borderRadius:
-                        //                       BorderRadius.circular(25)),
-                        //               child: Padding(
-                        //                 padding: const EdgeInsets.all(8.0),
-                        //                 child: SvgPicture.asset(
-                        //                   ConstantImage.rupeeImage,
-                        //                   fit: BoxFit.contain,
-                        //                   color: AppColors.white,
-                        //                 ),
-                        //               ),
-                        //             ),
-                        //             Padding(
-                        //               padding: EdgeInsets.symmetric(
-                        //                 horizontal: Dimensions.h10,
-                        //               ),
-                        //               child: Text(
-                        //                 controller.totalAmount.value,
-                        //                 style: CustomTextStyle
-                        //                     .textRobotoSansBold
-                        //                     .copyWith(fontSize: 18),
-                        //               ),
-                        //             )
-                        //           ],
-                        //         ),
-                        //       ),
-                        //     )
-                        //   ],
-                        // )
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(Dimensions.w5),
-                                child: RoundedCornerButton(
-                                  text: "PLAYMORE".tr,
-                                  color: AppColors.white,
-                                  borderColor: AppColors.redColor,
-                                  fontSize: Dimensions.h14,
-                                  fontWeight: FontWeight.w500,
-                                  fontColor: AppColors.redColor,
-                                  letterSpacing: 0,
-                                  borderRadius: Dimensions.r5,
-                                  borderWidth: 2,
-                                  textStyle:
-                                      CustomTextStyle.textRobotoSansMedium,
-                                  onTap: () => controller.playMore(),
-                                  height: Dimensions.h30,
-                                  width: double.infinity,
-                                ),
-                              ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.all(Dimensions.w5),
+                            child: RoundedCornerButton(
+                              text: "SUBMIT".tr,
+                              color: AppColors.appbarColor,
+                              borderColor: AppColors.appbarColor,
+                              fontSize: Dimensions.h14,
+                              fontWeight: FontWeight.w500,
+                              fontColor: AppColors.white,
+                              letterSpacing: 0,
+                              borderRadius: Dimensions.r5,
+                              borderWidth: 1,
+                              textStyle: CustomTextStyle.textRobotoSansMedium,
+                              onTap: () {
+                                controller.showConfirmationDialog(context);
+                              },
+                              //onTap: () {},
+                              height: Dimensions.h30,
+                              width: double.infinity,
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(Dimensions.w5),
-                                child: RoundedCornerButton(
-                                  text: "SUBMIT".tr,
-                                  color: AppColors.appbarColor,
-                                  borderColor: AppColors.appbarColor,
-                                  fontSize: Dimensions.h14,
-                                  fontWeight: FontWeight.w500,
-                                  fontColor: AppColors.white,
-                                  letterSpacing: 0,
-                                  borderRadius: Dimensions.r5,
-                                  borderWidth: 1,
-                                  textStyle:
-                                      CustomTextStyle.textRobotoSansMedium,
-                                  onTap: () {
-                                    controller.showConfirmationDialog(context);
-                                    controller.requestModel.value.bids?.clear();
-                                    controller.totalAmount.value = "0";
-                                  },
-                                  //onTap: () {},
-                                  height: Dimensions.h30,
-                                  width: double.infinity,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
-                    )
-                  : Container(
-                      height: 50,
-                      width: 100,
-                      color: AppColors.appbarColor,
                     ),
-            ),
-          ],
+                    SizedBox(
+                      height: Dimensions.h20,
+                    ),
+                    SizedBox(
+                      height: Dimensions.h20,
+                    ),
+                    SizedBox(
+                      height: Dimensions.h20,
+                    ),
+                  ]),
+                )
+              : Container(),
         ),
       ),
       bottomSheet: Obx(() => bottomNavigationBar(controller.totalAmount.value)),

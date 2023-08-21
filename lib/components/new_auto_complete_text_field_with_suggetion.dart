@@ -8,6 +8,7 @@ import '../helper_files/app_colors.dart';
 import '../helper_files/custom_text_style.dart';
 import '../helper_files/dimentions.dart';
 
+// ignore: must_be_immutable
 class AutoTextFieldWithSuggetion extends StatelessWidget {
   AutoTextFieldWithSuggetion({
     super.key,
