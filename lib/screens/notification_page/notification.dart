@@ -44,11 +44,11 @@ class NotificationPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             Text("GOOD AFTERNOON" * 10),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text("3/11/23 12:45 PM"),
                 )
               ],

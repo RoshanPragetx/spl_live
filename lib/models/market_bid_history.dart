@@ -90,7 +90,6 @@ class MarketBidHistory {
   }
 }
 
-
 class MarketBidHistoryList {
   MarketBidHistoryList({
     String? id,
@@ -108,7 +107,6 @@ class MarketBidHistoryList {
     String? closeTime,
     String? transactionType,
     bool? isResultDeclared,
-
   }) {
     _id = id;
     _bidType = bidType;
@@ -125,7 +123,6 @@ class MarketBidHistoryList {
     _closeTime = closeTime;
     _transactionType = transactionType;
     _isResultDeclared = isResultDeclared;
-
   }
 
   MarketBidHistoryList.fromJson(dynamic json) {
@@ -144,7 +141,6 @@ class MarketBidHistoryList {
     _closeTime = json['CloseTime'];
     _transactionType = json['TransactionType'];
     _isResultDeclared = json['IsResultDeclared'];
-
   }
   String? _id;
   String? _bidType;
@@ -177,7 +173,6 @@ class MarketBidHistoryList {
     String? openTime,
     String? closeTime,
     String? transactionType,
-    
   }) =>
       MarketBidHistoryList(
         id: id ?? _id,
@@ -189,12 +184,11 @@ class MarketBidHistoryList {
         winAmount: winAmount ?? _winAmount,
         isWin: isWin ?? _isWin,
         bidTime: bidTime ?? _bidTime,
-        gameMode: gameMode?? _gameMode,
-        marketName: marketName?? _marketName,
-        openTime: openTime?? _openTime,
-        closeTime: closeTime?? _closeTime,
-        transactionType: transactionType?? _transactionType,
-        
+        gameMode: gameMode ?? _gameMode,
+        marketName: marketName ?? _marketName,
+        openTime: openTime ?? _openTime,
+        closeTime: closeTime ?? _closeTime,
+        transactionType: transactionType ?? _transactionType,
       );
   String? get id => _id;
   String? get bidType => _bidType;
@@ -211,7 +205,7 @@ class MarketBidHistoryList {
   String? get closeTime => _closeTime;
   String? get transactionType => _transactionType;
   bool? get isResultDeclared => _isResultDeclared;
-  
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
@@ -229,7 +223,7 @@ class MarketBidHistoryList {
     map['CloseTime'] = _closeTime;
     map['TransactionType'] = _transactionType;
     map['IsResultDeclared'] = _isResultDeclared;
-    
+
     return map;
   }
 }

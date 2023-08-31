@@ -9,12 +9,12 @@ class UserDetailsModel {
 
   UserDetailsModel(
       {this.id,
-        this.userName,
-        this.fullName,
-        this.phoneNumber,
-        this.countryCode,
-        this.deviceId,
-        this.token});
+      this.userName,
+      this.fullName,
+      this.phoneNumber,
+      this.countryCode,
+      this.deviceId,
+      this.token});
 
   UserDetailsModel.fromJson(Map<String, dynamic> json) {
     id = json['Id'];

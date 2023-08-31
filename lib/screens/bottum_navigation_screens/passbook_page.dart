@@ -221,7 +221,7 @@ class PassBook extends StatelessWidget {
                 spreadRadius: 0.2,
                 offset: const Offset(0, 2),
                 color: AppColors.grey,
-              )
+              ),
             ],
           ),
           child: Center(
@@ -252,7 +252,7 @@ class PassBook extends StatelessWidget {
                 spreadRadius: 0.2,
                 offset: const Offset(0, 2),
                 color: AppColors.grey,
-              )
+              ),
             ],
           ),
           child: Center(

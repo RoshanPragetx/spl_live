@@ -164,7 +164,9 @@ class StarlineBidsPage extends StatelessWidget {
               : Container(),
         ),
       ),
-      bottomSheet: Obx(() => bottomNavigationBar(controller.totalAmount.value)),
+      bottomSheet: Obx(
+        () => bottomNavigationBar(controller.totalAmount.value),
+      ),
     );
   }
 
@@ -218,9 +220,9 @@ class StarlineBidsPage extends StatelessWidget {
                       fontSize: Dimensions.h18,
                     ),
                   ),
-                )
+                ),
               ],
-            )
+            ),
           ],
         ),
       ),

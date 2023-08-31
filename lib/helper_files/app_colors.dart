@@ -26,4 +26,6 @@ class AppColors {
 
   static Color openclose = const Color(0xffE8E8E8);
   static Color buttoncolor = Colors.amber;
+
+  static Color greywhite2 = const Color.fromARGB(255, 231, 229, 229);
 }

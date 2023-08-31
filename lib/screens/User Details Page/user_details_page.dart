@@ -77,7 +77,7 @@ class UserDetailsPage extends StatelessWidget {
                   textController: controller.userNameController,
                   maxLength: 100,
                   keyboardType: TextInputType.name,
-                  //  focusNode: controller.userNameFocusNode,
+                  // focusNode: controller.userNameFocusNode,
                 ),
                 verticalSpace,
                 _buildPasswordField(

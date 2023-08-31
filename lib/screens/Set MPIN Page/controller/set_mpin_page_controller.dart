@@ -16,6 +16,7 @@ class SetMPINPageController extends GetxController {
   final FocusNode focusNode1 = FocusNode();
   final FocusNode focusNode2 = FocusNode();
   UserDetails userDetails = UserDetails();
+
   UserDetailsModel userData = UserDetailsModel();
   Timer? cursorTimer;
   bool _fromLoginPage = false;
@@ -24,8 +25,9 @@ class SetMPINPageController extends GetxController {
   @override
   void onInit() {
     getArguments();
+    // mpinchangeApi();
     // checkLogin();
-    //getUserData();
+    // getUserData();
     super.onInit();
   }
 
@@ -50,9 +52,9 @@ class SetMPINPageController extends GetxController {
     await Future.delayed(
       const Duration(seconds: 2),
     );
-    print("++++++++++ Get isverified ++++++++$isVerified========");
+    print("++++++++++ Get Response isverified ++++++++$isVerified========");
 
-    print("++++++++++ Get isActive +++++++$isActive========");
+    print("++++++++++ Get Response isActive +++++++$isActive========");
 
     if (alreadyLoggedIn) {
       if (!isActive && !isVerified) {
@@ -85,8 +87,8 @@ class SetMPINPageController extends GetxController {
     print("userDetails :---$data");
   }
 
-  void getArguments() {
-    print("000000000000000000000$arguments");
+  Future<void> getArguments() async {
+    print("000000000000000000000 ===== OOO $arguments");
     if (arguments != null) {
       userDetails = arguments;
       print("userDetails when condition false : $userDetails");
@@ -163,9 +165,57 @@ class SetMPINPageController extends GetxController {
       "userName": userDetails.userName,
       "fullName": userDetails.fullName,
       "password": userDetails.password,
-      "mPin": mpin.value,
+      // "mPin": mpin.value,
     };
     return userDetailsBody;
+  }
+
+  void mpinchangeApi() async {
+    print("++++++++++++++++++++++++Get Response mpin ----------------------");
+    bool isActive =
+        await LocalStorage.read(ConstantsVariables.isActive) ?? false;
+    ApiService().changeMPIN(await mpinchangeBody()).then((value) async {
+      debugPrint("Set User Details Api Response :- $value");
+      if (value != null && value['status']) {
+        AppUtils.showSuccessSnackBar(
+          bodyText: "${value['message']}",
+          headerText: "SUCCESSMESSAGE".tr,
+        );
+        var userData = value['data'];
+        if (userData != null) {
+          String authToken = userData['Token'] ?? "Null From API";
+          bool isActive = userData['IsActive'] ?? false;
+          bool isVerified = userData['IsVerified'] ?? false;
+
+          // bool isMpinSet = userData['IsMPinSet'] ?? false;
+          await LocalStorage.write(ConstantsVariables.authToken, authToken);
+          await LocalStorage.write(ConstantsVariables.isActive, isActive);
+          await LocalStorage.write(ConstantsVariables.isVerified, isVerified);
+          // await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
+          await LocalStorage.write(ConstantsVariables.userData, userData);
+        } else {
+          AppUtils.showErrorSnackBar(bodyText: "Something went wrong!!!");
+        }
+        Get.offAllNamed(AppRoutName.dashBoardPage);
+      } else {
+        AppUtils.showErrorSnackBar(
+          bodyText: value['message'] ?? "",
+        );
+      }
+    });
+  }
+
+  Future<Map> mpinchangeBody() async {
+    final mpinchangeBody = {
+      "oldMPin": "1111",
+      "confirmMPin": "0000",
+      "mPin": "0000"
+      // "userName": userDetails.userName,
+      // "fullName": userDetails.fullName,
+      // "password": userDetails.password,
+      // "mPin": mpin.value,
+    };
+    return mpinchangeBody;
   }
 
   Future<void> callSetMpinApi() async {

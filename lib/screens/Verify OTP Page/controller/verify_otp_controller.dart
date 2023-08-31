@@ -26,6 +26,7 @@ class VerifyOTPController extends GetxController {
   Future<void> getStoredUserData() async {
     if (argument != null) {
       phoneNumber = argument['phoneNumber'];
+
       // countryCode = argument['countryCode'];
       verifyOTP = false;
     } else {
@@ -58,9 +59,11 @@ class VerifyOTPController extends GetxController {
           String authToken = userData['Token'] ?? "Null From API";
           bool isActive = userData['IsActive'] ?? false;
           bool isVerified = userData['IsVerified'] ?? false;
+          bool isMpinSet = userData['IsMpin'] ?? false;
           await LocalStorage.write(ConstantsVariables.authToken, authToken);
           await LocalStorage.write(ConstantsVariables.isActive, isActive);
           await LocalStorage.write(ConstantsVariables.isVerified, isVerified);
+          await LocalStorage.write(ConstantsVariables.isMpinSet, isMpinSet);
           Get.toNamed(AppRoutName.userDetailsPage);
         } else {
           AppUtils.showErrorSnackBar(bodyText: "Something went wrong!!!");

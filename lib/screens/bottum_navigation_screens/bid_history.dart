@@ -34,17 +34,15 @@ class BidHistory extends StatelessWidget {
         AppUtils().simpleAppbar(
           appBarTitle: "",
           leadingWidht: Dimensions.w200,
-          leading: Container(
-            child: Row(
-              children: [
-                SizedBox(width: Dimensions.w15),
-                Text(
-                  appbarTitle,
-                  style: CustomTextStyle.textRobotoSansMedium
-                      .copyWith(fontSize: Dimensions.h20),
-                ),
-              ],
-            ),
+          leading: Row(
+            children: [
+              SizedBox(width: Dimensions.w15),
+              Text(
+                appbarTitle,
+                style: CustomTextStyle.textRobotoSansMedium
+                    .copyWith(fontSize: Dimensions.h20),
+              ),
+            ],
           ),
         ),
         Expanded(
@@ -178,7 +176,7 @@ class BidHistory extends StatelessWidget {
                 spreadRadius: 1,
                 color: AppColors.white,
                 blurRadius: 10,
-                offset: Offset(7, 4),
+                offset: const Offset(7, 4),
               ),
             ],
             border: Border.all(width: 0.2),
@@ -193,10 +191,9 @@ class BidHistory extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "${transactiontype} :",
+                      "$transactiontype :",
                       style: CustomTextStyle.textRobotoSansBold
                           .copyWith(fontSize: Dimensions.h14),
                     ),
@@ -209,7 +206,7 @@ class BidHistory extends StatelessWidget {
                           color: AppColors.appbarColor,
                           fontSize: Dimensions.h13),
                     ),
-                    Expanded(child: SizedBox()),
+                    const Expanded(child: SizedBox()),
                     Row(
                       children: [
                         Text(
@@ -217,13 +214,12 @@ class BidHistory extends StatelessWidget {
                           style: CustomTextStyle.textRobotoSansBold
                               .copyWith(fontSize: Dimensions.h14),
                         ),
-
                         Text(
                           " $coins",
                           style: CustomTextStyle.textRobotoSansBold.copyWith(
                               fontSize: Dimensions.h14,
                               color: AppColors.appbarColor),
-                        )
+                        ),
                         // openResut != ""
                         //     ? Text(
                         //         // "446-47-359",
@@ -245,7 +241,7 @@ class BidHistory extends StatelessWidget {
                         //         height: Dimensions.h13,
                         //       ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -255,7 +251,7 @@ class BidHistory extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "$gameMode",
+                      gameMode,
                       style: CustomTextStyle.textRobotoSansLight
                           .copyWith(fontSize: Dimensions.h12),
                     ),
@@ -271,7 +267,7 @@ class BidHistory extends StatelessWidget {
                         SizedBox(
                           width: Dimensions.w8,
                         ),
-                        Text("$ballance",
+                        Text(ballance,
                             style: CustomTextStyle.textRobotoSansLight
                                 .copyWith(fontSize: Dimensions.h12)),
                       ],
@@ -288,7 +284,7 @@ class BidHistory extends StatelessWidget {
                 height: Dimensions.h30,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 231, 229, 229),
+                  color: AppColors.greywhite2,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(Dimensions.r8),
                     bottomRight: Radius.circular(Dimensions.r8),
@@ -307,14 +303,14 @@ class BidHistory extends StatelessWidget {
                         width: Dimensions.w8,
                       ),
                       Text(
-                        "$timeDate",
+                        timeDate,
                         style: CustomTextStyle.textRobotoSansBold,
                       ),
-                      Expanded(child: SizedBox()),
+                      const Expanded(child: SizedBox()),
                       Text(
                         bidType,
                         style: CustomTextStyle.textRobotoSansBold,
-                      )
+                      ),
                     ],
                   ),
                 ),

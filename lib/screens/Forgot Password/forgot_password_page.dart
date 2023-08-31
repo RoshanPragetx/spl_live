@@ -21,7 +21,7 @@ class ForgotPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         iconTheme: IconThemeData(color: AppColors.appbarColor),
         systemOverlayStyle: AppUtils.toolBarStyleDark,
